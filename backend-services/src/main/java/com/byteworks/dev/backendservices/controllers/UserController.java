@@ -1,6 +1,7 @@
 package com.byteworks.dev.backendservices.controllers;
 
 
+import com.byteworks.dev.backendservices.dtos.requests.ActivateUserDto;
 import com.byteworks.dev.backendservices.dtos.requests.RegisterUserDto;
 import com.byteworks.dev.backendservices.dtos.response.ApiResponse;
 import com.byteworks.dev.backendservices.dtos.response.UserResponseDto;
@@ -30,5 +31,13 @@ public class UserController {
                 .buildAndExpand(userResponseDto.getUuid())
                 .toUri();
         return ResponseEntity.created(location).body(new ApiResponse<>("Signup successful", true, userResponseDto));
+    }
+
+    @PostMapping("/activate-user")
+    public ResponseEntity<ApiResponse<UserResponseDto>> activateUser(@RequestBody ActivateUserDto activateUserDto){
+        return ResponseEntity.ok().body( new ApiResponse<>("User activated", true, userService.activateUser(activateUserDto)));
+    } @PostMapping("/resend-token")
+    public ResponseEntity<ApiResponse<String>> resendToken(@RequestBody String email, String token){
+        return ResponseEntity.ok().body( new ApiResponse<>("Token Sent", true, userService.sendToken(email, token)));
     }
 }

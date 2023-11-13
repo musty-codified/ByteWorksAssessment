@@ -2,6 +2,7 @@ package com.byteworks.dev.backendservices.services.impl;
 
 
 import com.byteworks.dev.backendservices.dtos.MailDto;
+import com.byteworks.dev.backendservices.dtos.requests.ActivateUserDto;
 import com.byteworks.dev.backendservices.dtos.requests.RegisterUserDto;
 import com.byteworks.dev.backendservices.dtos.response.UserResponseDto;
 import com.byteworks.dev.backendservices.entities.User;
@@ -44,7 +45,39 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private String sendToken(String email, String subject) {
+    @Override
+    public UserResponseDto activateUser(ActivateUserDto activateUserDto) {
+        validateToken(activateUserDto.getEmail(), activateUserDto.getActivationToken());
+       User userToActivate = userRepository.findByEmail(activateUserDto.getEmail())
+                .orElseThrow(()-> new RuntimeException("User not found"));
+
+        userToActivate.setStatus(Status.ACTIVE.name());
+       UserResponseDto userResponseDto = appUtil.getMapper().convertValue(userToActivate, UserResponseDto.class);
+       MailDto mailDto = MailDto.builder()
+               .subject("YOUR ACCOUNT IS ACTIVE")
+               .body(String.format("Hi %s, \n You have successfully activated your account. Kindly login to start making use of the app.", userResponseDto.getLastName()))
+               .to(activateUserDto.getEmail())
+               .build();
+
+       emailService.sendMail(mailDto);
+        return userResponseDto;
+    }
+
+    private void validateToken(String memcachedKey, String value) {
+        if(!userRepository.existsByEmail(memcachedKey))
+            throw new RuntimeException("User not found");
+        if(!appUtil.validEmail(memcachedKey))
+            throw new RuntimeException("Invalid email");
+        if(!memStorage.getValueByKey(memcachedKey).equals(value))
+            throw new RuntimeException("Invalid token");
+        if(memStorage.getValueByKey(memcachedKey) == null)
+            throw new RuntimeException("Token expired");
+
+    }
+
+
+    @Override
+    public String sendToken(String email, String subject) {
         if (!userRepository.existsByEmail(email))
             throw new RuntimeException("User does not exist");
 
