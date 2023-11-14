@@ -5,11 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import java.math.BigDecimal;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
@@ -18,15 +14,12 @@ import java.math.BigDecimal;
 @Table(name = "packages")
 public class Package extends Base{
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Location origin;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Location destination;
 
-    private Double distance;
-
-    private BigDecimal deliveryCost;
-
+    private double distance;
 
 }

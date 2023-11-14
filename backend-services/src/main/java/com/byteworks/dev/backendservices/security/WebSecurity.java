@@ -23,8 +23,8 @@ public class WebSecurity {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
-
     private static final String [] WHITE_LISTED_URLS = {
+            "/api/v1/locations/add",
             "/api/v1/auth/**",
             "/api/v1/users/**",
             "/h2-console/**",
