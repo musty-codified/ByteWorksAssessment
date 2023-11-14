@@ -118,7 +118,6 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto login(UserLoginDto creds) {
         if(!appUtil.validEmail(creds.getEmail()))
             throw new RuntimeException("Invalid email");
-        System.out.println(creds.getEmail());
 
         try {
             Authentication authentication = authenticationManager.authenticate(
