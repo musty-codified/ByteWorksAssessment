@@ -36,7 +36,8 @@ public class UserController {
     @PostMapping("/activate-user")
     public ResponseEntity<ApiResponse<UserResponseDto>> activateUser(@RequestBody ActivateUserDto activateUserDto){
         return ResponseEntity.ok().body( new ApiResponse<>("User activated", true, userService.activateUser(activateUserDto)));
-    } @PostMapping("/resend-token")
+    }
+    @PostMapping("/resend-token")
     public ResponseEntity<ApiResponse<String>> resendToken(@RequestBody String email, String token){
         return ResponseEntity.ok().body( new ApiResponse<>("Token Sent", true, userService.sendToken(email, token)));
     }

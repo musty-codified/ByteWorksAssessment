@@ -4,17 +4,29 @@ package com.byteworks.dev.backendservices.services.impl;
 import com.byteworks.dev.backendservices.dtos.MailDto;
 import com.byteworks.dev.backendservices.dtos.requests.ActivateUserDto;
 import com.byteworks.dev.backendservices.dtos.requests.RegisterUserDto;
+import com.byteworks.dev.backendservices.dtos.requests.UserLoginDto;
 import com.byteworks.dev.backendservices.dtos.response.UserResponseDto;
 import com.byteworks.dev.backendservices.entities.User;
 import com.byteworks.dev.backendservices.enums.Status;
 import com.byteworks.dev.backendservices.repositories.UserRepository;
+import com.byteworks.dev.backendservices.security.CustomUserDetailsService;
+import com.byteworks.dev.backendservices.security.JwtUtils;
 import com.byteworks.dev.backendservices.services.EmailService;
 import com.byteworks.dev.backendservices.services.UserService;
 import com.byteworks.dev.backendservices.utils.AppUtils;
 import com.byteworks.dev.backendservices.utils.LocalStorage;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 @AllArgsConstructor
@@ -23,6 +35,14 @@ public class UserServiceImpl implements UserService {
     private final AppUtils appUtil;
     private final LocalStorage memStorage;
     private final PasswordEncoder passwordEncoder;
+
+    private final JwtUtils jwtUtil;
+
+    private final AuthenticationManager authenticationManager;
+
+    private final CustomUserDetailsService customUserDetailsService;
+
+    private static  final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final EmailService emailService;
     @Override
@@ -93,4 +113,43 @@ public class UserServiceImpl implements UserService {
 
         return "Token sent";
     }
+
+    @Override
+    public UserResponseDto login(UserLoginDto creds) {
+        if(!appUtil.validEmail(creds.getEmail()))
+            throw new RuntimeException("Invalid email");
+        System.out.println(creds.getEmail());
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword())
+            );
+            UserResponseDto userResponseDto;
+
+            if (authentication.isAuthenticated()) {
+                User user = userRepository.findByEmail(creds.getEmail())
+                        .orElseThrow(() -> new BadCredentialsException("Invalid login credentials"));
+
+                if (user.getStatus().equals(Status.INACTIVE.name()))
+                    throw new RuntimeException("User not active. Kindly activate your account.");
+
+                LOGGER.info("Generating access token for {}", user.getEmail());
+                String accessToken = jwtUtil.generateToken(customUserDetailsService.loadUserByUsername(user.getEmail()));
+                System.out.println("Access token :" + accessToken);
+
+                user.setLastLoginDate(new Date());
+
+                userResponseDto = appUtil.getMapper().convertValue(user, UserResponseDto.class);
+                userResponseDto.setToken(accessToken);
+            } else {
+                throw new BadCredentialsException("Invalid username or password");
+            }
+            return userResponseDto;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+
 }
