@@ -9,7 +9,7 @@ Following tools and libraries were used during the development of the API :
 - **Spring Boot**
 - **Build Tool: Maven**
 - **H2 database**
-- **Swagger** - API documentation [here](http://localhost:9090/swagger-ui/index.html#/)
+- **Swagger** - API documentation [here](http://localhost:8888/swagger-ui/index.html#/)
 - **JWT**
 - **Memcached**
 
