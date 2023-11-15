@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@Tag(name = "Location Endpoint", description = "<h3>To deposit: </h3> " )
+@Tag(name = "Location Endpoint" )
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/locations")
