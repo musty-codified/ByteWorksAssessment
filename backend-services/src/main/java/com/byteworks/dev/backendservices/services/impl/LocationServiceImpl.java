@@ -59,23 +59,6 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public List<Location> fetchAllLocations() {
-        List<Location> locations = locationRepository.findAll();
-        locations.forEach(loc -> {
-            Location location = new Location();
-            location.setName(loc.getName());
-            location.setLatitude(loc.getLatitude());
-            location.setLongitude(loc.getLongitude());
-            location.setClearingCost(location.getClearingCost());
-            location.setVisited(LocationStatus.NOT_VISITED.name());
-            location.setNeighbours(loc.getNeighbours());
-            locations.add(location);
-        });
-
-        return locations;
-    }
-
-    @Override
     public LocationResponseDto updateLocation(Long id, LocationDto locationDto) {
 
         Location existingLocation = locationRepository.findById(id)

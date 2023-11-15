@@ -15,7 +15,6 @@ public interface LocationService {
 
     LocationResponseDto updateLocation (Long id,  LocationDto locationDto);
 
-    List<Location> fetchAllLocations();
     void deleteLocation( Long id);
 
     LocationResponseDto findLocationById(Long id);

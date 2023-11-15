@@ -30,7 +30,7 @@ public class LocationController {
 
 
     @GetMapping("/view-list")
-    public ResponseEntity<ApiResponse<Page<LocationResponseDto>>> getPosts(@RequestParam(value = "page", defaultValue = "0") int page,
+    public ResponseEntity<ApiResponse<Page<LocationResponseDto>>> getLocations(@RequestParam(value = "page", defaultValue = "0") int page,
                                                                            @RequestParam(value = "limit", defaultValue = "5") int limit,
                                                                            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
                                                                            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {

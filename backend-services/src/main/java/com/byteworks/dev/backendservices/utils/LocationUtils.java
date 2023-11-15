@@ -14,12 +14,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocationUtils {
 private final LocationRepository locationRepository;
-private final LocationService locationService;
+//private final LocationService locationService;
 private final AppUtils appUtil;
 
     public void populateNeighbors() {
         System.out.println("populating neighbours...");
-        List<Location> allLocations = locationService.fetchAllLocations();
+        List<Location> allLocations = locationRepository.findAll();
 
         appUtil.print(allLocations);
 
