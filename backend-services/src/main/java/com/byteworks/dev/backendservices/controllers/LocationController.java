@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@Tag(name = "Location Endpoint" )
+@Tag(name = "Location Endpoint")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/locations")
@@ -50,12 +50,14 @@ public class LocationController {
     public ResponseEntity<ApiResponse<LocationResponseDto>> updateLocation(@PathVariable Long id, @RequestBody LocationDto locationDto){
         return ResponseEntity.ok().body( new ApiResponse<>("Location updated successfully", true, locationService.updateLocation(id, locationDto)));
     }
+
+    @Operation(summary = "Retrieves a single location object")
     @GetMapping("{id}")
     public ResponseEntity<ApiResponse<LocationResponseDto>> findLocation(@PathVariable Long id){
         return ResponseEntity.ok().body( new ApiResponse<>("Location retrieve successfully", true, locationService.findLocationById(id)));
     }
 
-    @Operation(summary = "Retrieves a single location object")
+    @Operation(summary = "Removes location object from database")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity <HttpStatus> deleteLocation(@PathVariable Long id){
         locationService.deleteLocation(id);
@@ -63,7 +65,6 @@ public class LocationController {
     }
 
     @Operation(summary = "Calculates and retrieves a list of all the optimal routes from an origin location")
-
     @GetMapping("/optimal-route")
     public ResponseEntity<ApiResponse<RouteResponseDto>> calculateOptimalRoute(@RequestParam Long originId, @RequestParam Long destinationId){
         return ResponseEntity.ok().body( new ApiResponse<>("Optimal Route calculated", true, routeService.findOptimalRoutes(originId, destinationId)));

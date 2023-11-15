@@ -4,6 +4,7 @@ import com.byteworks.dev.backendservices.dtos.requests.LocationDto;
 import com.byteworks.dev.backendservices.dtos.response.LocationResponseDto;
 import com.byteworks.dev.backendservices.dtos.response.RouteResponseDto;
 import com.byteworks.dev.backendservices.entities.Location;
+import com.byteworks.dev.backendservices.exceptions.NotFoundException;
 import com.byteworks.dev.backendservices.repositories.LocationRepository;
 import com.byteworks.dev.backendservices.services.LocationService;
 import com.byteworks.dev.backendservices.services.RouteService;
@@ -25,11 +26,11 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public RouteResponseDto findOptimalRoutes(Long originId, Long destinationId) {
     Location origin = locationRepository.findById(originId)
-            .orElseThrow(()-> new RuntimeException("Location not found"));
+            .orElseThrow(()-> new NotFoundException("Location not found"));
         System.out.println(originId);
 
     Location destination = locationRepository.findById(destinationId)
-            .orElseThrow(()-> new RuntimeException("Location not found"));
+            .orElseThrow(()-> new NotFoundException("Location not found"));
         System.out.println(destinationId);
 
         List<Location> optimalRoute = new ArrayList<>();

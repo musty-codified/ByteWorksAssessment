@@ -8,6 +8,9 @@ import com.byteworks.dev.backendservices.dtos.requests.UserLoginDto;
 import com.byteworks.dev.backendservices.dtos.response.UserResponseDto;
 import com.byteworks.dev.backendservices.entities.User;
 import com.byteworks.dev.backendservices.enums.Status;
+import com.byteworks.dev.backendservices.exceptions.AuthenticationException;
+import com.byteworks.dev.backendservices.exceptions.NotFoundException;
+import com.byteworks.dev.backendservices.exceptions.ValidationException;
 import com.byteworks.dev.backendservices.repositories.UserRepository;
 import com.byteworks.dev.backendservices.security.CustomUserDetailsService;
 import com.byteworks.dev.backendservices.security.JwtUtils;
@@ -48,9 +51,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto registerUser(RegisterUserDto userDto) {
         if (!appUtil.validEmail(userDto.getEmail()))
-            throw new RuntimeException("Invalid email");
+            throw new ValidationException("Invalid email");
         if(userRepository.existsByEmail(userDto.getEmail()))
-            throw new RuntimeException("User already exists");
+            throw new ValidationException("User already exists");
 
         User newUser = appUtil.getMapper().convertValue(userDto, User.class);
         newUser.setUuid(appUtil.generateSerialNumber("usr"));
@@ -69,7 +72,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto activateUser(ActivateUserDto activateUserDto) {
         validateToken(activateUserDto.getEmail(), activateUserDto.getActivationToken());
        User userToActivate = userRepository.findByEmail(activateUserDto.getEmail())
-                .orElseThrow(()-> new RuntimeException("User not found"));
+                .orElseThrow(()-> new NotFoundException("User not found"));
 
         userToActivate.setStatus(Status.ACTIVE.name());
        UserResponseDto userResponseDto = appUtil.getMapper().convertValue(userToActivate, UserResponseDto.class);
@@ -85,13 +88,13 @@ public class UserServiceImpl implements UserService {
 
     private void validateToken(String memcachedKey, String value) {
         if(!userRepository.existsByEmail(memcachedKey))
-            throw new RuntimeException("User not found");
+            throw new NotFoundException("User not found");
         if(!appUtil.validEmail(memcachedKey))
-            throw new RuntimeException("Invalid email");
+            throw new ValidationException("Invalid email");
         if(!memStorage.getValueByKey(memcachedKey).equals(value))
-            throw new RuntimeException("Invalid token");
+            throw new ValidationException("Invalid token");
         if(memStorage.getValueByKey(memcachedKey) == null)
-            throw new RuntimeException("Token expired");
+            throw new ValidationException("Token expired");
 
     }
 
@@ -99,7 +102,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String sendToken(String email, String subject) {
         if (!userRepository.existsByEmail(email))
-            throw new RuntimeException("User does not exist");
+            throw new NotFoundException("User does not exist");
 
       String token = appUtil.generateSerialNumber("o");
       memStorage.save(email, token, 900);  //15mins
@@ -117,7 +120,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto login(UserLoginDto creds) {
         if(!appUtil.validEmail(creds.getEmail()))
-            throw new RuntimeException("Invalid email");
+            throw new ValidationException("Invalid email");
 
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -146,7 +149,7 @@ public class UserServiceImpl implements UserService {
             return userResponseDto;
 
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new AuthenticationException(e.getMessage());
         }
     }
 

@@ -4,6 +4,8 @@ import com.byteworks.dev.backendservices.dtos.requests.LocationDto;
 import com.byteworks.dev.backendservices.dtos.response.LocationResponseDto;
 import com.byteworks.dev.backendservices.entities.Location;
 import com.byteworks.dev.backendservices.enums.LocationStatus;
+import com.byteworks.dev.backendservices.exceptions.NotFoundException;
+import com.byteworks.dev.backendservices.exceptions.ValidationException;
 import com.byteworks.dev.backendservices.repositories.LocationRepository;
 import com.byteworks.dev.backendservices.services.LocationService;
 import com.byteworks.dev.backendservices.utils.AppUtils;
@@ -26,7 +28,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public LocationResponseDto addLocation(LocationDto locationDto) {
         if(locationRepository.existsByName(locationDto.getName()))
-            throw new RuntimeException("Location already exists");
+            throw new ValidationException("Location already exists");
 
         Location location = appUtil.getMapper().convertValue(locationDto, Location.class);
         location.setClearingCost(appUtil.getRandomClearingCost());
@@ -62,7 +64,7 @@ public class LocationServiceImpl implements LocationService {
     public LocationResponseDto updateLocation(Long id, LocationDto locationDto) {
 
         Location existingLocation = locationRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Location not found"));
+                .orElseThrow(()-> new NotFoundException("Location not found"));
 
         existingLocation.setName(locationDto.getName());
         existingLocation.setLatitude(locationDto.getLatitude());
