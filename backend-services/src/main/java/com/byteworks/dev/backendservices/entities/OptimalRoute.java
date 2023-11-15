@@ -13,10 +13,15 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "routes")
-public class Route extends Base{
+public class OptimalRoute extends Base{
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "route_location",
+            joinColumns = @JoinColumn(name = "route_id"),
+            inverseJoinColumns = @JoinColumn(name = "location_id"))
     private Set<Location> locations;
-    @OneToOne
-    private Package item;
+
+//    @OneToOne
+//    private Package item;
 }

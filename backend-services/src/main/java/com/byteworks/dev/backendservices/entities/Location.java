@@ -1,13 +1,18 @@
 package com.byteworks.dev.backendservices.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.List;
+import java.util.Set;
 
 @Builder
 @Data
@@ -20,5 +25,23 @@ public class Location extends Base{
     private double latitude;
     private double longitude;
     private double clearingCost;
+    private String visited;
+    @ManyToMany
+//    @JsonIgnoreProperties(ignoreUnknown = true)
+    private List<Location> neighbours;
+//    @ManyToMany
+//    private List<OptimalRoute> routes;
 
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "name='" + name + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", clearingCost=" + clearingCost +
+                ", visited='" + visited + '\'' +
+                ", neighbours=" + neighbours +
+                '}';
+    }
 }

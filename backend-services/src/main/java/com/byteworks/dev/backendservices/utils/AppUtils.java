@@ -18,7 +18,6 @@ import java.util.Random;
 public class AppUtils {
     private static final double MIN_CLEARING_COST = 25.0;
     private static final double MAX_CLEARING_COST = 100.0;
-
     private final Random RANDOM = new Random();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AppUtils.class);
@@ -99,4 +98,6 @@ public class AppUtils {
     public double getRandomClearingCost() {
         return MIN_CLEARING_COST + (MAX_CLEARING_COST - MIN_CLEARING_COST) * RANDOM.nextDouble();
     }
+
+
 }

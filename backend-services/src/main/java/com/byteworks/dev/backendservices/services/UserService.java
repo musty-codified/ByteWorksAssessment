@@ -9,7 +9,6 @@ public interface UserService {
     UserResponseDto registerUser(RegisterUserDto userDto);
     UserResponseDto activateUser(ActivateUserDto activateUserD);
     String sendToken(String email, String subject);
-
     UserResponseDto login(UserLoginDto userLoginDto);
 
 

@@ -132,9 +132,9 @@ public class UserServiceImpl implements UserService {
                 if (user.getStatus().equals(Status.INACTIVE.name()))
                     throw new RuntimeException("User not active. Kindly activate your account.");
 
-                LOGGER.info("Generating access token for {}", user.getEmail());
+//                LOGGER.info("Generating access token for {}", user.getEmail());
                 String accessToken = jwtUtil.generateToken(customUserDetailsService.loadUserByUsername(user.getEmail()));
-                System.out.println("Access token :" + accessToken);
+//                System.out.println("Access token :" + accessToken);
 
                 user.setLastLoginDate(new Date());
 
