@@ -1,5 +1,6 @@
 # Courier-and-Logistics Backend-API
 Backend REST apis in Spring Boot for optimizing the delivery of packages from origin to destination
+
 `Built with Spring Boot, secured with Spring Security (JWT), and documented with Swagger (API),`
 
 ## Technology  used ##
