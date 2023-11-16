@@ -34,12 +34,14 @@ public class LocationServiceImpl implements LocationService {
         location.setClearingCost(appUtil.getRandomClearingCost());
         location.setVisited(LocationStatus.NOT_VISITED.name());
 
-        System.out.println("Before Populating Neighbors: " + location.getNeighbours());
 
-       locationUtils.populateNeighbors();
-        System.out.println("After Populating Neighbors: " + location.getNeighbours());
+       Location loc = locationRepository.save(location);
 
-        return appUtil.getMapper().convertValue(locationRepository.save(location), LocationResponseDto.class);
+        locationUtils.populateNeighbors();
+
+        System.out.println("Inside addLocation method: After Populating Neighbors: " + location.getNeighbours());
+
+        return appUtil.getMapper().convertValue(loc, LocationResponseDto.class);
     }
 
     @Override
