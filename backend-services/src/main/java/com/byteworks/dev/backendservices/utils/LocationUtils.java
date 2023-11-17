@@ -2,74 +2,66 @@ package com.byteworks.dev.backendservices.utils;
 
 import com.byteworks.dev.backendservices.entities.Location;
 import com.byteworks.dev.backendservices.repositories.LocationRepository;
-import com.byteworks.dev.backendservices.services.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Component
 @RequiredArgsConstructor
 public class LocationUtils {
 private final LocationRepository locationRepository;
-//private final LocationService locationService;
 private final AppUtils appUtil;
 
-    public void populateNeighbors() {
-        System.out.println("Inside populateNeighbours method");
+    public void populateNeighbors(int howMany) {
+
         List<Location> allLocations = locationRepository.findAll();
-        appUtil.print(allLocations);
 
-        List<Location> neighbors = null;
+        System.out.println("read location data for " + allLocations.size());
+
         for (Location location : allLocations) {
-            try {
-             neighbors = findNearbyLocations(location, allLocations);
-            } catch (Exception e )
-            {
-                e.printStackTrace();
-            }
+            List<Location> neighbors = findClosestLocations(location, allLocations, howMany);
 
-            System.out.println("Inside populateNeighbours method");
+//            List<Location> neighbors = neighborIndexes.stream()
+//                    .map(allLocations::get)
+//                    .collect(Collectors.toList());
+
             appUtil.print(neighbors);
+
             location.setNeighbours(neighbors);
-
-            System.out.println("Location after populating neighbours: " + location);
-
-            appUtil.print(allLocations);
 
             locationRepository.save(location);
         }
     }
 
 
-    private List<Location> findNearbyLocations(Location target, List<Location> allLocations) {
-        System.out.println("inside findNearbyLocations method....");
-        double radius = 250;
+    public List<Location> findClosestLocations(Location target, List<Location> allLocations, int howMany) {
+        List<Location> copy= new ArrayList<>(allLocations);
+        System.out.println("Inside findClosestLocation");
 
-        List<Location> nearbyLocations = new ArrayList<>();
-        System.out.println("nearby locations before finding..." + nearbyLocations);
+//        double radius = 250;
+              List<Location> closest = new ArrayList<>();
 
-        for (Location location : allLocations) {
-            System.out.println("checking location..." + location.getName());
-            System.out.println("checking target..." + target.getName());
+              for(int j = 0; j < howMany; j++){
 
+              int minIndex = 0;
+              for(int i =0; i < copy.size(); i++){
 
-            if (target != null && !location.equals(target) && calculateDistance(target, location) <= radius) {
+                  Location loc = copy.get(i);
+                  if(calculateDistance(loc, target) <
+                          calculateDistance(copy.get(minIndex), target)){
+                      minIndex = i;
+                  }
 
-                // Check if the location is not already in the nearbyLocations list
-                if (!nearbyLocations.contains(target)) {
-                    nearbyLocations.add(location);
+              }
+                  closest.add(copy.get(minIndex));
+                  copy.remove(minIndex);
 
-                }
-                appUtil.print(target);
-                System.out.println("nearby locations after finding..." + nearbyLocations);
-
-            }
-        }
-        return nearbyLocations;
+              }
+        return closest;
     }
-
     private double calculateDistance(Location from, Location to) {
         if (from.equals(to))
             return 0.0;

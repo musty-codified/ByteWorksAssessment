@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
         User newUser = appUtil.getMapper().convertValue(userDto, User.class);
         newUser.setUuid(appUtil.generateSerialNumber("usr"));
-        newUser.setStatus(Status.INACTIVE.name());
+        newUser.setStatus(Status.ACTIVE.name());
         newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
        newUser = userRepository.save(newUser);

@@ -1,5 +1,6 @@
 package com.byteworks.dev.backendservices;
 
+import com.github.javafaker.Faker;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -15,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @OpenAPIDefinition(
 		info=@Info(
-				title = "Package Delivery App RESTful Web API Documentation",
+				title = "Package Delivery RESTful Web API Documentation",
 				description = "These pages document a Delivery Restful Web service Endpoints",
 				version = "1.0",
 				contact = @Contact(
@@ -34,7 +35,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 		),
 		servers = {
 				@Server(
-						url = "http://localhost:9090/",
+						url = "http://localhost:8888/",
 						description = "The Development API Server"
 				),
 		}
@@ -51,6 +52,11 @@ public class BackendServicesApplication {
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public Faker faker(){
+		return new Faker();
 	}
 
 }

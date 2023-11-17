@@ -3,7 +3,6 @@ package com.byteworks.dev.backendservices.services.impl;
 import com.byteworks.dev.backendservices.dtos.requests.LocationDto;
 import com.byteworks.dev.backendservices.dtos.response.LocationResponseDto;
 import com.byteworks.dev.backendservices.entities.Location;
-import com.byteworks.dev.backendservices.enums.LocationStatus;
 import com.byteworks.dev.backendservices.exceptions.NotFoundException;
 import com.byteworks.dev.backendservices.exceptions.ValidationException;
 import com.byteworks.dev.backendservices.repositories.LocationRepository;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,12 +30,8 @@ public class LocationServiceImpl implements LocationService {
 
         Location location = appUtil.getMapper().convertValue(locationDto, Location.class);
         location.setClearingCost(appUtil.getRandomClearingCost());
-        location.setVisited(LocationStatus.NOT_VISITED.name());
-
 
        Location loc = locationRepository.save(location);
-
-        locationUtils.populateNeighbors();
 
         System.out.println("Inside addLocation method: After Populating Neighbors: " + location.getNeighbours());
 
@@ -46,10 +40,9 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Page<LocationResponseDto> getLocations(int page, int limit, String sortBy, String sortDir) {
-        locationUtils.populateNeighbors();
+//        locationUtils.populateNeighbors(3);
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 :Sort.by(sortBy).descending();
-        System.out.println("calling get location");
         Pageable pageRequest = PageRequest.of(page, limit, sort);
         Page<Location> locationPages = locationRepository.findAll(pageRequest);
         List<LocationResponseDto> locationResponseDtos =
@@ -60,6 +53,22 @@ public class LocationServiceImpl implements LocationService {
         int max = Math.min(limit * (page + 1), locationResponseDtos.size());
         int min = limit * page ;
         return new PageImpl<>(locationResponseDtos.subList(min,max),pageRequest, locationResponseDtos.size());
+    }
+
+    @Override
+    public Page<LocationResponseDto> findClosestLocations(String locationName, int page, int limit, String sortBy, String sortDir, int howMany) {
+     Location targetLocation =  locationRepository.findByName(locationName)
+                .orElseThrow(()-> new NotFoundException("Location not found"));
+        List<Location> allLocations = locationRepository.findAll();
+     List<Location> closestList = locationUtils.findClosestLocations(targetLocation, allLocations, howMany);
+      List <LocationResponseDto> locationResponseDtos = closestList.stream().map(location -> appUtil.getMapper().convertValue(location, LocationResponseDto.class))
+             .collect(Collectors.toList());
+
+        if(page>0) page = page-1;
+        int max = Math.min(limit * (page + 1), locationResponseDtos.size());
+        int min = limit * page ;
+
+        return new PageImpl<>(locationResponseDtos.subList(min,max));
     }
 
     @Override

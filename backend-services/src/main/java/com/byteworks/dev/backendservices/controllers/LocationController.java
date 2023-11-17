@@ -43,6 +43,17 @@ public class LocationController {
 
     }
 
+    @Operation(summary = "Fetches a list of location object closest to a specific location")
+    @GetMapping("/view-closest")
+    public ResponseEntity<ApiResponse<Page<LocationResponseDto>>> getClosestLocations(@RequestParam(value = "locationName", defaultValue = "lima") String locationName,
+                                                                                      @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                               @RequestParam(value = "limit", defaultValue = "5") int limit,
+                                                                               @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
+                                                                               @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
+                                                                                      @RequestParam(value = "howMany", defaultValue = "3", required = false) int howMany) {
+        return ResponseEntity.ok().body( new ApiResponse<>(" Closest Locations retrieved successfully", true, locationService.findClosestLocations(locationName,  page, limit, sortBy, sortDir, howMany)));
+
+    }
 
     @Operation(summary = "Updates location object")
 
