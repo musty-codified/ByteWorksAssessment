@@ -3,9 +3,7 @@ package com.byteworks.dev.backendservices.controllers;
 import com.byteworks.dev.backendservices.dtos.requests.LocationDto;
 import com.byteworks.dev.backendservices.dtos.response.ApiResponse;
 import com.byteworks.dev.backendservices.dtos.response.LocationResponseDto;
-import com.byteworks.dev.backendservices.dtos.response.RouteResponseDto;
 import com.byteworks.dev.backendservices.services.LocationService;
-import com.byteworks.dev.backendservices.services.RouteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/locations")
 public class LocationController {
     private final LocationService locationService;
-    private final RouteService routeService;
-
-
-
     @Operation(summary = "Adds a location object to the database")
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<LocationResponseDto>> addLocation(@RequestBody LocationDto locationDto){
@@ -56,7 +50,6 @@ public class LocationController {
     }
 
     @Operation(summary = "Updates location object")
-
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<LocationResponseDto>> updateLocation(@PathVariable Long id, @RequestBody LocationDto locationDto){
         return ResponseEntity.ok().body( new ApiResponse<>("Location updated successfully", true, locationService.updateLocation(id, locationDto)));
@@ -75,11 +68,6 @@ public class LocationController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Operation(summary = "Calculates and retrieves a list of all the optimal routes from an origin location")
-    @GetMapping("/optimal-route")
-    public ResponseEntity<ApiResponse<RouteResponseDto>> calculateOptimalRoute(@RequestParam Long originId, @RequestParam Long destinationId){
-        return ResponseEntity.ok().body( new ApiResponse<>("Optimal Route calculated", true, routeService.findOptimalRoutes(originId, destinationId)));
-    }
 
 
 }

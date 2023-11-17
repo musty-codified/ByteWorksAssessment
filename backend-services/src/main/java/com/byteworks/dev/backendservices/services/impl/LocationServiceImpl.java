@@ -32,15 +32,11 @@ public class LocationServiceImpl implements LocationService {
         location.setClearingCost(appUtil.getRandomClearingCost());
 
        Location loc = locationRepository.save(location);
-
-        System.out.println("Inside addLocation method: After Populating Neighbors: " + location.getNeighbours());
-
         return appUtil.getMapper().convertValue(loc, LocationResponseDto.class);
     }
 
     @Override
     public Page<LocationResponseDto> getLocations(int page, int limit, String sortBy, String sortDir) {
-//        locationUtils.populateNeighbors(3);
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 :Sort.by(sortBy).descending();
         Pageable pageRequest = PageRequest.of(page, limit, sort);
@@ -48,7 +44,6 @@ public class LocationServiceImpl implements LocationService {
         List<LocationResponseDto> locationResponseDtos =
                 locationPages.stream().map(location -> appUtil.getMapper().convertValue(location, LocationResponseDto.class))
                         .collect(Collectors.toList());
-        //Pagination starts at zero, so I set the current page to one less. i.e. page 2 is page 1 etc
         if(page>0) page = page-1;
         int max = Math.min(limit * (page + 1), locationResponseDtos.size());
         int min = limit * page ;
@@ -61,7 +56,8 @@ public class LocationServiceImpl implements LocationService {
                 .orElseThrow(()-> new NotFoundException("Location not found"));
         List<Location> allLocations = locationRepository.findAll();
      List<Location> closestList = locationUtils.findClosestLocations(targetLocation, allLocations, howMany);
-      List <LocationResponseDto> locationResponseDtos = closestList.stream().map(location -> appUtil.getMapper().convertValue(location, LocationResponseDto.class))
+      List <LocationResponseDto> locationResponseDtos =
+              closestList.stream().map(location -> appUtil.getMapper().convertValue(location, LocationResponseDto.class))
              .collect(Collectors.toList());
 
         if(page>0) page = page-1;
