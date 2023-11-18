@@ -9,7 +9,7 @@ const [signupFormData, setSignupFormdata] = useState({
     firstName: "",
      lastName: "", 
      email: "", 
-     passsword: ""
+     password: ""
 })
 
 const  handleChange =(event)=>{
@@ -26,7 +26,7 @@ const  handleChange =(event)=>{
 
 
 const handleSubmit =(event)=>{
-  event.prventDefault()
+  event.preventDefault()
   console.log(signupFormData)
 }
 

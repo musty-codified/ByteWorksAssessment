@@ -5,7 +5,7 @@ import SignupForm from './components/form/SignupForm';
 function App() {
   return (
     <div className="App">
-      {/* <Location/> */}
+      <Location/>
       <SignupForm/>
     </div>
   );

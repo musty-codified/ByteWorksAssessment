@@ -8,12 +8,12 @@ const Location = () => {
   
     const GET_LOCATION_BASE_URL=  "http://localhost:8888/api/v1/locations/view-list";
 
-      const getLocations = async()=>{
+      const getLocations = async() =>{
         const response = await axios.get(GET_LOCATION_BASE_URL)
 
-
         setLocations(response.data.locations)
-        console.log(response.data.locations)
+
+        console.log(response.data.data)
 
       }
       
