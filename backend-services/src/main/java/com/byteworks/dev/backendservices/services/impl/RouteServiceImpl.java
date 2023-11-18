@@ -1,7 +1,9 @@
 package com.byteworks.dev.backendservices.services.impl;
 
 import com.byteworks.dev.backendservices.dtos.requests.LocationDto;
+import com.byteworks.dev.backendservices.dtos.response.LocationResponseDto;
 import com.byteworks.dev.backendservices.dtos.response.RouteResponseDto;
+import com.byteworks.dev.backendservices.entities.DeliveryRoute;
 import com.byteworks.dev.backendservices.entities.Location;
 import com.byteworks.dev.backendservices.exceptions.NotFoundException;
 import com.byteworks.dev.backendservices.repositories.LocationRepository;
@@ -22,69 +24,74 @@ public class RouteServiceImpl implements RouteService {
     private final LocationRepository locationRepository;
 
     @Override
-    public RouteResponseDto findOptimalRoutes(Long originId, Long destinationId) {
-    Location origin = locationRepository.findById(originId)
-            .orElseThrow(()-> new NotFoundException("Location not found"));
+    public DeliveryRoute findOptimalRoute(Long originId, Long destinationId) {
 
-        System.out.println(originId);
+      Location origin = locationRepository.findById(originId)
+              .orElseThrow(()-> new NotFoundException("origin not found"));
+      Location destination = locationRepository.findById(destinationId)
+              .orElseThrow(()-> new NotFoundException("destination not found"));
 
-    Location destination = locationRepository.findById(destinationId)
-            .orElseThrow(()-> new NotFoundException("Location not found"));
+       // Call the BFS algorithm to calculate the optimal route
+        List<Location> optimalRoute = bfs(origin, destination);
 
-        System.out.println(destinationId);
+        double totalCost =locationUtil.calculateTotalCost(optimalRoute);
 
-        List<Location> optimalRoute = new ArrayList<>();
+        // Create and return the DeliveryRoute object
+        DeliveryRoute deliveryRoute = new DeliveryRoute();
+        deliveryRoute.setLocations(optimalRoute);
+        deliveryRoute.setTotalCost(totalCost);
 
+        return deliveryRoute;
 
-        optimalRoute.add(origin);  // Start with the origin
-
-        Location currentLocation = origin;
-
-
-        List<LocationDto> routeList = optimalRoute.stream()
-                .map(route-> appUtil.getMapper().convertValue(route, LocationDto.class))
-                .collect(Collectors.toList());
-
-        while (!currentLocation.equals(destination)) {
-            Location nextLocation = findNextLocation(currentLocation, destination);
-
-
-            if (nextLocation == null) {
-                // No direct path to the destination
-                return new RouteResponseDto(routeList, 0.0);
-            }
-
-            optimalRoute.add(nextLocation);
-            currentLocation = nextLocation;
-        }
-
-        double totalCost = locationUtil.calculateTotalCost(optimalRoute);
-        return new RouteResponseDto(routeList, totalCost);
     }
 
-    private Location findNextLocation(Location currentLocation, Location destination) {
-        // Placeholder logic to find the next location based on the shortest distance
-        List<Location> neighbors =
-                locationUtil.findClosestLocations(currentLocation, locationRepository.findAll(), 3);
+    private List<Location> reconstructPath(Map<Location, Location> parentMap, Location destination) {
+        List<Location> paths = new ArrayList<>();
+        Location currentLocation = destination;
 
-        if (neighbors.isEmpty()) {
-            return null;
+        while (currentLocation != null) {
+            paths.add(currentLocation);
+            currentLocation = parentMap.get(currentLocation);
         }
 
-        Location nextLocation = neighbors.get(0); // Start with the first neighbor
-        double shortestDistance = locationUtil.calculateDistance(nextLocation, destination);
-
-        for (Location neighbor : neighbors) {
-            double distance = locationUtil.calculateDistance(neighbor, destination);
-            if (distance < shortestDistance) {
-                shortestDistance = distance;
-                nextLocation = neighbor;
-            }
-        }
-
-        return nextLocation;
+        Collections.reverse(paths);
+        return paths;
     }
 
+
+    private List <Location> bfs (Location origin, Location destination){
+        Queue<Location> queue = new LinkedList<>();
+        Map<Location, Location> parentMap = new HashMap<>();
+        Set<Location> visited = new HashSet<>();
+
+        queue.add(origin);
+        visited.add(origin);
+
+
+        while (!queue.isEmpty()){
+            Location currentLocation = queue.poll();
+
+            if (currentLocation.equals(destination)) {
+                // Destination reached, reconstruct the path
+                List<Location> optimalRoute = reconstructPath(parentMap, destination);
+
+                return optimalRoute;
+            }
+
+            List <Location> locationList = locationUtil.findClosestLocations(currentLocation, locationRepository.findAll(), 3);
+            for (Location neighbor : locationList) {
+                if (!visited.contains(neighbor)) {
+                    // Visit unvisited neighbors
+                    queue.add(neighbor);
+                    visited.add(neighbor);
+                    parentMap.put(neighbor, currentLocation);
+                }
+            }
+
+        }
+        return Collections.emptyList();
+
+    }
 
 }
 

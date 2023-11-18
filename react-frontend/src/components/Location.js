@@ -6,21 +6,26 @@ const Location = () => {
 
     const [locations, setLocations] = useState([]);
   
-    const GET_LOCATION_BASE_URL=  "http://localhost:8888/api/v1/locations/view-list";
 
       const getLocations = async() =>{
-        const response = await axios.get(GET_LOCATION_BASE_URL)
+        try{
+          const response = await axios.get("http://localhost:8888/api/v1/locations/view-list")
+          console.log(response.data.data); // Log the response
+          setLocations(response.data.data)
+        } catch (error){
+         console.log("Error fetchin data...")
 
-        setLocations(response.data.locations)
-
-        console.log(response.data.data)
+        }
+      
 
       }
       
       console.log(locations)
 
       useEffect(()=>{
+
         getLocations()
+
 
       }, [])
 
@@ -28,14 +33,25 @@ const Location = () => {
       <div>
         
       <div className ='card col-md-6 offset-md-3'>
-          <h3 text-centre card-header >View Locations </h3>
+          <h3 text-centre = "true" card-header = "true">View Locations </h3>
+
           <div className='card-body'>
-  
-          
-             
+               {
+              
+              locations.map((location)=>(
+                
+                 <div key={location.id}>
+                 <li>
+                  {location.name}
+                 </li>
+
+                 </div>
+              ))
+
+               }
+                   
+            
           </div>
-  
-  
   
          </div>
       

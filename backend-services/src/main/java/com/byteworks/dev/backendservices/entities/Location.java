@@ -17,6 +17,10 @@ public class Location extends Base{
     private double longitude;
     private double clearingCost;
 
+    @ManyToOne
+    @JoinColumn(name = "delivery_route_id")
+    private DeliveryRoute deliveryRoute;
+
     public Location( double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
@@ -31,5 +35,13 @@ public class Location extends Base{
                 ", clearingCost=" + clearingCost +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        Location location = (Location) o;
+        return Double.compare(location.latitude, latitude) == 0
+                && Double.compare(location.longitude, longitude) == 0;
+    }
+
 
 }

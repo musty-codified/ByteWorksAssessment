@@ -1,13 +1,10 @@
 package com.byteworks.dev.backendservices.dtos.requests;
 
 
-import com.byteworks.dev.backendservices.entities.OptimalRoute;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
