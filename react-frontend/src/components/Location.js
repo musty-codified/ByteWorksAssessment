@@ -15,10 +15,8 @@ const Location = () => {
         setLocations(response.data.locations)
         console.log(response.data.locations)
 
-        
-
-
       }
+      
       console.log(locations)
 
       useEffect(()=>{
@@ -28,8 +26,9 @@ const Location = () => {
 
   return (
       <div>
+        
       <div className ='card col-md-6 offset-md-3'>
-          <h3 text-centre card-header >View Employee Details</h3>
+          <h3 text-centre card-header >View Locations </h3>
           <div className='card-body'>
   
           
