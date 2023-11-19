@@ -46,8 +46,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 
-//            appUtil.print(userDetails);
-
             final boolean isTokenValid = jwtUtil.isTokenValid(jwtToken, userDetails);
 
             if (isTokenValid) {

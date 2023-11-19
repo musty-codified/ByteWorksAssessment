@@ -10,8 +10,8 @@ const Location = () => {
       const getLocations = async() =>{
         try{
           const response = await axios.get("http://localhost:8888/api/v1/locations/view-list")
-          console.log(response.data.data); // Log the response
-          setLocations(response.data.data)
+          console.log(response.data.data.content); // Log the response
+          setLocations(response.data.data.content)
         } catch (error){
          console.log("Error fetchin data...")
 
@@ -20,7 +20,7 @@ const Location = () => {
 
       }
       
-      console.log(locations)
+      // console.log(locations)
 
       useEffect(()=>{
 
@@ -33,23 +33,48 @@ const Location = () => {
       <div>
         
       <div className ='card col-md-6 offset-md-3'>
-          <h3 text-centre = "true" card-header = "true">View Locations </h3>
+          <h3 text-centre = "true" card-header = "true">View Locations: </h3>
 
           <div className='card-body'>
-               {
-              
-              locations.map((location)=>(
-                
-                 <div key={location.id}>
-                 <li>
-                  {location.name}
-                 </li>
 
-                 </div>
+            {
+              locations.map((elem, index)=>(
+                <div key={elem.id}>
+                 
+              <div className='row'>
+              <p>
+                <strong>Name:</strong> {elem.name}
+              </p>
+              </div>
+
+              <div className='row'>
+              <p>
+                <strong>Latitude:</strong> {elem.latitude}
+              </p>
+              </div>
+
+              <div className='row'>
+              <p>
+                <strong>Longitude:</strong> {elem.longitude}
+              </p>
+              </div>
+
+              <div className='row'>
+              <p>
+                <strong>Clearing Cost:</strong> ${elem.clearingCost}
+              </p>
+                
+              </div>
+              
+              
+              <hr />
+
+                  </div>
+
+
               ))
 
-               }
-                   
+            }
             
           </div>
   

@@ -52,7 +52,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Page<LocationResponseDto> findClosestLocations(String locationName, int page, int limit, String sortBy, String sortDir, int howMany) {
-     Location targetLocation =  locationRepository.findByName(locationName)
+     Location targetLocation = locationRepository.findByName(locationName)
                 .orElseThrow(()-> new NotFoundException("Location not found"));
         List<Location> allLocations = locationRepository.findAll();
      List<Location> closestList = locationUtils.findClosestLocations(targetLocation, allLocations, howMany);

@@ -20,9 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtUtils {
 
-
         private final LocalStorage memStorage;
-        private final UserRepository userRepository;
 
         @Value("${app.jwt_secret}")
         private String JWT_SECRET;
@@ -66,9 +64,7 @@ public class JwtUtils {
 
         public String generateToken(UserDetails userDetails) {
             Map<String, Object> claims = new HashMap<>();
-//            User user = userRepository.findByEmail(userDetails.getUsername())
-//                    .orElseThrow(()-> new RuntimeException("Error generating token"));
-            return createToken(claims, userDetails.getUsername());
+           return createToken(claims, userDetails.getUsername());
         }
         private String createToken(Map<String, Object> claims, String email) {
             return Jwts.builder()

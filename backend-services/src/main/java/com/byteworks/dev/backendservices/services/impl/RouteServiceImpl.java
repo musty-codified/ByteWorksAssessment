@@ -1,5 +1,6 @@
 package com.byteworks.dev.backendservices.services.impl;
 
+import com.byteworks.dev.backendservices.dtos.DeliveryRouteDto;
 import com.byteworks.dev.backendservices.dtos.requests.LocationDto;
 import com.byteworks.dev.backendservices.dtos.response.LocationResponseDto;
 import com.byteworks.dev.backendservices.dtos.response.RouteResponseDto;
@@ -24,7 +25,7 @@ public class RouteServiceImpl implements RouteService {
     private final LocationRepository locationRepository;
 
     @Override
-    public DeliveryRoute findOptimalRoute(Long originId, Long destinationId) {
+    public DeliveryRouteDto findOptimalRoute(Long originId, Long destinationId) {
 
       Location origin = locationRepository.findById(originId)
               .orElseThrow(()-> new NotFoundException("origin not found"));
@@ -34,14 +35,16 @@ public class RouteServiceImpl implements RouteService {
        // Call the BFS algorithm to calculate the optimal route
         List<Location> optimalRoute = bfs(origin, destination);
 
-        double totalCost =locationUtil.calculateTotalCost(optimalRoute);
+        double totalCost = locationUtil.calculateTotalCost(optimalRoute);
 
         // Create and return the DeliveryRoute object
         DeliveryRoute deliveryRoute = new DeliveryRoute();
         deliveryRoute.setLocations(optimalRoute);
         deliveryRoute.setTotalCost(totalCost);
 
-        return deliveryRoute;
+      DeliveryRouteDto deliveryRouteDto = appUtil.getMapper().convertValue(deliveryRoute, DeliveryRouteDto.class);
+
+        return deliveryRouteDto;
 
     }
 

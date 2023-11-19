@@ -21,11 +21,6 @@ public class Location extends Base{
     @JoinColumn(name = "delivery_route_id")
     private DeliveryRoute deliveryRoute;
 
-    public Location( double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
     @Override
     public String toString() {
         return "Location{" +
