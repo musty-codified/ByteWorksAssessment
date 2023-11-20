@@ -1,12 +1,15 @@
 import React from 'react'
 
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { dataContext } from '../../context/AuthContext'
 import './SignupForm.css'
 
 const SignupForm = () => {
+  const {registerConfig} = useContext(dataContext)
+  console.log(registerConfig)
 
 const [signupFormData, setSignupFormdata] = useState({
-    firstName: "",
+     firstName: "",
      lastName: "", 
      email: "", 
      password: ""
@@ -25,8 +28,9 @@ const  handleChange =(event)=>{
 }
 
 
-const handleSubmit =(event)=>{
+const handleSubmit = async (event)=>{
   event.preventDefault()
+  await registerConfig(setSignupFormdata)
   console.log(signupFormData)
 }
 

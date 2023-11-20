@@ -1,35 +1,17 @@
-import React, {useState, useEffect} from 'react'
-import axios from 'axios';
+import React, { useContext } from 'react'
+import { dataContext } from '../context/AuthContext';
 
 
 const Location = () => {
 
-    const [locations, setLocations] = useState([]);
+  const {locations} = useContext(dataContext)
+
+  // console.log(locations)
+
   
 
-      const getLocations = async() =>{
-        try{
-          const response = await axios.get("http://localhost:8888/api/v1/locations/view-list")
-          console.log(response.data.data.content); // Log the response
-          setLocations(response.data.data.content)
-        } catch (error){
-         console.log("Error fetchin data...")
 
-        }
-      
-
-      }
-      
-      // console.log(locations)
-
-      useEffect(()=>{
-
-        getLocations()
-
-
-      }, [])
-
-  return (
+  return (  
       <div>
         
       <div className ='card col-md-6 offset-md-3'>
@@ -38,7 +20,7 @@ const Location = () => {
           <div className='card-body'>
 
             {
-              locations.map((elem, index)=>(
+              locations.map((elem)=>(
                 <div key={elem.id}>
                  
               <div className='row'>
