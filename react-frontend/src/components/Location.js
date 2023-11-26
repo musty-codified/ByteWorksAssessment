@@ -8,14 +8,11 @@ const Location = () => {
 
   // console.log(locations)
 
-  
-
-
   return (  
       <div>
         
       <div className ='card col-md-6 offset-md-3'>
-          <h3 text-centre = "true" card-header = "true">View Locations: </h3>
+          <h3 text-centre = "true" card-header = "true"> View Locations: </h3>
 
           <div className='card-body'>
 

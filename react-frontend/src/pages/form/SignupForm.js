@@ -1,6 +1,10 @@
 import React from 'react'
 
 import { useState, useContext } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import { dataContext } from '../../context/AuthContext'
 import './SignupForm.css'
 
@@ -15,7 +19,7 @@ const [signupFormData, setSignupFormdata] = useState({
      password: ""
 })
 
-const  handleChange =(event)=>{
+const handleChange =(event)=>{
     console.log(signupFormData)
 
     setSignupFormdata(prevSignupFormData=>{
@@ -30,8 +34,14 @@ const  handleChange =(event)=>{
 
 const handleSubmit = async (event)=>{
   event.preventDefault()
-  await registerConfig(setSignupFormdata)
+  await registerConfig(signupFormData);
   console.log(signupFormData)
+  setSignupFormdata({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password:""
+  });
 }
 
   return (
@@ -75,7 +85,7 @@ const handleSubmit = async (event)=>{
        value={signupFormData.password}
        required/>
 
-       <button type="submit" className="signup_btn">
+       <button type="submit" onClick = {()=>registerConfig(signupFormData)} className="signup_btn">
        Sign Up
 
        </button>
@@ -87,6 +97,7 @@ const handleSubmit = async (event)=>{
        </p>
         </form>
 
+        <ToastContainer />
 
 
     </div>
