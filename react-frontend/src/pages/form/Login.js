@@ -1,6 +1,8 @@
 import React, {useState, useContext} from 'react'
 import { dataContext } from '../../context/AuthContext'
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+import './Login.css'
 
 const Login = () => {
 
@@ -14,6 +16,7 @@ const [loginForm, setLoginForm] = useState(
   })
 
   const handleChange=(event)=>{
+    console.log(loginForm)
       setLoginForm(prevLoginForm=>{
         return{
           ...prevLoginForm,
@@ -23,9 +26,9 @@ const [loginForm, setLoginForm] = useState(
 
   }
 
-  const handleSubmit=(event)=>{
+  const handleSubmit= async(event)=>{
   event.preventDefault()
-  loginConfig(loginForm)
+ await loginConfig(loginForm)
   setLoginForm({
     email:"",
     password:""
@@ -36,13 +39,13 @@ const [loginForm, setLoginForm] = useState(
   }
 
   return (
-    <div>
+    <div className="login--bg">
 
-<form className='signup--form' onSubmit={handleSubmit}>
+  <form className='login--form' onSubmit={handleSubmit}>
 
-<h2 className="signup_h2">Login</h2>
-<p className="signup_span">
-        Enter your email and password  details to Login</p>
+<h2 className="login--h2">Login</h2>
+<p className="login_span">
+        Enter your email and password details to Login</p>
 <input 
 type="email" 
 placeholder="Email" 
@@ -50,6 +53,7 @@ onChange={handleChange}
 name="email"
 value={loginForm.email}
 required/>
+<br/>
 
 <input 
 type="password" 
@@ -59,18 +63,18 @@ name="password"
 value={loginForm.password}
 required/>
 
-<button type="submit" onClick = {()=>loginConfig(loginForm)} className="signup_btn">
+<br/>
+<button type="submit" onClick = {()=>loginConfig(loginForm)} className="login--btn">
 Sign in
-
 </button>
 
-<p>
-
-Don't have an account? Sign up
-<a href='/'>SignUp</a>
+<p className='login_small mb-0"'>
+Don't have an account? 
+<a href='/register'> Signup</a>
 </p>
 </form>
 
+<ToastContainer />
     </div>
   )
 }

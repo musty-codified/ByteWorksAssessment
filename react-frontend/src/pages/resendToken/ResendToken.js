@@ -3,64 +3,87 @@ import {dataContext} from '../../context/AuthContext';
 
 
 
-const ResendToken = ({onResendToken}) => {
+const ResendToken = () => {
 
   const {resendToken} = useContext(dataContext)
-  const [selectedReason, setSelectedReason] = useState("");
-  console.log(selectedReason)
+  const [resendTokenData, setResendTokenData] = useState({
+    email:"",
+    subject:""
+
+  });
+
+  console.log(resendTokenData.subject)
 
 
   const handleResendOTP=(event)=>{
+    console.log(resendTokenData)
 
     const {name, value} = event.target
-    setSelectedReason(prevSelectedReason=>{
+    setResendTokenData(prevResendTokenData=>{
       return {
-        ...prevSelectedReason,
+        ...prevResendTokenData,
         [name]: value
       }
     })
 
-
-    if (selectedReason) {
-      onResendToken(selectedReason);
-    } else {
-      // Handle case where no reason is selected
-      alert('Please select a reason for resending the token.');
-    }
-
-    // resendToken()
     
 };
+   const handleSubmit = async(event)=>{
+       event.preventDefault()
+       const queryParams = `?email=${resendTokenData.email}&reason=${resendTokenData.subject}`;
+    await resendToken(queryParams)
+    setResendTokenData({
+     email:"",
+     subject: ""
 
+  })
 
-const handleSubmit=(event)=>{
-  event.preventDefault();
-  const email = localStorage.getItem("signature");
-  resendToken(email, selectedReason)
-
-}
+   }
 
   return (
+    
     <div>
+
+      <h2 className="signup_h2">Resend Token</h2>
+        <p className="signup_span">
+                Kindly enter your reason for requesting token resend
+              </p>
+
+    <form onSubmit={handleSubmit}>
      
-      <label htmlFor="reasonDropdown">Select a reason:</label>
-      <select>
+    <input 
+   type="text" 
+   placeholder="Enter email" 
+  onChange={handleResendOTP}
+  name="email"
+  value={resendTokenData.email}
+  required/>
 
-        id="reasonDropdown"
-        value={selectedReason}
-        onChange={handleResendOTP}
-        name="selectedReason"
+ <label htmlFor="reasonDropdown">Select a reason:</label>
+ <select 
+  id="reasonDropdown"
+  value={resendTokenData.subject}
+  onChange={handleResendOTP}
+  name="subject"
+ >
 
-        <option value="">-- Select a reason --</option>
-        <option value="verify_email">Verify Email</option>
-        <option value="reset_password"> Reset Password</option>
-        <option value="expired_token">Expired Token</option>
+   <option value="" >-- Select a reason --</option>
+   <option value="verify_email">Verify Email</option>
+   <option value="reset_password"> Reset Password</option>
+   <option value="expired_token">Expired Token</option>
 
-      </select>
+ </select>
+ <br/>
+ <br/>
+ <button > Resend Token </button>
       
-      
+      </form>
+
       </div>
+
   )
 }
 
 export default ResendToken
+
+

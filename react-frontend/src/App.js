@@ -1,10 +1,10 @@
 import './App.css';
 import React from 'react'
-import axios from 'axios';
 import Location from './components/Location';
 import Login from './pages/form/Login';
 import ActivateUser from './pages/activateUser/ActivateUser';
 import ResendToken from './pages/resendToken/ResendToken';
+import Home from './pages/home/Home';
 
 
 import SignupForm from './pages/form/SignupForm';
@@ -26,7 +26,9 @@ function App() {
 
 
       {/* <div className="App"> */}
-      <Route path='/' element={<SignupForm/>}/>
+      <Route path='/' element={<Home/>}/>
+
+      <Route path='/register' element={<SignupForm/>}/>
       {/* </div> */}
 
       <Route path='/login' element={<Login/>}/>
@@ -37,6 +39,9 @@ function App() {
 
 
       <Route path='/locations' element={<Location/>}/>
+      {/* <Route path='/locations' element={<HeaderComponent/>}/> */}
+
+      HeaderComponent
 
 
         </Routes>

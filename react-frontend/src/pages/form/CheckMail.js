@@ -6,17 +6,6 @@ import {dataContext} from '../../context/AuthContext';
 
 
 const CheckMail = () => {
-
-    const {resendToken} = useContext(dataContext)
-
-
-    const handleResendOTP=()=>{
-
-        const key = localStorage.getItem("signature")
-       resendToken(key, )
-
-    }
-    
    
 
   return (
@@ -29,10 +18,10 @@ const CheckMail = () => {
                         Check your email to confirm registration
                     </p>
                     <div className="flex justify-center items-center">
-                        <span>Did not recieve Verification link? <Link to='/resend-token' className="text-[#9b7d0f]" onClick={handleResendOTP}>Resend token</Link> </span>
+                        <span>Did not recieve Verification link? <Link to='/resend-token' className="text-[#9b7d0f]" >Resend token</Link> </span>
                     </div>
                     <div className="flex justify-center items-center">
-                        <span> Verified? </span> <Link to='/activate'>Proceed to Login</Link>
+                        <span> Verified? </span> <Link to='/login'>Proceed to Login</Link>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, createContext} from 'react'
-import {apiPost, apiGetAuthorization} from '../utils/api/axios.js'
+import {apiPost} from '../utils/api/axios.js'
 import axios from 'axios';
 import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,7 +13,7 @@ const DataProvider=({children})=>{
 
     const [locations, setLocations] = useState([]);
 
-    /**==============Registration======= **/
+    /**==============Registration to submit to api======= **/
 const registerConfig = async (formData) => {
     try {
       const registerData = {
@@ -37,7 +37,7 @@ const registerConfig = async (formData) => {
     }
   };
 
-    /**==============OTP Verification ======= **/
+    /**==============OTP Verification to submit to api ======= **/
     const activateUserConfig= async(tokenData)=>{
   
       try{
@@ -65,16 +65,16 @@ const registerConfig = async (formData) => {
     }
 
 
-        /**==============Resend Token======= **/
-        const resendToken= async(email, subject)=>{
+        /**==============Resend Token to submit to api======= **/
+        const resendToken= async(queryParams)=>{
 
           try{
-            const resendTokenData = {
-              subject: subject,
-           };
-     
+          //   const resendTokenData = {
+          //     subject: subject,
+          //  };
 
-          await apiPost(`users/resend-token?email=${email}&reason=${subject}`, resendTokenData).then((res)=>{
+
+          await apiPost(`users/resend-token${queryParams}`).then((res)=>{
 
             toast.success(res.data.message)
             console.log(res);
@@ -89,8 +89,7 @@ const registerConfig = async (formData) => {
 }
 
 
-
-    /**==============Login======= **/
+    /**==============Login to submit to api======= **/
     const loginConfig= async(loginFormData)=>{
       try{
       const loginData = {
@@ -98,12 +97,14 @@ const registerConfig = async (formData) => {
         password:loginFormData.password
       };
 
-      await apiPost("/auth/login", loginData).then((res)=>{
+      await apiPost("auth/login", loginData).then((res)=>{
         if(res.data.message === "login successful" )
         toast.success(res.data.message)
+        localStorage.setItem("signature", res.data.data.token);
+
       setTimeout(()=>{
         window.location.href="/"
-    }, 200);
+    }, 2000);
       })
 
     } catch(err)
@@ -113,10 +114,7 @@ const registerConfig = async (formData) => {
 
     }
 
-
-
-
-    /**==============View Locations======= **/
+    /**==============View Locations to fetch from api======= **/
   const getLocations = async() =>{
 
     const response = await axios.get(

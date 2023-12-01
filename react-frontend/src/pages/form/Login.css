@@ -1,0 +1,71 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+
+.login--bg{
+    display: flex;
+    justify-content: center;
+    /* align-content: center; */
+    width: 100vw;
+    height: 100vh;
+    /* background-image: url("../../../public/images/img5.jpg"); */
+    background-repeat: repeat-y;
+    background-size: cover;
+    /* Center and scale the image nicely */
+    background-position: center;
+  }
+  /* a {
+    color: #917307;
+    text-decoration: none;
+    cursor: pointer;
+  } */
+
+  .login--h2 {
+    font-size: 1.5em !important;
+    font-weight: 600 !important;
+  }
+
+  .login--form{
+    align-self: center;
+    /* display: flex; */
+    flex-direction: column;
+    box-shadow: 0px 0 30px rgba(159, 164, 172, 0.538);
+    padding: 2rem;
+    max-width: 400px;
+    width: 100vw;
+    margin: 0.7em auto;
+    background-color: white;
+    padding-top: 4rem;
+  }
+
+  .login--form > input,
+  .login--btn{
+    border: 1px solid #e9e7e7;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+
+  }
+
+  .login--form > input:focus {
+    outline: none;
+
+  }
+
+  .login--form > .login--btn{
+    background-color: #292929;
+    color: #e9ecef;
+    font-size: 1em;
+    cursor: pointer;
+
+  }
+
+* > * {
+    font-family: "Poppins", cursive;
+    font-family: "Nunito", sans-serif;
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+    /* outline: orange; */
+  }
+
+

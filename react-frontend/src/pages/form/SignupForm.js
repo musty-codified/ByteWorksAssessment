@@ -28,7 +28,6 @@ const handleChange =(event)=>{
             [event.target.name] : event.target.value
         }
     })
-    // console.log(event.target.value)
 }
 
 
@@ -45,13 +44,11 @@ const handleSubmit = async (event)=>{
 }
 
   return (
-    <div>
+    <div className='signup--bg'>
         <form className='signup--form' onSubmit={handleSubmit}>
 
-        <h2 className="signup_h2">Sign Up</h2>
-        <p className="signup_span">
-                Enter your personal details to create account
-              </p>
+        <h2 className="signup--h2">Sign Up</h2>
+        <p className="signup--span"> Enter your personal details to create account</p>
 
        <input 
        type="text" 
@@ -60,6 +57,7 @@ const handleSubmit = async (event)=>{
        name="firstName"
        value={signupFormData.firstName}
        required/>
+       <br/>
       
       <input 
        type="text" 
@@ -68,6 +66,7 @@ const handleSubmit = async (event)=>{
        name="lastName"
        value={signupFormData.lastName}
        required/>
+       <br/>
 
      <input 
        type="email" 
@@ -76,6 +75,8 @@ const handleSubmit = async (event)=>{
        name="email"
        value={signupFormData.email}
        required/>
+        <br/>
+
 
       <input 
        type="password" 
@@ -84,8 +85,10 @@ const handleSubmit = async (event)=>{
        name="password"
        value={signupFormData.password}
        required/>
+      <br/>
 
-       <button type="submit" onClick = {()=>registerConfig(signupFormData)} className="signup_btn">
+
+       <button type="submit" onClick = {()=>registerConfig(signupFormData)} className="signup--btn">
        Sign Up
 
        </button>

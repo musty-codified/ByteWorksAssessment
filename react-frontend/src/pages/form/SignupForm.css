@@ -1,4 +1,8 @@
+.signup--bg{
+  display: flex;
+  justify-content: center;
 
+}
 .signup--form {
 width: 100%;
 }
@@ -13,7 +17,7 @@ input {
 }
 
 .signup--form > input
-.signup_btn {
+.signup--btn {
   border: 1px solid #e9e7e7;
   padding: 0.5em 1em;
 
@@ -21,7 +25,7 @@ input {
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
 
-.signup--form > .signup_btn {
+.signup--form > .signup--btn {
 
     background-color: #292929;
     color: #e9ecef;
@@ -31,4 +35,14 @@ input {
 
   .signup--form > input:focus {
     outline: none;
+  }
+
+  .signup--form{
+    align-self: center;
+    box-shadow: 0px 0 30px rgba(159, 164, 172, 0.538);
+
+    background-color: #00ff00;
+    padding: 20px;
+    margin: 20px;
+
   }

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { dataContext } from '../context/AuthContext';
+import './Location.css'
 
 
 const Location = () => {
@@ -11,57 +12,45 @@ const Location = () => {
   return (  
       <div>
         
-      <div className ='card col-md-6 offset-md-3'>
-          <h3 text-centre = "true" card-header = "true"> View Locations: </h3>
+      <div >
+          <h3 className='table--h3'> View Location Details: </h3>
 
-          <div className='card-body'>
+          <div className='loc'>
+                 <table>
+                 <thead>
 
-            {
-              locations.map((elem)=>(
-                <div key={elem.id}>
+                   <tr>
+                  <th>Name</th>
+                  <th>Latitude</th>
+                  <th>Longitude</th>
+                  <th>Clearing cost</th>
+                  </tr>
+
+                </thead>
+                <tbody>
+
+            {locations.map((elem)=>(
                  
-              <div className='row'>
-              <p>
-                <strong>Name:</strong> {elem.name}
-              </p>
-              </div>
+                  <tr key={elem.id}>
+                    
+                    <td className='table-data'> {elem.name}</td>
+                    <td className='table-data'> {elem.latitude}</td>
+                    <td className='table-data'> {elem.longitude}</td>
+                    <td className='table-data'> ${elem.clearingCost}</td>
+                  </tr>
 
-              <div className='row'>
-              <p>
-                <strong>Latitude:</strong> {elem.latitude}
-              </p>
-              </div>
+                ))}
 
-              <div className='row'>
-              <p>
-                <strong>Longitude:</strong> {elem.longitude}
-              </p>
-              </div>
-
-              <div className='row'>
-              <p>
-                <strong>Clearing Cost:</strong> ${elem.clearingCost}
-              </p>
-                
+                </tbody>
+              </table>
+    
               </div>
               
-              
-              <hr />
-
                   </div>
-
-
-              ))
-
-            }
             
           </div>
-  
-         </div>
-      
-      
-      </div>
-      
+        
+          
     )
   }
   

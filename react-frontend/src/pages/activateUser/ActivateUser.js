@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import {dataContext} from '../../context/AuthContext';
-// import './activateUser.css'
+import './ActivateUser.css'
 
 
 const ActivateUser = () => {
@@ -38,11 +38,11 @@ const ActivateUser = () => {
 }
 
   return (
-    <div>
+    <div className='activate--pg'>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='activate--form'>
 
-        <p className="otp_span">Enter the token sent to your email to verify your account</p>
+        <p className="otp--span">Enter the token sent to your email to verify your account</p>
 
         <input 
        type="text" 
@@ -59,10 +59,7 @@ const ActivateUser = () => {
        value={activateUserData.token}
        required/>
 
-
-    
-
-       <button type="submit" className='activate-btn'>Verify</button>
+       <button type="submit" className='activate--btn'>Verify</button>
 
         </form>
     </div>
