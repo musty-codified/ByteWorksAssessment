@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react'
 import {dataContext} from '../../context/AuthContext';
-
+import './ResendToken.css'
 
 
 const ResendToken = () => {
@@ -42,22 +42,20 @@ const ResendToken = () => {
 
   return (
     
-    <div>
+    <div className='otp--bg'>
 
-      <h2 className="signup_h2">Resend Token</h2>
-        <p className="signup_span">
-                Kindly enter your reason for requesting token resend
-              </p>
+    <form onSubmit={handleSubmit} className='otp--form'>
 
-    <form onSubmit={handleSubmit}>
+    <h2 className="otp--h2">Resend Token</h2>
+        <p className="otp--span">Kindly enter your reason for requesting token resend</p>
      
     <input 
    type="text" 
    placeholder="Enter email" 
-  onChange={handleResendOTP}
-  name="email"
-  value={resendTokenData.email}
-  required/>
+   onChange={handleResendOTP}
+   name="email"
+   value={resendTokenData.email}
+   required/>
 
  <label htmlFor="reasonDropdown">Select a reason:</label>
  <select 
@@ -75,7 +73,7 @@ const ResendToken = () => {
  </select>
  <br/>
  <br/>
- <button > Resend Token </button>
+ <button className='otp--btn'> Resend Token </button>
       
       </form>
 

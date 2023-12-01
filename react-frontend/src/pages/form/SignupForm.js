@@ -96,12 +96,11 @@ const handleSubmit = async (event)=>{
        <p>
 
        Already have an account?
-       <a href='/login'>Login</a>
+       <a href='/login'> Login</a>
        </p>
         </form>
 
         <ToastContainer />
-
 
     </div>
   )
