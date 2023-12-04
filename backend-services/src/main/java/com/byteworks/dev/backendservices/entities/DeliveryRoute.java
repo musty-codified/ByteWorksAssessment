@@ -16,7 +16,7 @@ import java.util.List;
 public class DeliveryRoute extends Base{
 
     @OneToMany(mappedBy = "deliveryRoute", cascade = CascadeType.ALL)
-   private List<Location> locations;
+    private List<Location> locations;
 
     private double totalCost;
 

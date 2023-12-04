@@ -1,5 +1,5 @@
-# Courier-and-Logistics Backend-API
-Backend REST apis in Spring Boot for optimizing the delivery of packages from origin to destination
+# Courier-service Backend-API
+Backend REST apis in Spring Boot for optimizing the delivery route of packages from origin to destination
 
 `Built with Spring Boot, secured with Spring Security (JWT), and documented with Swagger (API)`
 
@@ -13,9 +13,15 @@ Following tools and libraries were used during the development of the API :
 - **JWT**
 - **Memcached**
 
-
 ### Authentication and Authorization
 Uses Spring Security with JWT for stateless authentication and authorization.
+
+## Response and Exception Handling ##
+The custom exceptions are present in the **_exceptions_** package.
+All Api responses are in the following format:
+message : Summary of the response
+status : Boolean value indicating whether request was successful or not
+Data : This contains the results of your request. It can either be an object, or an array depending on the request made.
 
 ### Deployment
 The application can be deployed on any Java Servlet container, or docker containers.
@@ -29,7 +35,7 @@ The application can be deployed on any Java Servlet container, or docker contain
 For any issues or queries, please raise a ticket on the GitHub repository or email me at ilemonamustapha@@gmail.com.
 
 ## API Documentation ##
-The application exposes a RESTful API for creating and managing delivery locations and optimizing routes.
+The application exposes RESTfuls APIs for courier-service backend.
 The tool for API documentation used in is Swagger, you can open the same inside a browser at the following url - [here](http://localhost:8888/swagger-ui/index.html#/)
 
 

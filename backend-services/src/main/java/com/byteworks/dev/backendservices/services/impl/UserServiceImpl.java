@@ -1,12 +1,11 @@
 package com.byteworks.dev.backendservices.services.impl;
-
-
 import com.byteworks.dev.backendservices.dtos.MailDto;
 import com.byteworks.dev.backendservices.dtos.requests.ActivateUserDto;
 import com.byteworks.dev.backendservices.dtos.requests.RegisterUserDto;
 import com.byteworks.dev.backendservices.dtos.requests.UserLoginDto;
 import com.byteworks.dev.backendservices.dtos.response.UserResponseDto;
 import com.byteworks.dev.backendservices.entities.User;
+import com.byteworks.dev.backendservices.enums.Roles;
 import com.byteworks.dev.backendservices.enums.Status;
 import com.byteworks.dev.backendservices.exceptions.AuthenticationException;
 import com.byteworks.dev.backendservices.exceptions.NotFoundException;
@@ -29,7 +28,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -45,6 +47,7 @@ public class UserServiceImpl implements UserService {
 
     private final CustomUserDetailsService customUserDetailsService;
 
+    private final HttpServletRequest servletRequest;
     private static  final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final EmailService emailService;
@@ -57,8 +60,10 @@ public class UserServiceImpl implements UserService {
 
         User newUser = appUtil.getMapper().convertValue(userDto, User.class);
         newUser.setUuid(appUtil.generateSerialNumber("usr"));
-        newUser.setStatus(Status.ACTIVE.name());
+        newUser.setStatus(Status.INACTIVE.name());
         newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        newUser.setRole(Roles.ROLE_USER.getAuthorities().stream()
+                .map(Objects::toString).collect(Collectors.joining(",")));
 
        newUser = userRepository.save(newUser);
 
@@ -98,23 +103,24 @@ public class UserServiceImpl implements UserService {
 
     }
 
-
     @Override
     public String sendToken(String email, String subject) {
         if (!userRepository.existsByEmail(email))
             throw new NotFoundException("User does not exist");
 
-      String token = appUtil.generateSerialNumber("o");
+      String token = appUtil.generateSerialNumber("verify");
       memStorage.save(email, token, 900);  //15mins
+
+        String url = "http://" + servletRequest.getServerName() + ":3000" + "/activate ";
 
         MailDto mailDto = MailDto.builder()
                 .to(email)
-                .body(String.format("Use this token to %s: %s (Expires in 15mins)", subject.toLowerCase(), token))
+                .body(String.format("Use this token to %s: %s (Expires in 15mins) <br/><a href=%s>CLICK TO VERIFY</a>" , subject.toLowerCase(), token, url))
                 .subject(subject.toUpperCase())
                 .build();
         emailService.sendMail(mailDto);
 
-        return "Token sent";
+        return "Token sent to your registered email";
     }
 
     @Override

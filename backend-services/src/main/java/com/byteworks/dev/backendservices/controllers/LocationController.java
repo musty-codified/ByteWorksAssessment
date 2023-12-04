@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @Tag(name = "Location Endpoint")
 @RestController
@@ -21,8 +23,7 @@ public class LocationController {
     private final LocationService locationService;
     @Operation(summary = "Adds a location object to the database")
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse<LocationResponseDto>> addLocation(@RequestBody LocationDto locationDto){
-        // Validate and process the request body (e.g., name, latitude, longitude)
+    public ResponseEntity<ApiResponse<LocationResponseDto>> addLocation( @Valid @RequestBody LocationDto locationDto){
 
         return ResponseEntity.ok().body( new ApiResponse<>("Location added successfully", true, locationService.addLocation(locationDto)));
     }
@@ -34,18 +35,6 @@ public class LocationController {
                                                                            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
                                                                            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
         return ResponseEntity.ok().body( new ApiResponse<>("Locations retrieved successfully", true, locationService.getLocations( page, limit, sortBy, sortDir)));
-
-    }
-
-    @Operation(summary = "Fetches a list of location object closest to a specific location")
-    @GetMapping("/view-closest")
-    public ResponseEntity<ApiResponse<Page<LocationResponseDto>>> getClosestLocations(@RequestParam(value = "locationName", defaultValue = "lima") String locationName,
-                                                                                      @RequestParam(value = "page", defaultValue = "0") int page,
-                                                                               @RequestParam(value = "limit", defaultValue = "5") int limit,
-                                                                               @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
-                                                                               @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
-                                                                                      @RequestParam(value = "howMany", defaultValue = "3", required = false) int howMany) {
-        return ResponseEntity.ok().body( new ApiResponse<>(" Closest Locations retrieved successfully", true, locationService.findClosestLocations(locationName,  page, limit, sortBy, sortDir, howMany)));
 
     }
 
@@ -67,7 +56,5 @@ public class LocationController {
         locationService.deleteLocation(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 
 }

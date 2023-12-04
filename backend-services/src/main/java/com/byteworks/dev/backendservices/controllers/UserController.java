@@ -10,10 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -45,9 +42,9 @@ public class UserController {
         return ResponseEntity.ok().body( new ApiResponse<>("User activated", true, userService.activateUser(activateUserDto)));
     }
 
-    @Operation(description = " Resends account activation token or reset password token. " )
+    @Operation(description = "Resends account activation token or reset password token. " )
     @PostMapping("/resend-token")
-    public ResponseEntity<ApiResponse<String>> resendToken(@RequestBody String email, String token){
-        return ResponseEntity.ok().body( new ApiResponse<>("Token Sent", true, userService.sendToken(email, token)));
+    public ResponseEntity<ApiResponse<String>> resendToken(@RequestParam String email, @RequestParam String reason){
+        return ResponseEntity.ok().body( new ApiResponse<>("Token Sent", true, userService.sendToken(email, reason)));
     }
 }

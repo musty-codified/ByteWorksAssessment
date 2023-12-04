@@ -32,6 +32,7 @@ public class LocationUtils {
             copy.remove(minIndex);
 
         }
+        closest.removeIf(location -> location.equals(target));
         return closest;
     }
 

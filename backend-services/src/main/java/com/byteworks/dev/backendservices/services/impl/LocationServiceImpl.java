@@ -51,23 +51,6 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Page<LocationResponseDto> findClosestLocations(String locationName, int page, int limit, String sortBy, String sortDir, int howMany) {
-     Location targetLocation = locationRepository.findByName(locationName)
-                .orElseThrow(()-> new NotFoundException("Location not found"));
-        List<Location> allLocations = locationRepository.findAll();
-     List<Location> closestList = locationUtils.findClosestLocations(targetLocation, allLocations, howMany);
-      List <LocationResponseDto> locationResponseDtos =
-              closestList.stream().map(location -> appUtil.getMapper().convertValue(location, LocationResponseDto.class))
-             .collect(Collectors.toList());
-
-        if(page>0) page = page-1;
-        int max = Math.min(limit * (page + 1), locationResponseDtos.size());
-        int min = limit * page ;
-
-        return new PageImpl<>(locationResponseDtos.subList(min,max));
-    }
-
-    @Override
     public LocationResponseDto updateLocation(Long id, LocationDto locationDto) {
 
         Location existingLocation = locationRepository.findById(id)

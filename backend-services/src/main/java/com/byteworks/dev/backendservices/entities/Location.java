@@ -2,6 +2,8 @@ package com.byteworks.dev.backendservices.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 
 @Builder
@@ -15,6 +17,9 @@ public class Location extends Base{
     private String name;
     private double latitude;
     private double longitude;
+
+    @Min(25)
+    @Max(100)
     private double clearingCost;
 
     @ManyToOne

@@ -2,7 +2,6 @@ package com.byteworks.dev.backendservices.dtos;
 
 
 import com.byteworks.dev.backendservices.dtos.response.LocationResponseDto;
-import com.byteworks.dev.backendservices.entities.Location;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
