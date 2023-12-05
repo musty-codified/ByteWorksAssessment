@@ -1,16 +1,15 @@
 import React from 'react'
 
 import { useState, useContext } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-
-
 import { dataContext } from '../../context/AuthContext'
+// import registerbg from '../../../src/assets/images/signup-bg.jpeg'
 import './SignupForm.css'
 
 const SignupForm = () => {
   const {registerConfig} = useContext(dataContext)
-  console.log(registerConfig)
+  // console.log(registerConfig)
 
 const [signupFormData, setSignupFormdata] = useState({
      firstName: "",
@@ -44,8 +43,12 @@ const handleSubmit = async (event)=>{
 }
 
   return (
-    <div className='signup--bg'>
+    <div className='signup--container'>
+
         <form className='signup--form' onSubmit={handleSubmit}>
+          <div className='signup--bg'>
+           {/* <img src={registerbg} alt=''/> */}
+          </div>
 
         <h2 className="signup--h2">Sign Up</h2>
         <p className="signup--span"> Enter your personal details to create account</p>
@@ -87,14 +90,11 @@ const handleSubmit = async (event)=>{
        required/>
       <br/>
 
-
        <button type="submit" onClick = {()=>registerConfig(signupFormData)} className="signup--btn">
        Sign Up
-
        </button>
 
        <p>
-
        Already have an account?
        <a href='/login'> Login</a>
        </p>

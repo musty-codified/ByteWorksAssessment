@@ -1,0 +1,10 @@
+.text-link {
+    display: flex;
+  }
+  .footer-links .col-md-4 {
+    width: 100%;
+  }
+
+.stack--link > a {
+  display: flex;
+}

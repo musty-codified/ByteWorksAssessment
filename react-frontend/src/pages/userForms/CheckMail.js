@@ -1,9 +1,5 @@
 import { MdMarkEmailRead } from "react-icons/md";
-import React, {useContext, useState} from 'react'
 import {Link} from 'react-router-dom'
-import {dataContext} from '../../context/AuthContext';
-
-
 
 const CheckMail = () => {
    

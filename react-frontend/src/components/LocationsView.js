@@ -1,11 +1,14 @@
 import React, { useContext } from 'react'
 import { dataContext } from '../context/AuthContext';
-import './Location.css'
+// import ReactPaginate from 'react-paginate';
+
+import './LocationsView.css'
 
 
 const Location = () => {
 
-  const {locations} = useContext(dataContext)
+  const {viewLocations, setViewLocations, pageElementSize, 
+    pageNumber, totalElements, numOfElements, setLocationsUrl} = useContext(dataContext)
 
   // console.log(locations)
 
@@ -16,7 +19,7 @@ const Location = () => {
           <h3 className='table--h3'> View Location Details: </h3>
 
           <div className='loc'>
-                 <table>
+                 <table className='table'>
                  <thead>
 
                    <tr>
@@ -29,7 +32,7 @@ const Location = () => {
                 </thead>
                 <tbody>
 
-            {locations.map((elem)=>(
+            {viewLocations.map((elem)=>(
                  
                   <tr key={elem.id}>
                     

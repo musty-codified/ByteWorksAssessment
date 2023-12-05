@@ -19,3 +19,26 @@ export const apiGetAuthorization = (path) => {
   
     return axios.get(`${baseUrl}${path}`, config);
 }
+
+export const apiDelete = (path) => {
+  return axios.delete(`${baseUrl}${path}`);
+};
+
+export const apiDeleteAuthorization = (path) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("signature")}`,
+    },
+  };
+
+  return axios.delete(`${baseUrl}${path}`, config);
+};
+
+export const apiPut = (path,data) => {
+  const config = {
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem("signature")}`
+      }
+  }
+  return axios.put(`${baseUrl}${path}`, data, config);
+};

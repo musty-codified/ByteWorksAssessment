@@ -1,20 +1,31 @@
 
 import React, { useState, useEffect, createContext} from 'react'
-import {apiPost} from '../utils/api/axios.js'
-import axios from 'axios';
+import {
+  apiPost,
+  apiGet, 
+  apiPut,} from '../utils/api/Axios.js'
 import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { decodeJwt, redirectToUserPage } from '../utils/RoleUrlRouter.js';
 
 
 export const dataContext = createContext();
 
 
-const DataProvider=({children})=>{
+  const DataProvider=({children})=>{
 
-    const [locations, setLocations] = useState([]);
+    const [viewLocations, setViewLocations] = useState([]);
+    const[locationsUrl, setLocationsUrl] = useState("locations/view-list")
+    const[pageNumber, setPageNumber] = useState(0)
+    const[pageElementSize, setPageElementSize] = useState(0)
+    const[totalPages, setTotalPages] = useState(0)
+    const[totalElements, setTotalElements] = useState(0)
+    const[numOfElements, setNumOfElements] = useState(0)
+    const[localStorageValue, setLocalStorageValue] = useState(false);
+    const[headerTitle, setHeaderTitle] = useState("Add New Location")
 
-    /**==============Registration to submit to api======= **/
-const registerConfig = async (formData) => {
+    /**==========================================================Registration================================================ **/
+      const registerConfig = async (formData) => {
     try {
       const registerData = {
         firstName: formData.firstName,
@@ -24,6 +35,7 @@ const registerConfig = async (formData) => {
       };
 
       await apiPost("users/register", registerData).then((res) => {
+        console.log(res);
         console.log(res.data.message);
         localStorage.setItem("signature", res.data.data.email)
         toast.success(res.data.message)
@@ -31,13 +43,14 @@ const registerConfig = async (formData) => {
           window.location.href = "/check-mail";
         }, 1500); 
       });
+
     } catch (err) {
       toast.error(err.response.data.error)
       console.log(err.response.data.message);
     }
   };
 
-    /**==============OTP Verification to submit to api ======= **/
+    /**==============================================================OTP Verification============================================= **/
     const activateUserConfig= async(tokenData)=>{
   
       try{
@@ -65,14 +78,13 @@ const registerConfig = async (formData) => {
     }
 
 
-        /**==============Resend Token to submit to api======= **/
+        /**================================================================Resend Token=========================================== **/
         const resendToken= async(queryParams)=>{
 
           try{
           //   const resendTokenData = {
           //     subject: subject,
           //  };
-
 
           await apiPost(`users/resend-token${queryParams}`).then((res)=>{
 
@@ -88,58 +100,184 @@ const registerConfig = async (formData) => {
   }
 }
 
+    /**================================================================Login======================================================= **/
+//     const loginConfig= async(loginFormData, location, navigate)=>{
+//       try{
+//       const loginData = {
+//         email:loginFormData.email,
+//         password:loginFormData.password
+//       };
 
-    /**==============Login to submit to api======= **/
-    const loginConfig= async(loginFormData)=>{
-      try{
-      const loginData = {
-        email:loginFormData.email,
-        password:loginFormData.password
-      };
+//       apiPost("auth/login", loginData)
+//       .then((res)=> {
+//         if(res.data.message === "login successful" ) {
+//         toast.success(res.data.message)
+//         console.log(res.data.data)
+//         const jwtInfo = decodeJwt(res.data.data.token)
+//         localStorage.setItem("signature", res.data.data.token);
+//         localStorage.setItem("roles", jwtInfo.roles)
+//         console.log(jwtInfo.roles)
 
-      await apiPost("auth/login", loginData).then((res)=>{
-        if(res.data.message === "login successful" )
-        toast.success(res.data.message)
-        localStorage.setItem("signature", res.data.data.token);
+//         setLocalStorageValue(localStorage.getItem("signature"))
+//         redirectToUserPage(location, navigate, jwtInfo.roles)
+//         } 
+//         else{
+//         toast.success(res.data.message)
+//          setTimeout(()=>{
+//         window.location.href="/login"
+//     }, 1500);
+//       }
+//     })
+//     .catch((err)=>{
+//       console.log(err.response.data);
 
-      setTimeout(()=>{
-        window.location.href="/"
-    }, 2000);
-      })
+//     });
 
-    } catch(err)
-    { 
-      console.log(err)
+//     } catch(err){ 
+//       console.log(err.response.data)
+//     }
+// }
+
+const loginConfig = async (loginFormData, location, navigate) => {
+  try {
+    const loginData = {
+      email: loginFormData.email,
+      password: loginFormData.password,
+    };
+
+    const res = await apiPost("auth/login", loginData);
+
+    if (res.data.message === "login successful") {
+      toast.success(res.data.message);
+      console.log(res.data.data);
+
+      const jwtInfo = decodeJwt(res.data.data.token);
+      localStorage.setItem("signature", res.data.data.token);
+      localStorage.setItem("roles", jwtInfo.roles);
+      console.log(jwtInfo.roles);
+
+      setLocalStorageValue(localStorage.getItem("signature"));
+      
+      redirectToUserPage(location, navigate, jwtInfo.roles)
+
+
+      // redirectToUserPage(jwtInfo.roles);
+    } else {
+      toast.success(res.data.message);
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1500);
     }
+  } catch (err) {
+    // Handle errors during the API call or promise rejection
+    console.error('Error during login:', err);
 
+    // Log the specific response data if available
+    if (err.response && err.response.data) {
+      console.log(err.response.data);
     }
+  }
+};
 
-    /**==============View Locations to fetch from api======= **/
+    /**================================================================Logout======================================================= **/
+     const logout=()=>{
+      localStorage.clear()
+      window.location.href = "/login"
+     }
+    /**=====================================================View all Locations=================================================== **/
   const getLocations = async() =>{
+    const allLocationsUrl = `${locationsUrl}?pageNo=${pageNumber}`
 
-    const response = await axios.get(
-      "http://localhost:8888/api/v1/locations/view-list")
-      setLocations(response.data.data.content)
+        apiGet(allLocationsUrl).then((res)=>{
+        const data = res.data.data
+        setViewLocations(data.content)
+        setPageNumber(data.number)
+        setPageElementSize(data.size)
+        setTotalPages(data.totalPages)
+        setTotalElements(data.totalElements)
+        setNumOfElements(data.numberOfElements)
+       })
+       .catch((err) => {
+        console.log(err)
+    })
 
   };
-
 
   useEffect(()=>{
     getLocations()
 
-
   }, [])
+
+      /**===================================================Add new Location====================================================== **/
+      const addLocationConfig = async (formData) => {
+        try {
+          const addData = {
+            name: formData.name,
+            latitude: formData.latitude,
+            longitude: formData.longitude,
+          
+          };
+          await apiPost("locations/add", addData).then((res) => {
+            console.log(res.data);
+          });
+        } catch (err) {
+          console.log(err.response.data.message);
+        }
+      };
+
+      /**===============================================Update Location========================================================== **/
+      const updateLocationConfig = async (formData, locationId) => {
+        try {
+          const addData = {
+            name: formData.name,
+            latitude: formData.latitude,
+            longitude: formData.longitude,
+          
+          };
+          await apiPut(`locations/update/${locationId}`, addData).then((res) => {
+            console.log(res.data);
+          });
+        } catch (err) {
+          console.log(err.response.data.message);
+        }
+      };
+
+      
+     
+      /**==================================================Remove Location======================================================== **/
+      // const deleteLocationConfig = async (locationId) => {
+      //   try {
+      //     await apiDelete(`locations/delete/${locationId}`).then((res) => {
+      //       console.log(res.data);
+      //     });
+      
+          
+      //   } catch (err) {
+      //     console.log(err.response.data.message);
+      //   }
+      // };
+
+     /**==============Calculate optimal route api call======= **/
 
  return(
 
     <dataContext.Provider 
     value={{
     registerConfig,
-    locations,
+    viewLocations,
     getLocations,
     activateUserConfig,
     loginConfig,
-    resendToken
+    resendToken,
+    localStorageValue,
+    logout,
+    setLocationsUrl,
+    pageElementSize,
+    totalPages,
+    totalElements,
+    numOfElements,
+    addLocationConfig,
+    updateLocationConfig
     }}>
 
     {children}

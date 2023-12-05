@@ -1,29 +1,42 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import './NavBar/NavBar';
+import Logo from '../../assets/images/courier-logo.jpeg'
+
+import Navbar from "../../components/navbar/Navbar";
+import './HeaderComponent.css'
 
 
 const HeaderComponent = () =>{
 
     const HEADER_PRIMARY_TEXT = "GEOBYTES INC.";
-    const HEADER_SECONDARY_TEXT = "Bringing products to your door steps";
+    const HEADER_SECONDARY_TEXT = "Far far away, Bringing your packages to your door steps";
     
 
     return(
-        <header className="bg-[#f5f5f5] px-[3rem] lg:pr-0 md:pl-[5rem] pb-[8rem] md:pt-[3rem] pt-[5rem] ">
-            <div className="flex items-center justify-between gap-8 pt-5 lg:pt-4 ">
-                <div className=" p-2 gap-2 md:text-center lg:text-left">
-                    <h3 className="lg:text-3xl text-2xl font-bold">{HEADER_PRIMARY_TEXT}</h3>
-                    <p className="mb-5 font-sans lg:text-2xl text-1xl">{HEADER_SECONDARY_TEXT}</p>
+        <header >
+            <Navbar/>
+            <div className="container heading">
+
+                <div className=" p-2 gap-2 md: lg:text-left">
+
+                   <a href="/nav"><h3 className="font-bold">{HEADER_PRIMARY_TEXT}</h3></a>
+
+                    <p className="mb-5 ">{HEADER_SECONDARY_TEXT}</p>
                     
-                    <Link to="/" className=" bg-black p-[1.2rem] text-white rounded text-1xl shop-now">Deliver now</Link>
-                </div>
-                <div className=" hidden lg:block ">
-                    <div className="flex bg-[#eeeeee] items-center rounded-full h-[550px] w-[550px] right-0">
-                        <img className="w-[350px] justify-self-center ml-[-1rem] mb-[-8rem]" src="../images/hero-sitter.png" alt="#" />
-                        <img className="w-[200px] ml-[-4rem] " src="../images/hero-lamp.png" alt="#" />
+                    <Link to="/" className=" bg-black text-white ">Delivery now</Link>
+
+                    <div className="header-container">
+
+                    <div className="heading-image">
+                        {/* <img className="" src={ Logo} alt="" /> */}
+                        {/* <img className="w-[200px] ml-[-4rem] " src="" alt="#" /> */}
+
                     </div>
+
                 </div>
+
+                </div>
+               
             </div>
         </header>
     );

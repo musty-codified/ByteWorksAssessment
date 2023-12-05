@@ -1,14 +1,16 @@
 import React, {useState, useContext} from 'react'
 import { dataContext } from '../../context/AuthContext'
-import { ToastContainer, toast } from 'react-toastify'
+import { useNavigate, useLocation } from "react-router-dom";
+import { ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css'
 
 const Login = () => {
-
+  const navigate = useNavigate()
+  const location = useLocation()
   const {loginConfig} = useContext(dataContext)
 
-const [loginForm, setLoginForm] = useState(
+  const [loginForm, setLoginForm] = useState(
   {
     email:"",
     password:""
@@ -28,24 +30,22 @@ const [loginForm, setLoginForm] = useState(
 
   const handleSubmit= async(event)=>{
   event.preventDefault()
- await loginConfig(loginForm)
+ await loginConfig(loginForm, location, navigate)
   setLoginForm({
     email:"",
     password:""
 
   })
 
-
   }
 
   return (
-    <div className="login--bg">
+    <div className="login--container">
 
   <form className='login--form' onSubmit={handleSubmit}>
 
-<h2 className="login--h2">Login</h2>
-<p className="login_span">
-        Enter your email and password details to Login</p>
+  <h2 className="login--h2">Login</h2>
+     <p className="login_span">Enter your email and password details to Login</p>
 <input 
 type="email" 
 placeholder="Email" 
