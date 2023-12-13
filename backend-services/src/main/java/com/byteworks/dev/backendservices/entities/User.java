@@ -36,6 +36,6 @@ public class User extends Base{
     @Column(nullable = false)
     private String status;
 
-    private String role;
+    private String roles;
 
 }

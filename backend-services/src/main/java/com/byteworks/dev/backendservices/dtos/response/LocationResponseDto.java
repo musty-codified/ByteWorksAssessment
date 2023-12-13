@@ -13,7 +13,7 @@ public class LocationResponseDto {
 
     private Long id;
     private String name;
-    private double latitude;
-    private double longitude;
-    private double clearingCost;
+    private Double latitude;
+    private Double longitude;
+    private Double clearingCost;
 }

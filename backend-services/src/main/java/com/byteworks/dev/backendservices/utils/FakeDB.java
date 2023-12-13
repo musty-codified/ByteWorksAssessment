@@ -25,7 +25,7 @@ public class FakeDB implements CommandLineRunner {
     private Location createLocation(){
         return Location.builder()
                 .name(faker.name().name())
-                .latitude(faker.number().randomDouble(1, -90, 180))
+                .latitude(faker.number().randomDouble(1, -90, 90))
                 .longitude(faker.number().randomDouble(1, -180, 180))
                 .clearingCost(faker.number().randomDouble(2, 25, 100))
                 .build();

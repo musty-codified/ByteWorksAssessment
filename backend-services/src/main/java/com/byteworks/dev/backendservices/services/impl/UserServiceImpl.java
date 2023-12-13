@@ -40,9 +40,7 @@ public class UserServiceImpl implements UserService {
     private final AppUtils appUtil;
     private final LocalStorage memStorage;
     private final PasswordEncoder passwordEncoder;
-
     private final JwtUtils jwtUtil;
-
     private final AuthenticationManager authenticationManager;
 
     private final CustomUserDetailsService customUserDetailsService;
@@ -62,15 +60,15 @@ public class UserServiceImpl implements UserService {
         newUser.setUuid(appUtil.generateSerialNumber("usr"));
         newUser.setStatus(Status.INACTIVE.name());
         newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        newUser.setRole(Roles.ROLE_USER.getAuthorities().stream()
+        newUser.setRoles(Roles.ROLE_USER.getAuthorities().stream()
                 .map(Objects::toString).collect(Collectors.joining(",")));
 
        newUser = userRepository.save(newUser);
+       appUtil.print(newUser);
 
         sendToken(newUser.getEmail(), "activate your account");
 
         return appUtil.getMapper().convertValue(newUser, UserResponseDto.class);
-
     }
 
     @Override
@@ -113,9 +111,10 @@ public class UserServiceImpl implements UserService {
 
         String url = "http://" + servletRequest.getServerName() + ":3000" + "/activate ";
 
+        //String.format("Use this token to %s: %s (Expires in 15mins) <br/> <a href=\"%s\">CLICK TO VERIFY</a>", subject.toLowerCase(), token, url)
         MailDto mailDto = MailDto.builder()
                 .to(email)
-                .body(String.format("Use this token to %s: %s (Expires in 15mins) <br/><a href=%s>CLICK TO VERIFY</a>" , subject.toLowerCase(), token, url))
+                .body(String.format("Use this token to %s: %s (Expires in 15mins) <br/> <a href=\"%s\">CLICK TO VERIFY</a>", subject.toLowerCase(), token, url))
                 .subject(subject.toUpperCase())
                 .build();
         emailService.sendMail(mailDto);
@@ -143,7 +142,6 @@ public class UserServiceImpl implements UserService {
 
                 LOGGER.info("Generating access token for {}", user.getEmail());
                 String accessToken = jwtUtil.generateToken(customUserDetailsService.loadUserByUsername(user.getEmail()));
-
                 user.setLastLoginDate(new Date());
 
                 userResponseDto = appUtil.getMapper().convertValue(user, UserResponseDto.class);

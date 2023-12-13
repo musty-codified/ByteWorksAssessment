@@ -1,6 +1,8 @@
 package com.byteworks.dev.backendservices.security;
 
 
+import com.byteworks.dev.backendservices.entities.User;
+import com.byteworks.dev.backendservices.exceptions.ValidationException;
 import com.byteworks.dev.backendservices.repositories.UserRepository;
 import com.byteworks.dev.backendservices.utils.LocalStorage;
 import io.jsonwebtoken.Claims;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class JwtUtils {
 
         private final LocalStorage memStorage;
+        private final UserRepository userRepository;
 
         @Value("${app.jwt_secret}")
         private String JWT_SECRET;
@@ -64,6 +67,11 @@ public class JwtUtils {
 
         public String generateToken(UserDetails userDetails) {
             Map<String, Object> claims = new HashMap<>();
+            User user = userRepository.findByEmail(userDetails.getUsername())
+                    .orElseThrow(() -> new ValidationException("error generating token"));
+            claims.put("userId", user.getUuid());
+            claims.put("roles", userDetails.getAuthorities().stream().map(Objects::toString)
+                    .collect(Collectors.joining(",")));
            return createToken(claims, userDetails.getUsername());
         }
         private String createToken(Map<String, Object> claims, String email) {
@@ -77,6 +85,7 @@ public class JwtUtils {
 
         public Boolean isTokenValid(String token, UserDetails userDetails) {
             final String username = extractUsername(token);
+            System.out.println(userDetails);
             if (memStorage.keyExist("Blacklist")) {
                 String[] blacklistTokens = memStorage.getValueByKey("Blacklist").split(" ,");
                 Set<String> blacklists = Arrays.stream(blacklistTokens).collect(Collectors.toSet());
