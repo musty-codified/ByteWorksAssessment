@@ -1,0 +1,12 @@
+.form--card{
+    background-color: silver;
+    border-radius: 15px ;
+    width: 250px;
+    height: 700px;
+    margin: 0 auto;
+    margin: 120px;
+    box-shadow: 0 0 100px rgba(0,0,0,0.2);
+    /* background-image: url("../../assets/images/jumbotronbg.jpg"); */
+
+
+}

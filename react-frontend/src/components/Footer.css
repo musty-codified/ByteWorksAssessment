@@ -1,10 +1,26 @@
 .text-link {
     display: flex;
   }
-  .footer-links .col-md-4 {
-    width: 100%;
-  }
+  
+.footer{
+  padding: 0 0 50px 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 
-.stack--link > a {
-  display: flex;
+.footer-link{
+  text-decoration: none;
+  color: bisque;
+}
+.social-icons a {
+  width: 30px;
+  height: 30px;
+  background: rgba(0, 197, 229, 0.1);
+  display: inline-flex;
+  border-radius: 50%;
+  margin-right: 6px;
+  align-items: center;
+  justify-content: center;
+  line-height: .75;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }

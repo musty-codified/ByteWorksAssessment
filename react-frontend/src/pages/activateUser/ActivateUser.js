@@ -1,5 +1,6 @@
 import React, {useState, useContext} from 'react';
 import {dataContext} from '../../context/AuthContext';
+import FormCard from '../../components/card/FormCard';
 import './ActivateUser.css'
 
 
@@ -9,13 +10,11 @@ const ActivateUser = () => {
     // console.log(activateUserConfig)
 
    const [activateUserData, setActivateUserData]= useState({
-    
     email:"",
-    token:""
+    activationToken:""
 
 })
    console.log(activateUserData)
-
 
     const handleChange=(event)=>{
     setActivateUserData(prevActivateUser=>{
@@ -27,41 +26,45 @@ const ActivateUser = () => {
 };
 
     const handleSubmit= async (event)=>{ 
+
     event.preventDefault();
 
     await activateUserConfig(activateUserData)
     setActivateUserData({
      email:"",
-     token: ""
+     activationToken: ""
 
   })
 }
 
   return (
-    <div className='activate--pg'>
+    <div className='activate--container'>
 
-        <form onSubmit={handleSubmit} className='activate--form'>
+   <FormCard>
+    <form onSubmit={handleSubmit} className='activate--form'>
 
-        <p className="otp--span">Enter the token sent to your email to verify your account</p>
+      <p className="otp--span">Enter the token sent to your email to verify your account</p>
 
-        <input 
-       type="text" 
-       placeholder="Email" 
-       onChange={handleChange}
-       name="email" 
-       value={activateUserData.email}
-       required/>
-        
-        <input 
-       type="password" 
-       onChange={handleChange}
-       name="token"
-       value={activateUserData.token}
-       required/>
+   <input 
+         type="text" 
+         placeholder="Email" 
+         onChange={handleChange}
+         name="email" 
+         value={activateUserData.email}
+         required/>
+   
+   <input 
+         type="text" 
+         onChange={handleChange}
+         name="activationToken"
+         value={activateUserData.activationToken}
+         required/>
+   
+      <button type="submit" className='activate--btn'>Verify</button>
 
-       <button type="submit" className='activate--btn'>Verify</button>
+    </form>
+    </FormCard>
 
-        </form>
     </div>
   )
 }

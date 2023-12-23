@@ -1,41 +1,32 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-
 .login--container{
     display: flex;
     justify-content: center;
-    /* align-content: center; */
+    align-content: center;
     width: 100vw;
     height: 100vh;
-    /* background-image: url("../../../public/images/img5.jpg"); */
     background-repeat: repeat-y;
-    background-size: cover;
-    /* Center and scale the image nicely */
     background-position: center;
-  }
-  /* a {
-    color: #917307;
-    text-decoration: none;
-    cursor: pointer;
-  } */
+    position: relative;
 
-  .login--h2 {
-    font-size: 1.5em !important;
-    font-weight: 600 !important;
   }
-
+  
   .login--form{
     align-self: center;
-    /* display: flex; */
     flex-direction: column;
-    box-shadow: 0px 0 30px rgba(159, 164, 172, 0.538);
     padding: 2rem;
-    max-width: 400px;
     width: 100vw;
     margin: 0.7em auto;
-    background-color: white;
-    padding-top: 4rem;
+    padding: 2rem;
+    position: relative;
+    left: 30%;
+  }
+
+  .login--heading {
+    font-size: 1.5em !important;
+    font-weight: 600 !important;
   }
 
   .login--form > input,
@@ -44,12 +35,11 @@
     padding: 0.5em 1em;
     border-radius: 5px;
     box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
-
+    text-indent: 10px;
   }
 
   .login--form > input:focus {
     outline: none;
-
   }
 
   .login--form > .login--btn{
@@ -65,7 +55,13 @@
     font-family: "Nunito", sans-serif;
     font-family: "Open Sans", sans-serif;
     margin: 0;
-    /* outline: orange; */
   }
 
-
+  input {
+    margin-bottom: 15px;
+    height: 30px;
+    text-indent: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+  
+  }

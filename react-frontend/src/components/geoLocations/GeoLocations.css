@@ -1,0 +1,37 @@
+
+/* GEOLOCATION PAGES */
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.location-tiles {
+  /* display: flex;
+  flex-direction: row; */
+  /* flex-wrap: wrap; */
+  
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr  1fr;
+  /* grid-template-rows:1fr 1fr 1fr ; */
+}
+
+.locations-list{
+  /* display: flex; */
+  /* flex-wrap: nowrap; */
+  /* gap: 50px; */
+  /* overflow-x: auto; */
+}
+
+section {
+  padding: 15px;
+}
+
+.location-list-filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.location-list-filter-buttons > a {
+  margin-right: 15px;
+}

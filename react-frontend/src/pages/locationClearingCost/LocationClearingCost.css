@@ -1,0 +1,11 @@
+
+
+.location-clearingCost {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.location-clearingCost > span {
+    font-size: 16px;
+    color: #4D4D4D;
+}

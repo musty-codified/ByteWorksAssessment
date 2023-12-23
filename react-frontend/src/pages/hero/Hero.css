@@ -1,0 +1,43 @@
+a:hover, a:focus{
+    text-decoration: none;
+}
+
+
+.hero-container{
+    position: relative;
+     /* background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1)); */
+}
+
+.text-caption{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.hero-text{
+    margin: 15px;
+    text-shadow: 1px 1px 1px #222;
+    margin-bottom: 0;
+    background-position: center;
+    justify-content: center;
+    line-height: .75;
+    position: absolute;
+    right: 50%;
+    top:100%
+
+}
+
+.hero-caption {
+    color: white;
+    padding: 10px;
+    line-height: .75;
+  
+}
+
+.order-text{
+    margin: 15px;
+    color: white;
+    background: transparent;
+    
+}

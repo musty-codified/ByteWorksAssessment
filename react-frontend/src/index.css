@@ -6,9 +6,16 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: Poppins, sans-serif;
+  overflow: scroll;
+  background-color:  springgreen;
+  letter-spacing: 1px; 
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+section {
+  padding: 10px;
 }

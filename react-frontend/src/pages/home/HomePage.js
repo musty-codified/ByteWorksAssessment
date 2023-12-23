@@ -1,19 +1,22 @@
 import React from 'react'
-import HeaderComponent from '../headerComponent/HeaderComponent'
-import Jumbotron from '../../components/jumbotron/Jumbotron'
+import Navbar from "../../components/navbar/Navbar";
+import Hero from '../hero/Hero'
 import Features from '../../components/Features'
+import GeoLocations from '../../components/geoLocations/GeoLocations'
+import { Outlet } from 'react-router-dom';
 
-const Home = () => {
+const HomePage = () => {
   return (
-    <div>
-
-    <HeaderComponent />
-    <Jumbotron/>
+    <div className='bg-white'>
+      
+    {/* <Navbar/> */}
+    <Hero/>
+    <Outlet/>
+    {/* <GeoLocations/> */}
     <Features/>
-
 
     </div>
   )
 }
 
-export default Home
+export default HomePage

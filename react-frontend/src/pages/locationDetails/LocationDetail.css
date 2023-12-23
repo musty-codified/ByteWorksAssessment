@@ -1,0 +1,104 @@
+i[class*='location-name-'] {
+    padding: 7px 14px;
+}
+
+.location-detail-container {
+    padding: 27px;
+}
+
+
+.location-detail {
+    display: flex;
+    flex-direction: column;
+    color: #161616;
+}
+
+.location-detail img {
+    border-radius: 5px;
+    margin-block: 47px;
+}
+
+.location-detail h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.location-detail > i {
+    align-self: flex-start;
+}
+
+.location-detail .location-price {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.location-detail .location-price span {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.back-button {
+    display: block;
+    color: black;
+    text-decoration: none;
+    margin-top: 60px;
+    margin-left: 26px;
+}
+
+.back-button span:hover {
+    text-decoration: underline;
+}
+
+.location-detail-nav{
+     display: flex;
+
+}
+
+.location-detail-nav a {
+    text-decoration: none;
+    color: #4D4D4D;
+    font-weight: 500;
+    padding: 5px 20px;
+}
+
+.location-detail-nav a:hover {
+    color: #161616;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+
+
+
+
+
+.location-detail-container {
+    background-color: white;
+    padding: 24px;
+    margin: 30px 26px;
+    display: flex;
+
+}
+
+.location-detail {
+    display: flex;
+    align-items: center;
+}
+
+.location-detail > img {
+    height: 160px;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.hlocation-detail-info-text > h2 {
+    margin-top: 24px;
+    margin-bottom: 5px;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.location-detail-info-text > p {
+    font-size: 20px;
+    margin-block: 0;
+}

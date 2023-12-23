@@ -1,16 +1,33 @@
 
+/************ Navbar CSS Styles ************/
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@900&family=Jost:wght@200;300;400;500;600&display=swap');
 
-.logo--img{
-    height: 50px;
-    width: 50px;
-    border-radius: 50rem;
-    margin: 5px 15px 5px 0;
-}
-.logo--container{
-    align-items: center;
 
+.header-nav{
+  background-color: #f6b319;
+  border-radius: 0;
+  border: 0;
+  box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
+  padding: 15px 26px;
+}
+
+.nav--container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding-bottom: 10px; */
+}
+
+.logo--container{
+  display: flex;
+  align-items: center;
 } 
+
+.logo{
+    height: 75px;
+    margin: 0 15px 5px 0;
+    max-width: 100px;
+}
 
 a:hover, a:focus{
   text-decoration: none;
@@ -19,49 +36,33 @@ a:hover, a:focus{
 ul li{
     font-family: 'Jost', sans-serif;
     font-weight: 600;
-    font-size: 0.8rem;
-
-    /* list-style: none; */
+    font-size: .9rem;
 }
 
 ul{
-    gap: 1rem;
+    gap: .5rem;
     padding: 0.5rem 1rem;
   }
 
    ul li:hover{
     color: #424040;
   }   
-
-
-  .nav--container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-  }
   
-  h2{
+  h1{
     display: inline-block;
     text-shadow: 1px 1px 1px #222;
     margin-top: 0;
-
     margin-bottom: 0;
-    line-height: .75; 
+    line-height: .65; 
 }
   
+span.navbar-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+} 
 
-  /* .nav--list{
-    display: inline-block;
-  } */
-  .header-nav{
-    background-color: #f6b319;
-    border-radius: 0;
-    border: 0;
-  }
-  /* .text-white{
-    display: flex;
+  
 
-  } */
 
- 
+

@@ -1,0 +1,23 @@
+.admin-nav{
+    display:flex
+}
+
+
+.admin-nav a {
+    text-decoration: none;
+    color: #4D4D4D;
+    font-weight: 500;
+    padding: 5px 20px;
+}
+
+.admin-nav a:hover {
+    color: #161616;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.my-link{
+    font-weight: bold;
+    text-decoration: underline;
+    color: #161616;
+}

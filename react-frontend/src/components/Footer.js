@@ -1,18 +1,19 @@
 import { BsTwitter, BsInstagram, BsClock, BsTelephone} from "react-icons/bs"
 import { ImFacebook, ImLocation} from "react-icons/im"
 import { Link } from "react-router-dom"
+import './Footer.css'
 
 
 export const FooterCard = (props) =>{
 
     return(
         <div className="text-gray-600 ">
-        <h6 className="font-bold mb-3 text-[#403414] text-[0.7rem] after:h-[4px] after:bg-black after:inline-block after:align-middle after:w-1/2 pull-left" >{props.heading}</h6>
+        <h6 className="font-bold mb-3 text-[#403414] text-[0.7rem] after:h-[4px] after:bg-black after:inline-block after:align-middle after:w-1/2" >{props.heading}</h6>
         <div className="d-flex flex-column">
-        <a href="/" className="text-[0.8rem] text-dark mb-1">{props.link1}</a>
-        <a href="/" className="text-[0.8rem] text-dark mb-1">{props.link2}</a>
-        <a href="/" className="text-[0.8rem] text-dark mb-1">{props.link3}</a>
-        <a href="/" className="text-[0.8rem] text-dark mb-1">{props.link4}</a>
+        <a href="/" className="text-[0.8rem] text-dark mb-1 footer-link">{props.link1}</a>
+        <a href="/" className="text-[0.8rem] text-dark mb-1 footer-link">{props.link2}</a>
+        <a href="/" className="text-[0.8rem] text-dark mb-1 footer-link">{props.link3}</a>
+        <a href="/" className="text-[0.8rem] text-dark mb-1 footer-link">{props.link4}</a>
         </div>
       </div>
     )
@@ -21,14 +22,14 @@ export const FooterCard = (props) =>{
 
 const Footer = () => {
     return(
-        <footer className="container-fluid bg-light mt-5 py-4 small">
+        <footer className="footer container bg-light mt-5 py-4 small">
         <div className="row justify-content-center">
           <div className="col-md-3 text-center">
 
             <h6 className="font-weight-bold text-[#403414] mb-3">ABOUT US</h6>
             <ImLocation /><p className="mb-2">Okhoromi community, Benin city, Edo state</p>
 
-            <BsClock /><p className="mb-2">Sun - Sat: 9:00AM - 17:00PM</p>
+            <BsClock /><p className="mb-2">Sun - Sat: 9:00AM - 5:00PM</p>
 
             <BsTelephone /><p className="mb-2">+2348166099828</p>
 
@@ -38,11 +39,11 @@ const Footer = () => {
               <Link to='#' className="me-2"><BsInstagram /></Link>
             </div>
           </div>
-
+          
           <div className="col-md-6">
           
-            <div className="row ">
-               <div className="col-md-4 ">
+            <div className="row">
+               <div className="col-md-4">
               <FooterCard heading="OTHER PAGES" link1= "Home" link2="About Us" link3="Contact" />
               </div>
 
@@ -51,7 +52,7 @@ const Footer = () => {
                 </div>
 
                <div className="col-md-4">
-              <FooterCard heading="INFORMATION" link1="Privacy Policy" link2="Terms of Service" link3="Disclaimer" link4="FAQ" />
+              <FooterCard heading="INFORMATION" link1="Privacy & Policy" link2="Terms of Service" link3="Disclaimer" link4="FAQ" />
               </div>
             </div>
             

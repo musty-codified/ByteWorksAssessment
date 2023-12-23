@@ -1,10 +1,21 @@
 import axios from "axios";
 const baseUrl = "http://localhost:8888/api/v1/";
 
-//No slash between baseurl and path
 export const apiPost = (path, data) => {
     return axios.post(`${baseUrl}${path}`, data);
 };
+
+
+export const apiPostAuthorization = (path, data) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("signature")}`,
+    },
+  };
+
+  return axios.post(`${baseUrl}${path}`, data, config);
+}
+
 
 export const apiGet = (path) => {
     return axios.get(`${baseUrl}${path}`);

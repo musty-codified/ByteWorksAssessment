@@ -1,0 +1,47 @@
+
+/* LocationCard.css */
+.location-card{
+    margin: 0;
+    padding: 0;
+    width: 250px; 
+    border-radius: 10px;
+    flex: 0 0 auto;
+    display: flex; 
+    flex-direction: column;
+    font-size: 0.75rem;
+    position: relative;
+  }
+    
+.location--image {
+    width: 100%;
+    border-radius: 9px;
+    margin-bottom: 9px;
+
+}
+
+.location-info{
+    display: flex;
+    align-items: center;
+}
+.name-badge{
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background-color: white;
+    padding: 5px 7px;
+    border-radius: 2px;
+    font-weight: bold;
+}
+
+.gray {
+    color: #918E9B;
+    
+}
+.clearing--cost {
+    margin-top: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.bold{
+    font-weight: bold;
+}

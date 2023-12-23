@@ -1,0 +1,9 @@
+
+.location-detail-info > h4 {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 21px;
+}
+.location-detail-info > h4 > span {
+    font-weight: 500;
+}

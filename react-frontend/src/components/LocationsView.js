@@ -1,24 +1,29 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { dataContext } from '../context/AuthContext';
 // import ReactPaginate from 'react-paginate';
 
 import './LocationsView.css'
 
+const LocationView = () => {
 
-const Location = () => {
-
-  const {viewLocations, setViewLocations, pageElementSize, 
+  const {viewLocations, getLocations, pageElementSize, 
     pageNumber, totalElements, numOfElements, setLocationsUrl} = useContext(dataContext)
 
   // console.log(locations)
 
+  useEffect(()=>{
+    getLocations()
+
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [])
+
   return (  
       <div>
         
-      <div >
+      <div>
           <h3 className='table--h3'> View Location Details: </h3>
 
-          <div className='loc'>
+          <div className='locations-info'>
                  <table className='table'>
                  <thead>
 
@@ -53,11 +58,9 @@ const Location = () => {
             
           </div>
         
-          
     )
   }
   
-
-export default Location
+export default LocationView
 
 

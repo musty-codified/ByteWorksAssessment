@@ -1,20 +1,26 @@
 
-import React, { useState, useEffect, createContext} from 'react'
+import React, { useState, createContext} from 'react'
 import {
   apiPost,
   apiGet, 
-  apiPut,} from '../utils/api/Axios.js'
+  apiPut,
+  apiPostAuthorization,
+  apiDeleteAuthorization,
+  apiGetAuthorization
+} 
+from '../utils/api/Axios.js'
 import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { decodeJwt, redirectToUserPage } from '../utils/RoleUrlRouter.js';
+import {decodeJwt, redirectToUserPage } from '../utils/RoleUrlRouter.js';
 
 
 export const dataContext = createContext();
 
-
   const DataProvider=({children})=>{
 
     const [viewLocations, setViewLocations] = useState([]);
+    const [locationDetail, setLocationDetail] = useState({});
+
     const[locationsUrl, setLocationsUrl] = useState("locations/view-list")
     const[pageNumber, setPageNumber] = useState(0)
     const[pageElementSize, setPageElementSize] = useState(0)
@@ -22,70 +28,71 @@ export const dataContext = createContext();
     const[totalElements, setTotalElements] = useState(0)
     const[numOfElements, setNumOfElements] = useState(0)
     const[localStorageValue, setLocalStorageValue] = useState(false);
-    const[headerTitle, setHeaderTitle] = useState("Add New Location")
+    const[singleLocation, setSingleLocation] = useState([])
 
-    /**==========================================================Registration================================================ **/
+    const[headerTitle, setHeaderTitle] = useState("Add New Location");
+
+    // const [getUser, setGetUser] = useState({});
+    const [showNavbar, setShowNavbar] = useState(true)
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false);
+
+
+
+
+    /** ====================================REGISTER=============================== **/
       const registerConfig = async (formData) => {
-    try {
-      const registerData = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        password: formData.password,
+       try {
+          const registerData = {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
       };
 
-      await apiPost("users/register", registerData).then((res) => {
-        console.log(res);
-        console.log(res.data.message);
-        localStorage.setItem("signature", res.data.data.email)
+      await apiPost("users/register", registerData)
+      .then((res) => {
+        // localStorage.setItem("signature", res.data.data.email)
+        
         toast.success(res.data.message)
         setTimeout(() => {
           window.location.href = "/check-mail";
         }, 1500); 
       });
 
-    } catch (err) {
+    }catch (err) {
       toast.error(err.response.data.error)
       console.log(err.response.data.message);
     }
   };
 
-    /**==============================================================OTP Verification============================================= **/
+    /** ===================================OTP VERIFICATION============================= **/
     const activateUserConfig= async(tokenData)=>{
   
-      try{
-      const activateUserData = {
-         email : tokenData.email,
-          otp: tokenData.token,
-      };
+         try{
+               const activateUserData = {
+               email : tokenData.email,
+               activationToken : tokenData.activationToken,
+           };
 
-      await apiPost("users/activate-user", activateUserData).then((res)=>{
-        if (localStorage.getItem("signature") === activateUserData.email){
+          await apiPost("users/activate-user", activateUserData).then((res)=>{
           toast.success(res.data.message)
           console.log(res.data);
           setTimeout(() => {
             window.location.href = "/login";
           }, 2000)
 
-        }
-       ; 
-
       });
-    } catch(err){
+     } catch(err){
       console.log(err) 
     }
     
-    }
+  }
 
-
-        /**================================================================Resend Token=========================================== **/
+        /** =======================================RESEND TOKEN=================================== **/
         const resendToken= async(queryParams)=>{
 
-          try{
-          //   const resendTokenData = {
-          //     subject: subject,
-          //  };
-
+            try{
           await apiPost(`users/resend-token${queryParams}`).then((res)=>{
 
             toast.success(res.data.message)
@@ -100,7 +107,7 @@ export const dataContext = createContext();
   }
 }
 
-    /**================================================================Login======================================================= **/
+    /**===============================================LOGIN======================================== **/
 //     const loginConfig= async(loginFormData, location, navigate)=>{
 //       try{
 //       const loginData = {
@@ -149,19 +156,15 @@ const loginConfig = async (loginFormData, location, navigate) => {
 
     if (res.data.message === "login successful") {
       toast.success(res.data.message);
-      console.log(res.data.data);
 
       const jwtInfo = decodeJwt(res.data.data.token);
       localStorage.setItem("signature", res.data.data.token);
       localStorage.setItem("roles", jwtInfo.roles);
-      console.log(jwtInfo.roles);
 
       setLocalStorageValue(localStorage.getItem("signature"));
-      
       redirectToUserPage(location, navigate, jwtInfo.roles)
+      console.log(location);
 
-
-      // redirectToUserPage(jwtInfo.roles);
     } else {
       toast.success(res.data.message);
       setTimeout(() => {
@@ -171,6 +174,8 @@ const loginConfig = async (loginFormData, location, navigate) => {
   } catch (err) {
     // Handle errors during the API call or promise rejection
     console.error('Error during login:', err);
+    toast.error(err.response.data.error)
+
 
     // Log the specific response data if available
     if (err.response && err.response.data) {
@@ -179,18 +184,19 @@ const loginConfig = async (loginFormData, location, navigate) => {
   }
 };
 
-    /**================================================================Logout======================================================= **/
+    /**==========================================LOGOUT======================================= **/
      const logout=()=>{
       localStorage.clear()
       window.location.href = "/login"
      }
-    /**=====================================================View all Locations=================================================== **/
+    /**======================================VIEW ALL LOCATIONS================================== **/
   const getLocations = async() =>{
     const allLocationsUrl = `${locationsUrl}?pageNo=${pageNumber}`
 
-        apiGet(allLocationsUrl).then((res)=>{
+      await apiGet(allLocationsUrl).then((res)=>{
         const data = res.data.data
-        setViewLocations(data.content)
+        setLoading(true)
+        setViewLocations([...data.content])
         setPageNumber(data.number)
         setPageElementSize(data.size)
         setTotalPages(data.totalPages)
@@ -198,44 +204,63 @@ const loginConfig = async (loginFormData, location, navigate) => {
         setNumOfElements(data.numberOfElements)
        })
        .catch((err) => {
+        setError(err)
+    }).finally(
+      setLoading(false)
+    );
+
+  };
+
+
+   /**======================================VIEW SINGLE LOCATION================================== **/
+   const getSingleLocation = async(id) =>{
+
+       await apiGet(`locations/${id}`).then((res)=>{
+        const data = res.data
+        console.log(data.data)
+        setLocationDetail(data.data)
+        
+       })
+       .catch((err) => {
         console.log(err)
     })
 
   };
 
-  useEffect(()=>{
-    getLocations()
-
-  }, [])
-
-      /**===================================================Add new Location====================================================== **/
-      const addLocationConfig = async (formData) => {
+      /**======================================ADD NEW LOCATION====================================== **/
+      const addLocationConfig = async (setSubmitting, onClose, location) => {
         try {
-          const addData = {
-            name: formData.name,
-            latitude: formData.latitude,
-            longitude: formData.longitude,
-          
-          };
-          await apiPost("locations/add", addData).then((res) => {
-            console.log(res.data);
+        
+          console.log("Request Payload:", location); 
+
+          setSubmitting(true)
+
+          await apiPostAuthorization("locations/add", location).then((res) => {
+            console.log("Response Data:", res.data.data);
+            //  const newLocation = res.data.data; 
+            //  setUpdatedLocation(newLocation);
+  
+            onClose()
+            toast.success(res.data.message)
+            getLocations()
           });
+          
         } catch (err) {
+          console.error("API Error:", err); 
           console.log(err.response.data.message);
+        } finally{
+          setSubmitting(false)
         }
       };
 
-      /**===============================================Update Location========================================================== **/
-      const updateLocationConfig = async (formData, locationId) => {
+      /**=========================================UPDATE LOCATION===================================== **/
+      const updateLocationConfig = async (onClose, formData) => {
         try {
-          const addData = {
-            name: formData.name,
-            latitude: formData.latitude,
-            longitude: formData.longitude,
-          
-          };
-          await apiPut(`locations/update/${locationId}`, addData).then((res) => {
+        
+          await apiPut(`locations/update/${singleLocation.id}`, formData).then((res) => {
             console.log(res.data);
+            onClose()
+            getLocations()
           });
         } catch (err) {
           console.log(err.response.data.message);
@@ -244,20 +269,24 @@ const loginConfig = async (loginFormData, location, navigate) => {
 
       
      
-      /**==================================================Remove Location======================================================== **/
-      // const deleteLocationConfig = async (locationId) => {
-      //   try {
-      //     await apiDelete(`locations/delete/${locationId}`).then((res) => {
-      //       console.log(res.data);
-      //     });
-      
-          
-      //   } catch (err) {
-      //     console.log(err.response.data.message);
-      //   }
-      // };
+      /**==========================================REMOVE LOCATION===================================== **/
+      const deleteLocationConfig = async (location) => {
+        try {
+          if(location.id !== undefined)
+          console.log(`id: ${location.id}`)
 
-     /**==============Calculate optimal route api call======= **/
+          await apiDeleteAuthorization(`locations/delete/${location.id}`).then((res) => {
+            console.log(res.data);
+            getLocations()
+          });
+
+        } catch (err) {
+          console.log("Location could not be deleted!");
+        }
+      };
+
+    
+     /**===================================CALCULATE OPTIMAL ROUTE=================================== **/
 
  return(
 
@@ -277,7 +306,17 @@ const loginConfig = async (loginFormData, location, navigate) => {
     totalElements,
     numOfElements,
     addLocationConfig,
-    updateLocationConfig
+    updateLocationConfig,
+    setSingleLocation,
+    deleteLocationConfig,
+    headerTitle,
+    setHeaderTitle,
+    getSingleLocation,
+    locationDetail,
+    loading,
+    error,
+    setShowNavbar,
+    showNavbar,
     }}>
 
     {children}
