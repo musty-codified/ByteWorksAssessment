@@ -44,10 +44,10 @@ public class LocationServiceImpl implements LocationService {
         List<LocationResponseDto> locationResponseDtos =
                 locationPages.stream().map(location -> appUtil.getMapper().convertValue(location, LocationResponseDto.class))
                         .collect(Collectors.toList());
-        if(page>0) page = page-1;
+        if(page > 0) page = page-1;
         int max = Math.min(limit * (page + 1), locationResponseDtos.size());
         int min = limit * page ;
-        return new PageImpl<>(locationResponseDtos.subList(min,max),pageRequest, locationResponseDtos.size());
+        return new PageImpl<>(locationResponseDtos.subList(min, max), pageRequest, locationResponseDtos.size());
     }
 
     @Override

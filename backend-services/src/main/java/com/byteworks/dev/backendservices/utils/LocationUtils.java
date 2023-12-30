@@ -10,7 +10,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class LocationUtils {
     public List<Location> findClosestLocations(Location target, List<Location> allLocations, int howMany) {
-
         List<Location> copy = new ArrayList<>(allLocations);
 
         List<Location> closest = new ArrayList<>();
@@ -19,18 +18,14 @@ public class LocationUtils {
 
             int minIndex = 0;
             for (int i = 0; i < copy.size(); i++) {
-
                 Location loc = copy.get(i);
-
                 if (calculateDistance(loc, target) <
                         calculateDistance(copy.get(minIndex), target)) {
                     minIndex = i;
                 }
-
             }
             closest.add(copy.get(minIndex));
             copy.remove(minIndex);
-
         }
         closest.removeIf(location -> location.equals(target));
         return closest;
@@ -43,18 +38,18 @@ public class LocationUtils {
                 Math.pow(from.getLongitude() - to.getLongitude(), 2));
     }
 
-    public double calculateTotalCost(List<Location> route) {
+    public double calculateTotalCost(List<Location> waypoints) {
         double costPerKilometer = 1.00;
         double totalCost = 0.0;
 
-        for (int i = 0; i < route.size() - 1; i++) {
-            Location from = route.get(i);
-            Location to = route.get(i + 1);
+        for (int i = 0; i < waypoints.size() - 1; i++) {
+            Location from = waypoints.get(i);
+            Location to = waypoints.get(i + 1);
             double distance = calculateDistance(from, to);
             totalCost += distance * costPerKilometer;
 
             // Add clearing cost for each intermediate location
-            if (i < route.size() - 1) {
+            if (i < waypoints.size() - 1) {
                 totalCost += from.getClearingCost();
             }
         }

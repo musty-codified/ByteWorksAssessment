@@ -5,6 +5,7 @@ import com.byteworks.dev.backendservices.entities.DeliveryRoute;
 import com.byteworks.dev.backendservices.entities.Location;
 import com.byteworks.dev.backendservices.exceptions.NotFoundException;
 import com.byteworks.dev.backendservices.repositories.LocationRepository;
+import com.byteworks.dev.backendservices.services.LocationService;
 import com.byteworks.dev.backendservices.services.RouteService;
 import com.byteworks.dev.backendservices.utils.AppUtils;
 import com.byteworks.dev.backendservices.utils.LocationUtils;
@@ -19,10 +20,10 @@ public class RouteServiceImpl implements RouteService {
     private final AppUtils appUtil;
     private final LocationUtils locationUtil;
     private final LocationRepository locationRepository;
+    private final LocationService locationService;
 
     @Override
     public DeliveryRouteDto findOptimalRoute(Long originId, Long destinationId) {
-
       Location origin = locationRepository.findById(originId)
               .orElseThrow(()-> new NotFoundException("origin not found"));
       Location destination = locationRepository.findById(destinationId)
@@ -39,9 +40,7 @@ public class RouteServiceImpl implements RouteService {
         deliveryRoute.setTotalCost(totalCost);
 
       DeliveryRouteDto deliveryRouteDto = appUtil.getMapper().convertValue(deliveryRoute, DeliveryRouteDto.class);
-
         return deliveryRouteDto;
-
     }
 
     private List<Location> reconstructPath(Map<Location, Location> parentMap, Location destination) {
@@ -55,7 +54,6 @@ public class RouteServiceImpl implements RouteService {
         Collections.reverse(paths);
         return paths;
     }
-
 
     private List <Location> bfs (Location origin, Location destination){
         Queue<Location> queue = new LinkedList<>();
@@ -75,6 +73,7 @@ public class RouteServiceImpl implements RouteService {
                 return optimalRoute;
             }
 
+//            locationService.
             List <Location> locationList = locationUtil.findClosestLocations(currentLocation, locationRepository.findAll(), 3);
             for (Location neighbor : locationList) {
                 if (!visited.contains(neighbor)) {

@@ -96,7 +96,7 @@ public class AppUtils {
     }
 
     public double getRandomClearingCost() {
-        return MIN_CLEARING_COST + (MAX_CLEARING_COST - MIN_CLEARING_COST) * RANDOM.nextDouble();
+        return Math.round(MIN_CLEARING_COST + (MAX_CLEARING_COST - MIN_CLEARING_COST) * RANDOM.nextDouble());
     }
 
 
