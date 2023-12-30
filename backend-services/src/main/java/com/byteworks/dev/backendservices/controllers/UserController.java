@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @Tag(name = "User Endpoint", description = "Exposes REST API endpoints pertaining to users")
@@ -26,7 +27,7 @@ public class UserController {
             description = "Registers and stores a user object in the database. After creating your account, an token is sent to your provided email" +
                     "\n.Copy the code from you email and enter it in the 'activate-user endpoint'. \n")
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserResponseDto>>registerUser(@RequestBody RegisterUserDto userDto){
+    public ResponseEntity<ApiResponse<UserResponseDto>>registerUser(@Valid @RequestBody RegisterUserDto userDto){
         UserResponseDto userResponseDto = userService.registerUser(userDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("{uuid}")

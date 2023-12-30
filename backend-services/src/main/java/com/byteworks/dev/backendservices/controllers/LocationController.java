@@ -31,7 +31,7 @@ public class LocationController {
     @Operation(summary = "Fetches a list of location object")
     @GetMapping("/view-list")
     public ResponseEntity<ApiResponse<Page<LocationResponseDto>>> getLocations(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                                           @RequestParam(value = "limit", defaultValue = "5") int limit,
+                                                                           @RequestParam(value = "limit", defaultValue = "20") int limit,
                                                                            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
                                                                            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
         return ResponseEntity.ok().body( new ApiResponse<>("Locations retrieved successfully", true, locationService.getLocations( page, limit, sortBy, sortDir)));
@@ -45,7 +45,7 @@ public class LocationController {
     }
 
     @Operation(summary = "Retrieves a single location object")
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<LocationResponseDto>> findLocation(@PathVariable Long id){
         return ResponseEntity.ok().body( new ApiResponse<>("Location retrieve successfully", true, locationService.findLocationById(id)));
     }

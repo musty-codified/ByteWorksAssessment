@@ -26,8 +26,6 @@ public class Package extends Base{
     @OneToMany
     private Set<Location> route; // Sequence of locations from origin to destination
 
-// private String route; // Assuming route is a string representation of locations
-
     @OneToOne(mappedBy = "item", cascade = CascadeType.ALL)
     private DeliveryCost deliveryCost;
 

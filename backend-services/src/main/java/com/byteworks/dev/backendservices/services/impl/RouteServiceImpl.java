@@ -1,9 +1,6 @@
 package com.byteworks.dev.backendservices.services.impl;
 
 import com.byteworks.dev.backendservices.dtos.DeliveryRouteDto;
-import com.byteworks.dev.backendservices.dtos.requests.LocationDto;
-import com.byteworks.dev.backendservices.dtos.response.LocationResponseDto;
-import com.byteworks.dev.backendservices.dtos.response.RouteResponseDto;
 import com.byteworks.dev.backendservices.entities.DeliveryRoute;
 import com.byteworks.dev.backendservices.entities.Location;
 import com.byteworks.dev.backendservices.exceptions.NotFoundException;
@@ -15,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +52,6 @@ public class RouteServiceImpl implements RouteService {
             paths.add(currentLocation);
             currentLocation = parentMap.get(currentLocation);
         }
-
         Collections.reverse(paths);
         return paths;
     }
@@ -69,7 +64,6 @@ public class RouteServiceImpl implements RouteService {
 
         queue.add(origin);
         visited.add(origin);
-
 
         while (!queue.isEmpty()){
             Location currentLocation = queue.poll();

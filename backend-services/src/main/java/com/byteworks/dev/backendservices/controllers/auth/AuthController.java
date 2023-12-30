@@ -7,10 +7,7 @@ import com.byteworks.dev.backendservices.dtos.response.UserResponseDto;
 import com.byteworks.dev.backendservices.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,5 +17,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<UserResponseDto>> login(@RequestBody UserLoginDto loginDto){
         return ResponseEntity.ok().body( new ApiResponse<>("login successful", true, userService.login(loginDto)));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserResponseDto>> getUser(@PathVariable (name = "userId") String userId){
+        return ResponseEntity.ok().body( new ApiResponse<>("Retrieved successfully", true, userService.findUser(userId)));
     }
 }

@@ -73,12 +73,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto activateUser(ActivateUserDto activateUserDto) {
+        System.out.println("Before validation: " + activateUserDto.getActivationToken());
         validateToken(activateUserDto.getEmail(), activateUserDto.getActivationToken());
        User userToActivate = userRepository.findByEmail(activateUserDto.getEmail())
                 .orElseThrow(()-> new NotFoundException("User not found"));
 
         userToActivate.setStatus(Status.ACTIVE.name());
-       UserResponseDto userResponseDto = appUtil.getMapper().convertValue(userToActivate, UserResponseDto.class);
+       User activeUser = userRepository.save(userToActivate);
+       UserResponseDto userResponseDto = appUtil.getMapper().convertValue(activeUser, UserResponseDto.class);
        MailDto mailDto = MailDto.builder()
                .subject("YOUR ACCOUNT IS ACTIVE")
                .body(String.format("Hi %s, \n You have successfully activated your account. Kindly login to start making use of the app.", userResponseDto.getLastName()))
@@ -111,7 +113,6 @@ public class UserServiceImpl implements UserService {
 
         String url = "http://" + servletRequest.getServerName() + ":3000" + "/activate ";
 
-        //String.format("Use this token to %s: %s (Expires in 15mins) <br/> <a href=\"%s\">CLICK TO VERIFY</a>", subject.toLowerCase(), token, url)
         MailDto mailDto = MailDto.builder()
                 .to(email)
                 .body(String.format("Use this token to %s: %s (Expires in 15mins) <br/> <a href=\"%s\">CLICK TO VERIFY</a>", subject.toLowerCase(), token, url))
@@ -156,5 +157,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public UserResponseDto findUser(String userId) {
+      User user =  userRepository.findByUuid(userId)
+              .orElseThrow(()-> new NotFoundException("User not found"));
+      UserResponseDto userResponseDto = appUtil.getMapper().convertValue(user, UserResponseDto.class);
+        return userResponseDto;
+    }
 
 }

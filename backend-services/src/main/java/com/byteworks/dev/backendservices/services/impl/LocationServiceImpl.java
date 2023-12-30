@@ -78,7 +78,4 @@ public class LocationServiceImpl implements LocationService {
        Location location = locationRepository.findById(id).orElseThrow(()-> new RuntimeException("Location not found"));
         return appUtil.getMapper().convertValue(location, LocationResponseDto.class);
     }
-
-
 }
-

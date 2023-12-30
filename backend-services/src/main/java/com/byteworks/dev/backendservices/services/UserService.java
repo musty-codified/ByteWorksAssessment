@@ -12,4 +12,5 @@ public interface UserService {
     UserResponseDto login(UserLoginDto userLoginDto);
 
 
+    UserResponseDto findUser(String userId);
 }
