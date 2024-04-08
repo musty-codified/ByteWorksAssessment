@@ -1,9 +1,9 @@
-import {useState, useContext } from 'react';
+import {useState } from 'react';
 import { Input, Col, Form, Row, Spin, } from 'antd';
+import {useAuth} from '../../context/AuthContext'
 import {
     LoadingOutlined
 } from '@ant-design/icons';
-import { dataContext } from '../../context/AuthContext';
   
 const rowGutterSize = 10
 const spanSize = 10;
@@ -12,17 +12,15 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const AddLocationForm = ({ setShowDrawer }) => {
     const [ form ] = Form.useForm() 
     const[submitting, setSubmitting] = useState(false);
-    const {headerTitle, addLocationConfig, updateLocationConfig, clearingCost, setUpdatedLocation} = useContext(dataContext)
+    const {headerTitle, addLocationConfig, updateLocationConfig} = useAuth()
 
     const onClose = () => setShowDrawer(false);
 
-
-    const onFinish = location => {
-        const newLocation = { ...location, clearingCost: clearingCost }
-        // console.log((newLocation, null, 2));
-        console.log((newLocation, null, 2));
-        setSubmitting(true);
-        setUpdatedLocation(newLocation)
+       const onFinish = location => {
+         setSubmitting(true);
+         const newLocation = { ...location }
+         console.log("location object: " + JSON.stringify(newLocation, null, 2))
+         console.log("location object: " + JSON.stringify(newLocation, null, 2))
 
         if(headerTitle === "Add New Location")
         
@@ -54,8 +52,19 @@ const AddLocationForm = ({ setShowDrawer }) => {
                 </Form.Item>
             </Col>
         </Row>
-
     
+        <Row gutter={rowGutterSize}>
+            <Col span={spanSize}>
+                <Form.Item
+                    name="latitude"
+                    label="Latitude in degree"
+                    rules={[{required: true, message: 'Please enter Latitude'}]}
+                >
+                    <Input placeholder="Latitude"/>
+                </Form.Item>
+            </Col>
+        </Row>
+
         <Row gutter={rowGutterSize}>
             <Col span={spanSize}>
                 <Form.Item
@@ -68,15 +77,14 @@ const AddLocationForm = ({ setShowDrawer }) => {
             </Col>
         </Row>
 
-        
         <Row gutter={rowGutterSize}>
             <Col span={spanSize}>
                 <Form.Item
-                    name="latitude"
-                    label="Latitude in degree"
-                    rules={[{required: true, message: 'Please enter Latitude'}]}
+                    name="clearingCost"
+                    label="Clearing cost in $"
+                    rules={[{required: true, message: 'Please enter cost of clearing the package'}]}
                 >
-                    <Input placeholder="Latitude"/>
+                    <Input placeholder="Clearing Cost"/>
                 </Form.Item>
             </Col>
         </Row>

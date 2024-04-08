@@ -1,7 +1,5 @@
 
-import { useContext } from "react";
 import { useLocation, Navigate, Outlet} from "react-router-dom";
-import { dataContext } from "./AuthContext";
 import { isTokenValid } from "../utils/RoleUrlRouter";
 import { toast } from "react-toastify";
 
@@ -12,7 +10,7 @@ export const ProtectAdminRoute = ({children}) => {
     const userRole = localStorage.getItem('roles')
     console.log(location)
 
-    if (!isAuthenticated || userRole ==="USER_EDIT,USER_READ" || userRole ==="USER_READ,USER_EDIT"){
+    if (!isAuthenticated || userRole === "USER_EDIT,USER_READ" || userRole === "USER_READ,USER_EDIT"){
         return (
             <Navigate to= "/login" state={location.state && {from:location}}/>
 
@@ -22,7 +20,6 @@ export const ProtectAdminRoute = ({children}) => {
     return children
 
 }
-
 
 export const IsAuthenticated = ({children}) => {
     const location = useLocation()
@@ -62,7 +59,6 @@ export const ProtectUserRoute = ({children}) => {
 //Preventing Renders if user is not logged in as ADMIN
 export const AdminAuthRequired = () => {
     // const { setShowNavbar } = useContext(dataContext)
-    const location = useLocation()
     const isAuthenticated = localStorage.getItem('signature')
     const userRole = localStorage.getItem('roles')
     let tokenValid = null;
@@ -84,7 +80,7 @@ export const AdminAuthRequired = () => {
   
     return (
         (userRole === "USER_DELETE,USER_EDIT,USER_READ" )  &&  tokenValid ? 
-         <Outlet /> : <Navigate to="/login" state={ { message: "You must login first" } } />
+         <Outlet /> : <Navigate to="/login" state={ { message: "You must login first!" } } />
     )
   }
 

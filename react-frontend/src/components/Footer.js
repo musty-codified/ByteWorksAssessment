@@ -11,9 +11,11 @@ export const FooterCard = (props) =>{
         <h6 className="font-bold mb-3 text-[#403414] text-[0.7rem] after:h-[4px] after:bg-black after:inline-block after:align-middle after:w-1/2" >{props.heading}</h6>
         <div className="d-flex flex-column">
         <a href="/" className="text-[0.8rem] text-dark mb-1 footer-link">{props.link1}</a>
-        <a href="/" className="text-[0.8rem] text-dark mb-1 footer-link">{props.link2}</a>
-        <a href="/" className="text-[0.8rem] text-dark mb-1 footer-link">{props.link3}</a>
+        <a href="/about" className="text-[0.8rem] text-dark mb-1 footer-link">{props.link2}</a>
+        <a href="/contact" className="text-[0.8rem] text-dark mb-1 footer-link">{props.link3}</a>
         <a href="/" className="text-[0.8rem] text-dark mb-1 footer-link">{props.link4}</a>
+
+        
         </div>
       </div>
     )

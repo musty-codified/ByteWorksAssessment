@@ -20,6 +20,7 @@ export const dataContext = createContext();
 
     const [viewLocations, setViewLocations] = useState([]);
     const [locationDetail, setLocationDetail] = useState({});
+    const [routeDetail, setRouteDetail] = useState({});
 
     const[locationsUrl, setLocationsUrl] = useState("locations/view-list")
     const[pageNumber, setPageNumber] = useState(0)
@@ -32,13 +33,14 @@ export const dataContext = createContext();
 
     const[headerTitle, setHeaderTitle] = useState("Add New Location");
 
+    const[updatedLocation, setUpdatedLocation] = useState([])
+
     // const [getUser, setGetUser] = useState({});
     const [showNavbar, setShowNavbar] = useState(true)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false);
 
-
-
+    // const[findRouteUrl, setFindRouteUrl] = useState("routes/optimal-route")
 
     /** ====================================REGISTER=============================== **/
       const registerConfig = async (formData) => {
@@ -51,9 +53,7 @@ export const dataContext = createContext();
       };
 
       await apiPost("users/register", registerData)
-      .then((res) => {
-        // localStorage.setItem("signature", res.data.data.email)
-        
+      .then((res) => {      
         toast.success(res.data.message)
         setTimeout(() => {
           window.location.href = "/check-mail";
@@ -107,47 +107,11 @@ export const dataContext = createContext();
   }
 }
 
-    /**===============================================LOGIN======================================== **/
-//     const loginConfig= async(loginFormData, location, navigate)=>{
-//       try{
-//       const loginData = {
-//         email:loginFormData.email,
-//         password:loginFormData.password
-//       };
 
-//       apiPost("auth/login", loginData)
-//       .then((res)=> {
-//         if(res.data.message === "login successful" ) {
-//         toast.success(res.data.message)
-//         console.log(res.data.data)
-//         const jwtInfo = decodeJwt(res.data.data.token)
-//         localStorage.setItem("signature", res.data.data.token);
-//         localStorage.setItem("roles", jwtInfo.roles)
-//         console.log(jwtInfo.roles)
-
-//         setLocalStorageValue(localStorage.getItem("signature"))
-//         redirectToUserPage(location, navigate, jwtInfo.roles)
-//         } 
-//         else{
-//         toast.success(res.data.message)
-//          setTimeout(()=>{
-//         window.location.href="/login"
-//     }, 1500);
-//       }
-//     })
-//     .catch((err)=>{
-//       console.log(err.response.data);
-
-//     });
-
-//     } catch(err){ 
-//       console.log(err.response.data)
-//     }
-// }
-
-const loginConfig = async (loginFormData, location, navigate) => {
-  try {
-    const loginData = {
+ const loginConfig = async (loginFormData, location, navigate) => {
+  
+   try {
+      const loginData = {
       email: loginFormData.email,
       password: loginFormData.password,
     };
@@ -163,21 +127,18 @@ const loginConfig = async (loginFormData, location, navigate) => {
 
       setLocalStorageValue(localStorage.getItem("signature"));
       redirectToUserPage(location, navigate, jwtInfo.roles)
-      console.log(location);
 
-    } else {
+    } 
+    else {
       toast.success(res.data.message);
       setTimeout(() => {
         window.location.href = "/";
       }, 1500);
     }
   } catch (err) {
-    // Handle errors during the API call or promise rejection
     console.error('Error during login:', err);
     toast.error(err.response.data.error)
 
-
-    // Log the specific response data if available
     if (err.response && err.response.data) {
       console.log(err.response.data);
     }
@@ -192,10 +153,9 @@ const loginConfig = async (loginFormData, location, navigate) => {
     /**======================================VIEW ALL LOCATIONS================================== **/
   const getLocations = async() =>{
     const allLocationsUrl = `${locationsUrl}?pageNo=${pageNumber}`
-
+       setLoading(true)
       await apiGet(allLocationsUrl).then((res)=>{
         const data = res.data.data
-        setLoading(true)
         setViewLocations([...data.content])
         setPageNumber(data.number)
         setPageElementSize(data.size)
@@ -212,12 +172,11 @@ const loginConfig = async (loginFormData, location, navigate) => {
   };
 
 
-   /**======================================VIEW SINGLE LOCATION================================== **/
+   /** ======================================VIEW SINGLE LOCATION================================== **/
    const getSingleLocation = async(id) =>{
 
        await apiGet(`locations/${id}`).then((res)=>{
         const data = res.data
-        console.log(data.data)
         setLocationDetail(data.data)
         
        })
@@ -236,9 +195,9 @@ const loginConfig = async (loginFormData, location, navigate) => {
           setSubmitting(true)
 
           await apiPostAuthorization("locations/add", location).then((res) => {
-            console.log("Response Data:", res.data.data);
-            //  const newLocation = res.data.data; 
-            //  setUpdatedLocation(newLocation);
+            console.log("Server Response:", res);
+
+             console.log("Response Data:", res.data.data);
   
             onClose()
             toast.success(res.data.message)
@@ -267,7 +226,7 @@ const loginConfig = async (loginFormData, location, navigate) => {
         }
       };
 
-      
+    
      
       /**==========================================REMOVE LOCATION===================================== **/
       const deleteLocationConfig = async (location) => {
@@ -287,6 +246,22 @@ const loginConfig = async (loginFormData, location, navigate) => {
 
     
      /**===================================CALCULATE OPTIMAL ROUTE=================================== **/
+     const getOptimalRoute = async(queryParams) =>{
+    
+         setLoading(true)
+        await apiGet(`routes/optimal-route${queryParams}`).then((res)=>{
+          const data = res.data.data
+          console.log(data)
+          setRouteDetail(data)
+         })
+         .catch((err) => {
+          setError(err)
+      }).finally(
+        setLoading(false)
+      );
+  
+    };
+  
 
  return(
 
@@ -301,6 +276,9 @@ const loginConfig = async (loginFormData, location, navigate) => {
     localStorageValue,
     logout,
     setLocationsUrl,
+    getOptimalRoute,
+    // setFindRouteUrl,
+    routeDetail,
     pageElementSize,
     totalPages,
     totalElements,
@@ -317,11 +295,21 @@ const loginConfig = async (loginFormData, location, navigate) => {
     error,
     setShowNavbar,
     showNavbar,
+    updatedLocation
     }}>
 
     {children}
     </dataContext.Provider>
  )  
 }
+
+export const useAuth = () => {
+
+  const context = React.useContext(dataContext);
+  if (context === "undefined") {
+    throw new Error("useAuth must be used within the auth provider");
+  }
+  return context;
+};
 
   export default DataProvider

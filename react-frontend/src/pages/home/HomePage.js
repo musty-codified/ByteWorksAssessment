@@ -1,18 +1,18 @@
 import React from 'react'
-import Navbar from "../../components/navbar/Navbar";
 import Hero from '../hero/Hero'
 import Features from '../../components/Features'
-import GeoLocations from '../../components/geoLocations/GeoLocations'
 import { Outlet } from 'react-router-dom';
+import ServiceSection from '../../components/serviceSection/ServiceSection';
 
 const HomePage = () => {
   return (
-    <div className='bg-white'>
+    <div className=''>
       
-    {/* <Navbar/> */}
     <Hero/>
+
+    <ServiceSection/>
+    
     <Outlet/>
-    {/* <GeoLocations/> */}
     <Features/>
 
     </div>

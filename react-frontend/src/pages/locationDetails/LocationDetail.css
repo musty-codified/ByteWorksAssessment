@@ -1,21 +1,29 @@
+/* Location Detail Component CSS */
+
 i[class*='location-name-'] {
     padding: 7px 14px;
 }
 
-.location-detail-container {
-    padding: 27px;
-}
 
+.location-detail-container {
+    background-color:springgreen;
+    padding: 27px;
+    margin: 30px 26px;
+    display: flex;
+}
 
 .location-detail {
     display: flex;
     flex-direction: column;
-    color: #161616;
+    display: flex;
+    align-items: center;
 }
 
-.location-detail img {
+.location-detail > img {
     border-radius: 5px;
     margin-block: 47px;
+    height: 500px;
+        /* margin-right: 20px; */
 }
 
 .location-detail h2 {
@@ -37,6 +45,10 @@ i[class*='location-name-'] {
     font-size: 1.5rem;
 }
 
+.location-detail > p {
+    font-size: 20px;
+    margin-block: 0;
+}
 .back-button {
     display: block;
     color: black;
@@ -48,6 +60,9 @@ i[class*='location-name-'] {
 .back-button span:hover {
     text-decoration: underline;
 }
+
+
+/* ===================================== */
 
 .location-detail-nav{
      display: flex;
@@ -65,40 +80,6 @@ i[class*='location-name-'] {
     color: #161616;
     text-decoration: underline;
     font-weight: 600;
-}
-
-
-
-
-
-
-.location-detail-container {
-    background-color: white;
-    padding: 24px;
-    margin: 30px 26px;
-    display: flex;
 
 }
 
-.location-detail {
-    display: flex;
-    align-items: center;
-}
-
-.location-detail > img {
-    height: 160px;
-    border-radius: 5px;
-    margin-right: 20px;
-}
-
-.hlocation-detail-info-text > h2 {
-    margin-top: 24px;
-    margin-bottom: 5px;
-    font-size: 26px;
-    font-weight: 700;
-}
-
-.location-detail-info-text > p {
-    font-size: 20px;
-    margin-block: 0;
-}

@@ -6,7 +6,9 @@
     margin: 0 auto;
     margin: 120px;
     box-shadow: 0 0 100px rgba(0,0,0,0.2);
-    /* background-image: url("../../assets/images/jumbotronbg.jpg"); */
-
+    background-image: url("../../assets/images/registerbg.jpg");
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
 
 }

@@ -24,7 +24,6 @@ const SignupForm = () => {
    
    const handleChange =(event)=>{
        console.log(signupFormData)
-   
        setSignupFormdata(prevSignupFormData=>{
         return {
             ...prevSignupFormData,
@@ -35,7 +34,7 @@ const SignupForm = () => {
   
    const handleSubmit = async (event)=>{
     event.preventDefault()
-     setIsLoading(true)
+    setIsLoading(true)
     await registerConfig(signupFormData);
     setIsLoading(false)
     setSignupFormdata({
@@ -57,7 +56,7 @@ const SignupForm = () => {
         <form className='signup--form' onSubmit={handleSubmit}>
 
         <h2 className="signup--heading">Sign Up</h2>
-        <p className="signup--span"> Kindly create an account</p>
+        <p className="signup--span"> Create an account</p>
 
        <input 
             type="text" 

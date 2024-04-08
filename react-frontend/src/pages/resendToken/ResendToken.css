@@ -7,7 +7,6 @@
     /* background-image: url("../../../public/images/img5.jpg"); */
     background-repeat: repeat-y;
     background-size: cover;
-    /* Center and scale the image nicely */
     background-position: center;
     position: relative;
 }
@@ -18,12 +17,9 @@
     flex-direction: column;
     padding: 2rem;
     max-width: 400px;
-    /* width: 75%; */
-
     width: 100vw;
-
     margin: 0.7em auto;
-    background-color: white;
+    /* background-color: white; */
     position: relative;
     right: 30%;
   }
@@ -32,16 +28,11 @@
     font-size: 1.5em !important;
     font-weight: 600 !important;
   }
-  .otp--span{
-
-  }
-
+ 
   .otp--form > input,
   .otp--btn{
-    border: 1px solid #e9e7e7;
     padding: 0.5em 1em;
     border-radius: 8px;
-    /* box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1); */
   }
 
   .otp--form > .otp--btn{
@@ -50,12 +41,4 @@
     font-size: 1em;
     cursor: pointer;
 
-  }
-
-  * > * {
-    font-family: "Poppins", cursive;
-    font-family: "Nunito", sans-serif;
-    font-family: "Open Sans", sans-serif;
-    margin: 0;
-    outline: orange;
   }

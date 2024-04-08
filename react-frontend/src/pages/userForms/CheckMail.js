@@ -14,7 +14,7 @@ const CheckMail = () => {
                         Check your email to confirm registration
                     </p>
                     <div className="flex justify-center items-center">
-                        <span>Did not recieve Verification link? <Link to='/resend-token' className="text-[#9b7d0f]" >Resend token</Link> </span>
+                        <span>Didn't recieve the OTP? <Link to='/resend-token' className="text-[#9b7d0f]" >Resend OTP</Link> </span>
                     </div>
                     <div className="flex justify-center items-center">
                         <span> Verified? </span> <Link to='/login'>Proceed to Login</Link>

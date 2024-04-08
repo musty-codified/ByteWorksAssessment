@@ -3,12 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@900&family=Jost:wght@200;300;400;500;600&display=swap');
 
 
-.header-nav{
+.header--nav{
   background-color: #f6b319;
   border-radius: 0;
   border: 0;
   box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
-  padding: 15px 26px;
+  /* padding: 15px 26px; */
 }
 
 .nav--container {
@@ -30,13 +30,17 @@
 }
 
 a:hover, a:focus{
-  text-decoration: none;
+  text-decoration:none;
 }
 
 ul li{
+    list-style: none;
+
     font-family: 'Jost', sans-serif;
     font-weight: 600;
     font-size: .9rem;
+    color: black;
+
 }
 
 ul{
@@ -56,13 +60,13 @@ ul{
     line-height: .65; 
 }
   
-span.navbar-text {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-} 
 
-  
-
+.icon {
+  font-size: 28px;
+}
+nav.scrolled {
+  padding: 0px 0;
+  background-color: #121212;
+}
 
 

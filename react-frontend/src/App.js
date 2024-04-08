@@ -12,22 +12,20 @@ import CheckMail from './pages/userForms/CheckMail';
 
 import DataProvider from './context/AuthContext';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
-// import AddLocationForm from './components/forms/AddLocationForm';
 import AdminDashboard from './pages/adminDashboard/AdminDashboard';
 import {ProtectAdminRoute, ProtectUserRoute, IsAuthenticated, AdminAuthRequired} from './context/ProtectRoute';
 import LocationTableView from './components/location/LocationTableView';
 import LocationDetail from './pages/locationDetails/LocationDetail';
 import Layout from './components/layout/Layout';
-import Statistics from './pages/adminDashboard/Statistics';
+import Statistics from './pages/adminDashboard/Analytics';
 import AdminLayout from './components/layout/AdminLayout';
 import LocationInfo from './pages/locationInfo/LocationInfo';
 import LocationClearingCost from './pages/locationClearingCost/LocationClearingCost';
 import Page404 from './pages/404Page/Page404';
 import GeoLocations from './components/geoLocations/GeoLocations';
-import Navbar from './components/navbar/Navbar';
-import Home from './pages/home/HomePage';
 import About from './pages/about/About';
-
+import Contact from './pages/contact/Contact';
+import RouteCalculation from './pages/routeCalculation/RouteCalculation';
 
 
 function App() {
@@ -47,10 +45,16 @@ function App() {
               /> */}
 
               <Route path="/"element={<Layout/>}>
-                <Route index element={<HomePage/>}/>
+                <Route index element={
+                  <ProtectUserRoute>
+                     <HomePage/>
+                 </ProtectUserRoute>
+                         }
+                   />
                 <Route path='locations' element={<GeoLocations/>}/>
                 <Route path='about' element ={<About/>}/>
-                                      
+                <Route path='contact' element ={<Contact/>}/>
+                  
                 <Route  element={<AdminAuthRequired/>}>
                 <Route path ="admin" element={<AdminLayout/>}>
                 <Route index element={<AdminDashboard/>}/>
@@ -60,10 +64,6 @@ function App() {
               </Route>
 
                 </Route>
-              {/* <Route path='/locations' element={<GeoLocations/>}/> */}
-
-              {/* <Route index element={<HomePage />} /> */}
-
 
                <Route path='/login' 
                element={
@@ -76,14 +76,17 @@ function App() {
                <Route path='/activate' element={<ActivateUser/>}/>
                <Route path='/check-mail' element={<CheckMail/>}/>
                <Route path='/resend-token' element={<ResendToken/>}/>
-               <Route path='/locations' element={<Location/>}/>
+
+               {/* consider swapping this route with the "/locations (Geolocations page) route in the admin page" */}
+               <Route path='/location/all' element={<Location/>}/>
 
                <Route path='/locations/:id' element={<LocationDetail/>}>
                <Route index element={<LocationInfo/>}/>
                <Route path='clearingCost' element={<LocationClearingCost/>}/>
                </Route>
-
-              <Route path="*" element={<Page404/>} />
+               
+               <Route path='/routing' element={<RouteCalculation/>}/>
+               <Route path="*" element={<Page404/>} />
         </Routes>
       <Footer />
     </Router>

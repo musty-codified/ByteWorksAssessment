@@ -4,15 +4,14 @@ import {
   DeleteOutlined,
   EditOutlined,
 } from '@ant-design/icons';
-import { useContext } from "react";
-import { dataContext } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import PopupConfirm from '../popupNotification/PopupConfirm'
 
 const HandleAddLocationDetails=({location, setShowDrawer})=>{
 
-    const { getLocations, deleteLocationConfig, setSingleLocation, setHeaderTitle } = useContext(dataContext)
+    const { getLocations, deleteLocationConfig, setSingleLocation, setHeaderTitle } = useAuth()
 
-return(
+ return(
 
     <div>
 
@@ -81,7 +80,7 @@ const confirmDeleteLocation = (location, removeLocation, getLocations) => {
     {
         title: 'Clearing Cost',
         dataIndex: 'clearing cost',
-        key: 'clearing cost',
+        key: 'clearingCost',
     },
 
     {
@@ -90,7 +89,7 @@ const confirmDeleteLocation = (location, removeLocation, getLocations) => {
         key: 'actions',
         render: (_, location) => <HandleAddLocationDetails key={location.id}
         location={location} setShowDrawer={setShowDrawer}/>
-      },
+    },
 ];
 
 export {locationColumns}

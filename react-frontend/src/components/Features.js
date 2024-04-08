@@ -7,12 +7,17 @@ import './Features.css'
 
 const Features = () => {
     return(
+        <>
+         <h3 className="desc">
+          WHY CHOOSE US?
+        </h3>
         <div className="mt-[8rem] flex flex-wrap gap-16 justify-center feature container">
             <FeatureCard icon={<CiDeliveryTruck />} title="FREE SHIPPING" details="Order over $500" />
             <FeatureCard icon={<MdOutlinePayments />} title="QUICK PAYMENT" details="100% secured payment" />
             <FeatureCard icon={<GiReceiveMoney />} title="MONEY RETURN" details="Back under 7 days" />
             <FeatureCard icon={<BiSupport />} title="24/7 SUPPORT" details="Ready for you" />
         </div>
+        </>
     );
 }
 

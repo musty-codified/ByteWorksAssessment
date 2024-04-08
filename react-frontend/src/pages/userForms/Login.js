@@ -44,8 +44,8 @@ const Login = () => {
     })
 
   }
-  // const showMessage = location.state?.message;
-  // console.log(showMessage) 
+          const showMessage = location.state?.message;
+          console.log(showMessage) 
 
      return (
           <div className="login--container">
@@ -53,6 +53,8 @@ const Login = () => {
 
               <form className='login--form' onSubmit={handleSubmit}>
                <h1 className="login--heading">Log in to your account</h1>
+                  {showMessage && <h4 className='red'>{showMessage}</h4>}
+              
                       <input 
                            type="email" 
                            placeholder="Email address" 
@@ -69,11 +71,14 @@ const Login = () => {
                           value={loginFormData.password}
                           required/>
 
-                      <button type="submit" onClick = {()=>loginConfig(loginFormData)} className="login--btn">
-                           Sign in
+                      <button 
+                      type="submit" 
+                      onClick = {()=>loginConfig(loginFormData, location, navigate)} className="login--btn"
+                      >
+                          Sign in
                       </button>
                        
-                       <p className='login_small mb-0"'>
+                       <p className='login_small mb-0'>
                        Don't have an account? 
                        <a href='/register'> Signup</a>
                        </p>
@@ -81,8 +86,6 @@ const Login = () => {
                    {isLoading && <Loader/>}
                  </FormCard>
                <ToastContainer />
-               {location.state && location.state.message && <p>{location.state.message}</p>}
-
                    </div>
            )
    }

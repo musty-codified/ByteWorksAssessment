@@ -1,15 +1,18 @@
 .card--style{
-    /* width: 700px; */
-    height: 700px;
-    /* border-radius: 15px ; */
+    padding: 260px 0 100px 0;
+    min-height: 450px;
     justify-content: center;
-    /* margin: 0 auto; */
-    margin-bottom: 50px;
-    /* margin-top: 25px; */
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    background-image: url("../../assets/images/jumbotronbg.jpg");
+    margin-top: 0;
+    margin-bottom: 10px;
+    /* box-shadow: 0 0 10px rgba(0,0,0,0.2); */
+    background-image: url("../../assets/images/dispatch-rider.jpg") ;
+
     background-size: cover;
-    background-position: center;
+    background-position: top center;
     overflow: hidden;
+    /* padding: 45px 23px; */
+    color: white;
+
   
 }
+

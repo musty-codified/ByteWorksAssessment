@@ -19,8 +19,7 @@ export const isTokenValid = (token) => {
 }
 
 export const redirectToUserPage = (location, navigate, roles) => {
-
-    let from = location.state && location.state.from && location.state.from.pathname;
+  let from = location.state?.from?.pathname || ""
   
     if (isTokenValid(localStorage.getItem("signature"))) {
       if (roles === "USER_DELETE,USER_EDIT,USER_READ") {
@@ -31,8 +30,9 @@ export const redirectToUserPage = (location, navigate, roles) => {
     } else {
       from = from || "/login";
     }
-  
+
     navigate(from, { replace: true });
+
   };
 
 
