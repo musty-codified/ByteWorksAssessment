@@ -28,7 +28,7 @@ public class MemcachedConfig extends AbstractSSMConfiguration {
 
     @Value("${memcached.service.host}")
     private String memcachedHost;
-    @Value("${memcached.service.port}")
+    @Value("${memcached.service.port:11211}")
     private int memcachedPort;
    private static final Logger LOGGER = LoggerFactory.getLogger(MemcachedConfig.class);
 

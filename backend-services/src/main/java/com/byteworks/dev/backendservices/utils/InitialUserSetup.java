@@ -22,7 +22,7 @@ private final AppUtils appUtil;
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Starting initial user setup");
+        System.out.println("initializing Admin user");
         User adminUser = User.builder()
                 .email("mustafa4papi@gmail.com")
                 .firstName("Papi")
@@ -35,6 +35,7 @@ private final AppUtils appUtil;
                 .password(passwordEncoder.encode("123456"))
                 .build();
         userRepository.save(adminUser);
+        System.out.println("Admin user created");
 
     }
 }

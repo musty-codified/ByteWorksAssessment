@@ -34,8 +34,8 @@ public class LocationUtils {
     public double calculateDistance(Location from, Location to) {
         if (from.equals(to))
             return 0.0;
-        return Math.sqrt(Math.pow(from.getLatitude() - to.getLatitude(), 2) +
-                Math.pow(from.getLongitude() - to.getLongitude(), 2));
+        return Math.sqrt(Math.pow(from.getLatitude() - to.getLatitude(), 2)
+                + Math.pow(from.getLongitude() - to.getLongitude(), 2));
     }
 
     public double calculateTotalCost(List<Location> waypoints) {

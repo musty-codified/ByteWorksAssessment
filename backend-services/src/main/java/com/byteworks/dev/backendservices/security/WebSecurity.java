@@ -29,6 +29,7 @@ public class WebSecurity {
     private static final String [] WHITE_LISTED_URLS = {
             "/",
             "/api/v1/locations/**",
+            "/api/v1/routes/**",
             "/api/v1/auth/login",
             "/api/v1/users/**",
             "/h2-console/**",

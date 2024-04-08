@@ -5,9 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 
 @Data
@@ -15,18 +14,17 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class RegisterUserDto {
 
-    @NotNull
+    @NotBlank(message = "First name is required")
     private String firstName;
 
-    @NotNull
+    @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @NotNull
     @Email
-    @Column(name = "email")
+    @NotBlank(message = "Invalid email format")
     private String email;
 
-    @NotNull
+    @NotBlank(message = "Password is required")
     private String password;
 
 }

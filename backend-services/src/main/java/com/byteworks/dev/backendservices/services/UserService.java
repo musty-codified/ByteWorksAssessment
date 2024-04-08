@@ -10,7 +10,5 @@ public interface UserService {
     UserResponseDto activateUser(ActivateUserDto activateUserD);
     String sendToken(String email, String subject);
     UserResponseDto login(UserLoginDto userLoginDto);
-
-
     UserResponseDto findUser(String userId);
 }

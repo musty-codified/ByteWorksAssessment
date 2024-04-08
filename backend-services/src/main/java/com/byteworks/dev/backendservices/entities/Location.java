@@ -1,4 +1,5 @@
 package com.byteworks.dev.backendservices.entities;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -6,9 +7,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 
+@Data
 @Builder
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -27,21 +27,13 @@ public class Location extends Base{
     private DeliveryRoute deliveryRoute;
 
     @Override
-    public String toString() {
-        return "Location{" +
-                "name='" + name + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", clearingCost=" + clearingCost +
-                '}';
+    public boolean equals(Object o) {
+        Location location = (Location) o;
+        return this.getName().equals(location.getName());
     }
 
     @Override
-    public boolean equals(Object o) {
-        Location location = (Location) o;
-        return Double.compare(location.latitude, latitude) == 0
-                && Double.compare(location.longitude, longitude) == 0;
+    public int hashCode(){
+        return name.hashCode();
     }
-
-
 }

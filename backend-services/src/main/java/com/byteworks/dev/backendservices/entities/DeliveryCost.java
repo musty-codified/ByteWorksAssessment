@@ -15,6 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "delivery_costs")
 public class DeliveryCost extends Base{
+
     private double distanceCost;
     private double clearanceCost;
     private double totalCost;

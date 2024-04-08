@@ -31,9 +31,9 @@ public class LocationController {
     @Operation(summary = "Fetches a list of location object")
     @GetMapping("/view-list")
     public ResponseEntity<ApiResponse<Page<LocationResponseDto>>> getLocations(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                                           @RequestParam(value = "limit", defaultValue = "20") int limit,
-                                                                           @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
-                                                                           @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
+                                                                               @RequestParam(value = "limit", defaultValue = "20") int limit,
+                                                                               @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
+                                                                               @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
         return ResponseEntity.ok().body( new ApiResponse<>("Locations retrieved successfully", true, locationService.getLocations( page, limit, sortBy, sortDir)));
 
     }
@@ -43,6 +43,17 @@ public class LocationController {
     public ResponseEntity<ApiResponse<LocationResponseDto>> updateLocation(@PathVariable Long id, @RequestBody LocationDto locationDto){
         return ResponseEntity.ok().body( new ApiResponse<>("Location updated successfully", true, locationService.updateLocation(id, locationDto)));
     }
+
+//    @Operation(summary = "Uploads a location image")
+//    @PostMapping("/upload-image/{id}")
+//    public ResponseEntity<ApiResponse<String>> updateLocationImage(@PathVariable Long id, @RequestParam("File") MultipartFile image){
+//        try {
+//            return ResponseEntity.ok().body( new ApiResponse<>("Location image uploaded successfully", true, locationService.upLoadLocationImage(id, image)));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     @Operation(summary = "Retrieves a single location object")
     @GetMapping("/{id}")

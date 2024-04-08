@@ -25,7 +25,7 @@ public class JwtUtils {
         private final LocalStorage memStorage;
         private final UserRepository userRepository;
 
-        @Value("${app.jwt_secret}")
+        @Value("${app.jwt_secret: defaultTokenSecret}")
         private String JWT_SECRET;
 
         public String extractUsername(String token){
@@ -85,7 +85,6 @@ public class JwtUtils {
 
         public Boolean isTokenValid(String token, UserDetails userDetails) {
             final String username = extractUsername(token);
-            System.out.println(userDetails);
             if (memStorage.keyExist("Blacklist")) {
                 String[] blacklistTokens = memStorage.getValueByKey("Blacklist").split(" ,");
                 Set<String> blacklists = Arrays.stream(blacklistTokens).collect(Collectors.toSet());

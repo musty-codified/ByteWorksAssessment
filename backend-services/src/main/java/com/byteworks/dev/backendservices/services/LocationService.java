@@ -9,7 +9,7 @@ public interface LocationService {
 
     LocationResponseDto addLocation(LocationDto locationDto);
     Page<LocationResponseDto> getLocations(int page, int limit, String sortBy, String sortDir);
-    LocationResponseDto updateLocation (Long id,  LocationDto locationDto);
+    LocationResponseDto updateLocation (Long id, LocationDto locationDto);
     void deleteLocation( Long id);
     LocationResponseDto findLocationById(Long id);
 }

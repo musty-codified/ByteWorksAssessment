@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @OpenAPIDefinition(
 		info=@Info(
 				title = "Package Delivery RESTful Web API Documentation",
-				description = "These pages document a Delivery Restful Web service Endpoints",
+				description = "These pages document a Delivery App Web service Endpoints",
 				version = "1.0",
 				contact = @Contact(
 						name = "Musty-codified",
@@ -40,16 +41,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 				),
 		}
 )
+
+//Configuration class
 @SpringBootApplication
 public class BackendServicesApplication {
 
-
-
 	public static void main(String[] args) {
-		SpringApplication.run(BackendServicesApplication.class, args);
+	ConfigurableApplicationContext context = SpringApplication.run(BackendServicesApplication.class, args);
+
+
+//		Arrays.stream(context.getBeanDefinitionNames()).forEach(System.out::println);
+
 	}
-
-
 
 	@Bean
 	public PasswordEncoder passwordEncoder(){

@@ -1,33 +1,39 @@
 package com.byteworks.dev.backendservices.dtos.requests;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LocationDto {
+     @NotBlank(message = "Name of location is required")
+     private String name;
 
-    @NotNull
-    private String name;
+     @DecimalMin(value = "-90.0", message = "Invalid")
+     @DecimalMax(value = "90.0", message = "Invalid")
+     private double latitude;
 
-    @DecimalMin(value = "-90.0")
-    @DecimalMax(value = "90.0")
-    @NotBlank
-    private Double latitude;
+     @DecimalMin(value = "-180.0",  message = "Invalid  ")
+     @DecimalMax(value = "180.0",  message = "Invalid")
+     private double longitude;
 
-    @NotBlank
-    @DecimalMin(value = "-180.0")
-    @DecimalMax(value = "180.0")
-    private Double longitude;
+     @Min(25)
+     @Max(100)
+     private double clearingCost;
 
+    @Override
+    public boolean equals(Object o){
+        LocationDto locationDto = (LocationDto) o;
+       return getName().equals(locationDto.getName());
+    }
+    @Override
+    public int hashCode(){
+        return name.hashCode();
+    }
 }

@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
 
-
 @Builder
 @Data
 @AllArgsConstructor

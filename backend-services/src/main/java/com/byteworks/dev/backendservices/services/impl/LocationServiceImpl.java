@@ -10,6 +10,7 @@ import com.byteworks.dev.backendservices.services.LocationService;
 import com.byteworks.dev.backendservices.utils.AppUtils;
 import com.byteworks.dev.backendservices.utils.LocationUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,11 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepository;
     private final AppUtils appUtil;
+
     private final LocationUtils locationUtils;
 
     @Override
@@ -29,7 +32,6 @@ public class LocationServiceImpl implements LocationService {
             throw new ValidationException("Location already exists");
 
         Location location = appUtil.getMapper().convertValue(locationDto, Location.class);
-        location.setClearingCost(appUtil.getRandomClearingCost());
 
        Location loc = locationRepository.save(location);
         return appUtil.getMapper().convertValue(loc, LocationResponseDto.class);
@@ -50,6 +52,8 @@ public class LocationServiceImpl implements LocationService {
         return new PageImpl<>(locationResponseDtos.subList(min, max), pageRequest, locationResponseDtos.size());
     }
 
+
+
     @Override
     public LocationResponseDto updateLocation(Long id, LocationDto locationDto) {
 
@@ -59,13 +63,14 @@ public class LocationServiceImpl implements LocationService {
         existingLocation.setName(locationDto.getName());
         existingLocation.setLatitude(locationDto.getLatitude());
         existingLocation.setLongitude(locationDto.getLongitude());
-        existingLocation.setClearingCost(appUtil.getRandomClearingCost());
+        existingLocation.setClearingCost(locationDto.getClearingCost());
 
         Location updatedLocation = locationRepository.save(existingLocation);
         LocationResponseDto locationResponseDto = appUtil.getMapper().convertValue(updatedLocation, LocationResponseDto.class);
 
         return locationResponseDto;
     }
+
     @Override
     public void deleteLocation(Long id) {
         Location location = locationRepository.findById(id)

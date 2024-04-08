@@ -1,6 +1,5 @@
 package com.byteworks.dev.backendservices.controllers;
 
-
 import com.byteworks.dev.backendservices.dtos.requests.ActivateUserDto;
 import com.byteworks.dev.backendservices.dtos.requests.RegisterUserDto;
 import com.byteworks.dev.backendservices.dtos.response.ApiResponse;

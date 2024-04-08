@@ -64,8 +64,6 @@ public class UserServiceImpl implements UserService {
                 .map(Objects::toString).collect(Collectors.joining(",")));
 
        newUser = userRepository.save(newUser);
-       appUtil.print(newUser);
-
         sendToken(newUser.getEmail(), "activate your account");
 
         return appUtil.getMapper().convertValue(newUser, UserResponseDto.class);
@@ -73,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto activateUser(ActivateUserDto activateUserDto) {
-        System.out.println("Before validation: " + activateUserDto.getActivationToken());
+        appUtil.print(activateUserDto);
         validateToken(activateUserDto.getEmail(), activateUserDto.getActivationToken());
        User userToActivate = userRepository.findByEmail(activateUserDto.getEmail())
                 .orElseThrow(()-> new NotFoundException("User not found"));
@@ -92,6 +90,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void validateToken(String memcachedKey, String value) {
+        System.out.println("Email is: " + memcachedKey + "token is: " + value);
         if(!userRepository.existsByEmail(memcachedKey))
             throw new NotFoundException("User not found");
         if(!appUtil.validEmail(memcachedKey))
@@ -112,10 +111,11 @@ public class UserServiceImpl implements UserService {
       memStorage.save(email, token, 900);  //15mins
 
         String url = "http://" + servletRequest.getServerName() + ":3000" + "/activate ";
+        String messageFormat = "Use this token to %s: %s (Expires in 15mins) <br/> <a href=\"%s\">CLICK TO VERIFY</a>";
 
         MailDto mailDto = MailDto.builder()
                 .to(email)
-                .body(String.format("Use this token to %s: %s (Expires in 15mins) <br/> <a href=\"%s\">CLICK TO VERIFY</a>", subject.toLowerCase(), token, url))
+                .body(String.format(messageFormat, subject.toLowerCase(), token, url))
                 .subject(subject.toUpperCase())
                 .build();
         emailService.sendMail(mailDto);
@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword())
             );
-            UserResponseDto userResponseDto;
+            UserResponseDto userResponseDto = null;
 
             if (authentication.isAuthenticated()) {
                 User user = userRepository.findByEmail(creds.getEmail())
@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto findUser(String userId) {
-      User user =  userRepository.findByUuid(userId)
+      User user = userRepository.findByUuid(userId)
               .orElseThrow(()-> new NotFoundException("User not found"));
       UserResponseDto userResponseDto = appUtil.getMapper().convertValue(user, UserResponseDto.class);
         return userResponseDto;

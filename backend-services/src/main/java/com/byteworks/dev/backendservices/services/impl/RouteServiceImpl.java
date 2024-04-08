@@ -22,8 +22,45 @@ public class RouteServiceImpl implements RouteService {
     private final LocationRepository locationRepository;
     private final LocationService locationService;
 
+
+//       @Override
+//    public DeliveryRoute getOptimalRoute(Long originId, Long destinationId) {
+//        List<DeliveryResponseDto> waypoints = getAllLocationsExceptOriginAndDestination(originId, destinationId);
+//
+//        GeoApiContext geoApiContext = new GeoApiContext.Builder()
+//                .apiKey("your-google-api-key")
+//                .build();
+//
+//        String[] waypointAddresses = waypoints.stream()
+//                .map(location -> location.getLatitude() + "," + location.getLongitude())
+//                .toArray(String[]::new);
+//
+//        DistanceMatrixApiRequest distanceMatrixApiRequest = DistanceMatrixApi.newRequest(geoApiContext)
+//                .mode(TravelMode.DRIVING);
+//
+//        try {
+//            DistanceMatrix distanceMatrix = distanceMatrixApiRequest.await();
+//
+//            return new DeliveryRoute();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new RuntimeException("Error while calculating optimal route.");
+//        }
+//    }
+//
+//    private List<DeliveryResponseDto> getAllLocationsExceptOriginAndDestination(Long originId, Long destinationId) {
+//        List<DeliveryResponseDto> allLocations = getAllDeliveryLocations(0, Integer.MAX_VALUE).getContent();
+//
+//        allLocations.removeIf(location -> location.getId().equals(originId) || location.getId().equals(destinationId));
+//
+//        return allLocations;
+//    }
+
     @Override
     public DeliveryRouteDto findOptimalRoute(Long originId, Long destinationId) {
+
+//      Page<LocationResponseDto> wayPoints = getLocationsExceptOriginAndDestination(originId, destinationId);
+
       Location origin = locationRepository.findById(originId)
               .orElseThrow(()-> new NotFoundException("origin not found"));
       Location destination = locationRepository.findById(destinationId)
@@ -39,17 +76,24 @@ public class RouteServiceImpl implements RouteService {
         deliveryRoute.setLocations(optimalRoute);
         deliveryRoute.setTotalCost(totalCost);
 
-      DeliveryRouteDto deliveryRouteDto = appUtil.getMapper().convertValue(deliveryRoute, DeliveryRouteDto.class);
-        return deliveryRouteDto;
+        return appUtil.getMapper().convertValue(deliveryRoute, DeliveryRouteDto.class);
+
     }
 
-    private List<Location> reconstructPath(Map<Location, Location> parentMap, Location destination) {
+//    private Page<LocationResponseDto> getLocationsExceptOriginAndDestination(long originId, long destinationId) {
+//        Page<LocationResponseDto> locationResponseDtos =
+//                locationService.getLocations(0, Integer.MAX_VALUE, "name", Sort.Direction.ASC.name());
+//        locationResponseDtos.getContent().removeIf(location->location.getId().equals(originId) ||location.getId().equals(destinationId));
+//        return locationResponseDtos;
+//
+//    }
+    private List<Location> reconstructPath(Map<Location, Location> locationMap, Location destination) {
         List<Location> paths = new ArrayList<>();
         Location currentLocation = destination;
 
         while (currentLocation != null) {
             paths.add(currentLocation);
-            currentLocation = parentMap.get(currentLocation);
+            currentLocation = locationMap.get(currentLocation);
         }
         Collections.reverse(paths);
         return paths;
@@ -57,30 +101,31 @@ public class RouteServiceImpl implements RouteService {
 
     private List <Location> bfs (Location origin, Location destination){
         Queue<Location> queue = new LinkedList<>();
-        Map<Location, Location> parentMap = new HashMap<>();
+        Map<Location, Location> locationMap = new HashMap<>();
         Set<Location> visited = new HashSet<>();
 
         queue.add(origin);
         visited.add(origin);
 
         while (!queue.isEmpty()){
+            //queue.remove() also works but poll() is null safe
             Location currentLocation = queue.poll();
 
             if (currentLocation.equals(destination)) {
                 // Destination reached, reconstruct the path
-                List<Location> optimalRoute = reconstructPath(parentMap, destination);
+                List<Location> optimalRoute = reconstructPath(locationMap, destination);
 
                 return optimalRoute;
             }
 
-//            locationService.
+            //Consider changing the implementation of findClosestLocation(after removing the origin and destination)
             List <Location> locationList = locationUtil.findClosestLocations(currentLocation, locationRepository.findAll(), 3);
             for (Location neighbor : locationList) {
                 if (!visited.contains(neighbor)) {
                     // Visit unvisited neighbors
                     queue.add(neighbor);
                     visited.add(neighbor);
-                    parentMap.put(neighbor, currentLocation);
+                    locationMap.put(neighbor, currentLocation);
                 }
             }
 

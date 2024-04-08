@@ -16,7 +16,7 @@ import java.util.Date;
 public class Base implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
     @Temporal(TemporalType.TIMESTAMP)

@@ -22,6 +22,6 @@ public class RouteController {
     @Operation(summary = "Generates the optimal routes a package takes from an origin to a destination")
     @GetMapping("/optimal-route")
     public ResponseEntity<ApiResponse<DeliveryRouteDto>> optimalRoute(@RequestParam Long originId, @RequestParam Long destinationId){
-        return ResponseEntity.ok().body( new ApiResponse<>("Optimal Route calculated", true, routeService.findOptimalRoute(originId, destinationId)));
+        return ResponseEntity.ok().body( new ApiResponse<>("Optimal Route generated", true, routeService.findOptimalRoute(originId, destinationId)));
     }
 }
