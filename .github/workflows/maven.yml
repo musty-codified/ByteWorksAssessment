@@ -28,7 +28,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Navigate to project directory
-      run: cd /backend-services
+      run: cd ./backend-services
     - name: Build with Maven
       run:  mvn clean install
     - name: Build & Push Docker image
