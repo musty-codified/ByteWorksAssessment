@@ -110,7 +110,8 @@ public class UserServiceImpl implements UserService {
       String token = appUtil.generateSerialNumber("verify");
       memStorage.save(email, token, 900);  //15mins
 
-        String url = "http://" + servletRequest.getServerName() + ":3000" + "/activate ";
+//        String url1 = "http://" + servletRequest.getServerName() + ":3000" + "/activate ";
+        String url = "http://" + servletRequest.getServerName() + "/activate ";
         String messageFormat = "Use this token to %s: %s (Expires in 15mins) <br/> <a href=\"%s\">CLICK TO VERIFY</a>";
 
         MailDto mailDto = MailDto.builder()

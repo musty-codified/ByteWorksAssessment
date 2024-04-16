@@ -7,8 +7,16 @@ import {
   apiPostAuthorization,
   apiDeleteAuthorization,
   apiGetAuthorization
-} 
-from '../utils/api/Axios.js'
+}from "../utils/api/Axios.js"
+
+
+import {
+  errorNotification,
+  successNotification
+} from  '../components/Notification.js';
+
+
+
 import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {decodeJwt, redirectToUserPage } from '../utils/RoleUrlRouter.js';
@@ -54,14 +62,18 @@ export const dataContext = createContext();
 
       await apiPost("users/register", registerData)
       .then((res) => {      
-        toast.success(res.data.message)
+        // toast.success(res.data.message)
+        successNotification(res.data.data)
+        console.log(res.data.data);
+
         setTimeout(() => {
           window.location.href = "/check-mail";
         }, 1500); 
       });
 
     }catch (err) {
-      toast.error(err.response.data.error)
+      // toast.error(err.response.data.error)
+      errorNotification(err.response.data.message)
       console.log(err.response.data.message);
     }
   };
@@ -120,6 +132,7 @@ export const dataContext = createContext();
 
     if (res.data.message === "login successful") {
       toast.success(res.data.message);
+      console.log(res.data)
 
       const jwtInfo = decodeJwt(res.data.data.token);
       localStorage.setItem("signature", res.data.data.token);
@@ -130,7 +143,8 @@ export const dataContext = createContext();
 
     } 
     else {
-      toast.success(res.data.message);
+      // toast.success(res.data.message);
+      successNotification(res.data.data)
       setTimeout(() => {
         window.location.href = "/";
       }, 1500);
@@ -138,6 +152,8 @@ export const dataContext = createContext();
   } catch (err) {
     console.error('Error during login:', err);
     toast.error(err.response.data.error)
+    // errorNotification(err.responose.data.message)
+
 
     if (err.response && err.response.data) {
       console.log(err.response.data);
@@ -304,7 +320,6 @@ export const dataContext = createContext();
 }
 
 export const useAuth = () => {
-
   const context = React.useContext(dataContext);
   if (context === "undefined") {
     throw new Error("useAuth must be used within the auth provider");

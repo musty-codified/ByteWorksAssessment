@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  postgres_db:
+    container_name: postgres_db
+    image: postgres:14.11-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: papi
+      POSTGRES_USER: postgres
+      POSTGRES_DB: geobytesdb
+    networks:
+      springboot-react-postgres-net:
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  api-server:
+    container_name: api-server
+    build:
+      context: ./backend-services
+      dockerfile: Dockerfile
+    environment :
+      APP_DB: deploy
+      MEMCACHED_SERVICE_HOST: memcached_store
+      APP_JWTSECRET: AC47DJR03NS937ENCX0SHD6WVQD73B28WBDVW62VS2BD6XNCPA1826WSZ2TSZGAJARA810WSGSGR
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres_db
+    networks:
+      springboot-react-postgres-net:
+    restart: on-failure
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./react-frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:3000"
+    depends_on:
+      - api-server
+    networks:
+      springboot-react-postgres-net:
+
+  memcached_store:
+    container_name: memcached_store
+    image: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      springboot-react-postgres-net:
+    restart: always
+
+volumes:
+  dbdata:
+
+networks:
+  springboot-react-postgres-net:
+

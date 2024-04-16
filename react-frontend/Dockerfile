@@ -1,12 +1,8 @@
-FROM node:alpine
-COPY package.json package-lock.json /
-# WORKDIR /react-frontend/
-# COPY package.json /react-frontend/
+FROM node:alpine3.18
+WORKDIR /react-frontend/
+COPY package.json .
 RUN npm install
 COPY . .
-RUN npm run build
-# CMD ["npm", "start"]
+EXPOSE 3000
+CMD ["npm", "start"]
 
-# CMD [ "executable" ]
-
-# COPY src/ /react-frontend/src

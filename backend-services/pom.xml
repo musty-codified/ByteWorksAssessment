@@ -151,6 +151,8 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>geobytes-rider</finalName>
+
 	</build>
 
 </project>

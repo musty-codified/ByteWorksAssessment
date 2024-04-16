@@ -16,13 +16,6 @@ Following tools and libraries were used during the development of the API :
 ### Authentication and Authorization
 Uses Spring Security with JWT for stateless authentication and authorization.
 
-## Response and Exception Handling ##
-The custom exceptions are present in the **_exceptions_** package.
-All Api responses are in the following format:
-message : Summary of the response
-status : Boolean value indicating whether request was successful or not
-Data : This contains the results of your request. It can either be an object, or an array depending on the request made.
-
 ### Deployment
 The application can be deployed on any Java Servlet container, or docker containers.
 
