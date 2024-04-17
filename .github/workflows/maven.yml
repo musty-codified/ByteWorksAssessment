@@ -27,8 +27,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+        working-directory: backend-services
     - name: Build with Maven
-#      working-directory: backend-services
       run:  mvn clean install
     - name: Build & push Docker image for backend-services
       uses: mr-smithers-excellent/docker-build-push@v5
