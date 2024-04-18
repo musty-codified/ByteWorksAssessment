@@ -34,7 +34,7 @@ jobs:
           tags: latest
           registry: docker.io
           dockerfile: backend-services/Dockerfile
-          buildContext: backend-services
+#          buildContext: backend-services
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
