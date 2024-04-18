@@ -25,10 +25,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Navigate to backend-services directory
-        run: cd ..
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn -f ByteWorksAssessment/backend-services clean install
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
