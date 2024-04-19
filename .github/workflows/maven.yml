@@ -27,12 +27,13 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn -f backend-services/pom.xml clean install
-      - name: Build & push Docker image for backend-services
+      - name: Navigate to backend-services directory
         run: |
           cd backend-services
 #          docker build -t mustycodified/geobytes-api:latest .
 #          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 #          docker push mustycodified/geobytes-api:latest
+      - name: Build & push Docker image for backend-services
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: mustycodified/geobytes-api
