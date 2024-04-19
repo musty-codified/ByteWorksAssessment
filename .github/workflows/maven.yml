@@ -30,18 +30,18 @@ jobs:
       - name: Build & push Docker image for backend-services
         run: |
           cd backend-services
-          docker build -t mustycodified/geobytes-api:latest .
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker push mustycodified/geobytes-api:latest
-#        uses: mr-smithers-excellent/docker-build-push@v5
-#        with:
-#          image: mustycodified/geobytes-api
-#          tags: latest
-#          registry: docker.io
-#          dockerfile: backend-services/Dockerfile
-#          buildContext: backend-services
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
+#          docker build -t mustycodified/geobytes-api:latest .
+#          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+#          docker push mustycodified/geobytes-api:latest
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: mustycodified/geobytes-api
+          tags: latest
+          registry: docker.io
+          dockerfile: backend-services/Dockerfile
+          buildContext: backend-services
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
