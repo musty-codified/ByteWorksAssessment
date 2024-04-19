@@ -35,7 +35,7 @@ jobs:
           image: mustycodified/geobytes-api
           tags: latest
           registry: docker.io
-          dockerfile: Dockerfile
+          dockerfile: backend-services/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
