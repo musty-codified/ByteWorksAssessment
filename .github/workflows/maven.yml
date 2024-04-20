@@ -28,7 +28,6 @@ jobs:
       - name: Build with Maven
         run: mvn -f backend-services/pom.xml clean install
       - name: Build & push Docker image for backend-services
-
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: mustycodified/geobytes-api
@@ -50,21 +49,36 @@ jobs:
           image: mustycodified/geobytes-frontend
           tags: latest
           registry: docker.io
-          dockerfile: react-frontend/Dockerfile   # Adjust the path to your frontend Dockerfile
-          directory: react-frontend               # Adjust the directory path for frontend
+          dockerfile: react-frontend/Dockerfile
+          directory: react-frontend
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-#      - name: Setup Node.js
-#        uses: actions/setup-node@v2
-#        with:
-#          node-version: 14
-#      - name: Install dependencies
-#        run: npm -f react-frontend install
-#      - name: Build
-#        run: npm run build
-#      - name: Deploy
-#        run: |
 
+  deploy-backend-services:
+    needs: build
+    runs-on: [ geobytes-ec2 ]
+    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#      - name: Log in to Docker Hub
+#        uses: docker/login-action@v2
+#        with:
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+#      - name: Pull image from dockerhub
+#        run: docker-compose -f $GITHUB_WORKSPACE/docker-compose.yml pull
+#
+#      - name: Stop existing containers
+#        run: docker-compose -f $GITHUB_WORKSPACE/docker-compose.yml down
+#
+#      - name: Start services
+#        run: docker-compose -f $GITHUB_WORKSPACE/docker-compose.yml up -d
+         - name: Pull Image from docker hub
+           run: sudo docker pull mustycodified/geobytes-api:latest
+         - name: Delete old container
+           run: sudo docker rm -f api-server
+         - name: Run Docker Image
+           run: sudo docker run -d -p 8080:8080 --name api-server mustycodified/geobytes-api:latest
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
 #      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
