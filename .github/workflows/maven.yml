@@ -77,7 +77,7 @@ jobs:
            run: sudo docker pull mustycodified/geobytes-api:latest
          - name: Delete old container
            run: sudo docker rm -f api-server
-         - name: Run Docker Image
+         - name: Run Docker backend-services Image
            run: sudo docker run -d -p 8080:8080 --name api-server mustycodified/geobytes-api:latest
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
