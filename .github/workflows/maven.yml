@@ -79,6 +79,17 @@ jobs:
            run: sudo docker rm -f api-server
          - name: Run Docker backend-services Image
            run: sudo docker run -d -p 8080:8080 --name api-server mustycodified/geobytes-api:latest
+
+  deploy-react-frontend:
+    needs: build
+    runs-on: [ geobytes-ec2 ]
+    steps:
+      - name: Pull Image from docker hub
+        run: sudo docker pull mustycodified/geobytes-frontend:latest
+      - name: Delete old container
+        run: sudo docker rm -f frontend
+      - name: Run Docker react-frontend Image
+        run: sudo docker run -d -p 80:3000 --name frontend mustycodified/geobytes-frontend:latest
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
 #      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
