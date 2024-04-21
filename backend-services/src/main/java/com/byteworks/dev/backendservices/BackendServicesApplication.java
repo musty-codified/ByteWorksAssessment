@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Arrays;
+
 
 @OpenAPIDefinition(
 		info=@Info(
@@ -48,9 +50,7 @@ public class BackendServicesApplication {
 
 	public static void main(String[] args) {
 	ConfigurableApplicationContext context = SpringApplication.run(BackendServicesApplication.class, args);
-
-
-//		Arrays.stream(context.getBeanDefinitionNames()).forEach(System.out::println);
+		Arrays.stream(context.getBeanDefinitionNames()).forEach(System.out::println);
 
 	}
 
