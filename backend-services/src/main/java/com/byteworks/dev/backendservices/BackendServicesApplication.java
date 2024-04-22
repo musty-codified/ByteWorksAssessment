@@ -41,7 +41,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 		}
 )
 
-//Configuration class
 @SpringBootApplication
 public class BackendServicesApplication {
 
