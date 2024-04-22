@@ -9,9 +9,12 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Arrays;
 
 
 @OpenAPIDefinition(
@@ -45,8 +48,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class BackendServicesApplication {
 
 	public static void main(String[] args) {
-	  SpringApplication.run(BackendServicesApplication.class, args);
-
+	 ConfigurableApplicationContext ctx = SpringApplication.run(BackendServicesApplication.class, args);
+		Arrays.stream(ctx.getBeanDefinitionNames()).forEach(System.out::println);
 	}
 
 	@Bean
