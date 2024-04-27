@@ -47,7 +47,6 @@ public class BackendServicesApplication {
 
 	public static void main(String[] args) {
 	 ConfigurableApplicationContext ctx = SpringApplication.run(BackendServicesApplication.class, args);
-//		Arrays.stream(ctx.getBeanDefinitionNames()).forEach(System.out::println);
 	}
 
 	@Bean

@@ -30,7 +30,7 @@ jobs:
       - name: Build & push Docker image for backend-services
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: mustycodified/geobytes-api
+          image: mustycodified/geobytes-express
           tags: latest
           registry: docker.io
           dockerfile: backend-services/Dockerfile
@@ -46,7 +46,7 @@ jobs:
       - name: Build & push Docker image for react-frontend
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: mustycodified/geobytes-frontend
+          image: mustycodified/geobytes-express
           tags: latest
           registry: docker.io
           dockerfile: react-frontend/Dockerfile
@@ -54,27 +54,27 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-  deploy-backend-services:
-    needs: build
-    runs-on: [ geobytes-ec2 ]
-    steps:
-         - name: Pull Image from docker hub
-           run: sudo docker pull mustycodified/geobytes-api:latest
-         - name: Delete old container
-           run: sudo docker rm -f api-server
-         - name: Run Docker backend-services Image
-           run: sudo docker run -d -p 8080:8080 --name api-server mustycodified/geobytes-api:latest
-
-  deploy-react-frontend:
-    needs: build
-    runs-on: [ geobytes-ec2 ]
-    steps:
-      - name: Pull Image from docker hub
-        run: sudo docker pull mustycodified/geobytes-frontend:latest
-      - name: Delete old container
-        run:  sudo docker rm -f frontend
-      - name: Run Docker react-frontend Image
-        run: sudo docker run -d -p 80:3000 --name frontend mustycodified/geobytes-frontend:latest
+#  deploy-backend-services:
+#    needs: build
+#    runs-on: [ geobytes-ec2 ]
+#    steps:
+#         - name: Pull Image from docker hub
+#           run: sudo docker pull mustycodified/geobytes-api:latest
+#         - name: Delete old container
+#           run: sudo docker rm -f api-server
+#         - name: Run Docker backend-services Image
+#           run: sudo docker run -d -p 8080:8080 --name api-server mustycodified/geobytes-api:latest
+#
+#  deploy-react-frontend:
+#    needs: build
+#    runs-on: [ geobytes-ec2 ]
+#    steps:
+#      - name: Pull Image from docker hub
+#        run: sudo docker pull mustycodified/geobytes-frontend:latest
+#      - name: Delete old container
+#        run:  sudo docker rm -f frontend
+#      - name: Run Docker react-frontend Image
+#        run: sudo docker run -d -p 80:3000 --name frontend mustycodified/geobytes-frontend:latest
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
