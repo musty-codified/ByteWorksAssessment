@@ -2,7 +2,14 @@ import React from 'react'
 import { Container, Row, Col, Nav, Tab} from 'react-bootstrap';
 import ServiceCard from './ServiceCard';
 import serviceImg from '../../assets/images/delivery-man.png'
-
+import {
+    apiPost,
+    apiGet,
+    apiPut,
+    apiPostAuthorization,
+    apiDeleteAuthorization,
+}
+from "../../utils/api/Axios"
 
 import 'animate.css'
 import TrackVisibility from 'react-on-screen'; 
