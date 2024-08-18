@@ -27,7 +27,6 @@ public class LocationController {
 
         return ResponseEntity.ok().body( new ApiResponse<>("Location added successfully", true, locationService.addLocation(locationDto)));
     }
-
     @Operation(summary = "Fetches a list of location object")
     @GetMapping("/view-list")
     public ResponseEntity<ApiResponse<Page<LocationResponseDto>>> getLocations(@RequestParam(value = "page", defaultValue = "0") int page,
@@ -37,24 +36,11 @@ public class LocationController {
         return ResponseEntity.ok().body( new ApiResponse<>("Locations retrieved successfully", true, locationService.getLocations( page, limit, sortBy, sortDir)));
 
     }
-
     @Operation(summary = "Updates location object")
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<LocationResponseDto>> updateLocation(@PathVariable Long id, @RequestBody LocationDto locationDto){
         return ResponseEntity.ok().body( new ApiResponse<>("Location updated successfully", true, locationService.updateLocation(id, locationDto)));
     }
-
-//    @Operation(summary = "Uploads a location image")
-//    @PostMapping("/upload-image/{id}")
-//    public ResponseEntity<ApiResponse<String>> updateLocationImage(@PathVariable Long id, @RequestParam("File") MultipartFile image){
-//        try {
-//            return ResponseEntity.ok().body( new ApiResponse<>("Location image uploaded successfully", true, locationService.upLoadLocationImage(id, image)));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-
     @Operation(summary = "Retrieves a single location object")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<LocationResponseDto>> findLocation(@PathVariable Long id){

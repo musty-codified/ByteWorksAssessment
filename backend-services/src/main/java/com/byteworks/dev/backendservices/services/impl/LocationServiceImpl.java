@@ -8,7 +8,6 @@ import com.byteworks.dev.backendservices.exceptions.ValidationException;
 import com.byteworks.dev.backendservices.repositories.LocationRepository;
 import com.byteworks.dev.backendservices.services.LocationService;
 import com.byteworks.dev.backendservices.utils.AppUtils;
-import com.byteworks.dev.backendservices.utils.LocationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
@@ -23,8 +22,6 @@ import java.util.stream.Collectors;
 public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepository;
     private final AppUtils appUtil;
-
-    private final LocationUtils locationUtils;
 
     @Override
     public LocationResponseDto addLocation(LocationDto locationDto) {
@@ -43,9 +40,11 @@ public class LocationServiceImpl implements LocationService {
                 :Sort.by(sortBy).descending();
         Pageable pageRequest = PageRequest.of(page, limit, sort);
         Page<Location> locationPages = locationRepository.findAll(pageRequest);
+       log.info("Sorting order:{}", pageRequest.getSort());
         List<LocationResponseDto> locationResponseDtos =
                 locationPages.stream().map(location -> appUtil.getMapper().convertValue(location, LocationResponseDto.class))
                         .collect(Collectors.toList());
+
         if(page > 0) page = page-1;
         int max = Math.min(limit * (page + 1), locationResponseDtos.size());
         int min = limit * page ;
@@ -55,7 +54,8 @@ public class LocationServiceImpl implements LocationService {
 
 
     @Override
-    public LocationResponseDto updateLocation(Long id, LocationDto locationDto) {
+    public LocationResponseDto
+    updateLocation(Long id, LocationDto locationDto) {
 
         Location existingLocation = locationRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Location not found"));

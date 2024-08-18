@@ -20,40 +20,14 @@ const Contact = () => {
                 
                 <p className='ms-4 ps-2 mb-9 text-xl font-thin text-gray-400'>Mon - Fri: 8:30 - 18:00</p>
               </div>
-
-              <div className=''>
-                <div className='d-flex'>
-                  <HiOutlineClock />
-                  <h2 className='ms-3'>OPEN HOURS</h2>
-                </div>
-                
-                <p className='ms-4 ps-2'>Mon - Fri: 8:30 - 18:00</p>
-              </div>
            </section>
 
            <section className='d-flex justify-content-between'>
-              <div className=''>
-                <div className='d-flex'>
-                  <HiOutlineClock />
-                  <h2 className='ms-3'>OPEN HOURS</h2>
-                </div>
-                
-                <p className='ms-4 ps-2'>Mon - Fri: 8:30 - 18:00</p>
-              </div>
-
-              <div className=''>
-                <div className='d-flex'>
-                  <HiOutlineClock />
-                  <h2 className='ms-3'>OPEN HOURS</h2>
-                </div>
-                
-                <p className='ms-4 ps-2'>Mon - Fri: 8:30 - 18:00</p>
-              </div>
            </section>
 
         </div>
 
-        {/*    <input 
+           {/* <input 
                            type="email" 
                            placeholder="Email address" 
                            name="email"

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ByteWorksAssessment.iml" filepath="$PROJECT_DIR$/.idea/ByteWorksAssessment.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend-services/backend-services.iml" filepath="$PROJECT_DIR$/backend-services/backend-services.iml" />
       <module fileurl="file://$PROJECT_DIR$/react-frontend/react-frontend.iml" filepath="$PROJECT_DIR$/react-frontend/react-frontend.iml" />
     </modules>

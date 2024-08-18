@@ -20,7 +20,7 @@ public class Base implements Serializable {
     @Column(name="id")
     private Long id;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "createdAt")
+    @Column(name = "created_at")
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)

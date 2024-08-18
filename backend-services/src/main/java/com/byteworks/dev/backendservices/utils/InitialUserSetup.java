@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
-public class InitialUserSetup implements CommandLineRunner {
+public class   InitialUserSetup implements CommandLineRunner {
 private final UserRepository userRepository;
 private final PasswordEncoder passwordEncoder;
 private final AppUtils appUtil;

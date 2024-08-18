@@ -73,7 +73,7 @@ export const dataContext = createContext();
       });
 
     }catch (err) {
-      // toast.error(err.response.data.error)
+      // toast.error(err.response.data.error) 
       errorNotification(err.response.data.message)
       console.log(err.response.data.message);
     }
@@ -132,7 +132,9 @@ export const dataContext = createContext();
     const res = await apiPost("auth/login", loginData);
 
     if (res.data.message === "login successful") {
-      toast.success(res.data.message);
+      // toast.success(res.data.message);
+      successNotification(res.data.message)
+
       console.log(res.data)
 
       const jwtInfo = decodeJwt(res.data.data.token);
@@ -152,8 +154,8 @@ export const dataContext = createContext();
     }
   } catch (err) {
     console.error('Error during login:', err);
-    toast.error(err.response.data.error)
-    // errorNotification(err.responose.data.message)
+    // toast.error(err.response.data.error)
+    errorNotification(err.response.data.message)
 
 
     if (err.response && err.response.data) {

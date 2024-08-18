@@ -1,7 +1,7 @@
 # Courier-service Backend-API
-Backend REST apis in Spring Boot for optimizing the delivery route of packages from origin to destination
+Backend API written in Spring Boot for optimizing the delivery route of packages from origin to destination
 
-`Built with Spring Boot, secured with Spring Security (JWT), and documented with Swagger (API)`
+`Built with Spring Boot, secured with Spring Security (JWT), and documented with Swagger (API), and about to hosted on the cloud`
 
 ## Technology  used ##
 Following tools and libraries were used during the development of the API :

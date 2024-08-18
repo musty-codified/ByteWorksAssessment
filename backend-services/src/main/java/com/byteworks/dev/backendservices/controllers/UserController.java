@@ -23,7 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @Operation(summary = "Registers a new user account",
-            description = "Registers and stores a user object in the database. After creating your account, an token is sent to your provided email" +
+            description = "After creating your account, an token is sent to your provided email" +
                     "\n.Copy the code from you email and enter it in the 'activate-user endpoint'. \n")
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<UserResponseDto>>registerUser(@Valid @RequestBody RegisterUserDto userDto){

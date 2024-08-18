@@ -44,17 +44,13 @@ const LocationDetails = () => {
 
                 <div className="location-detail">
                 <img src={jumbotron} alt="Single location" />
-                   {/* <div className="location-detail-info-text"> */}
 
-                  {/* <i className={`location--name location--name-${locationDetail.name}`}>  */}
                   <i className={`location-name ${locationDetail.name} Selected`}> 
 
                   <h2 >{locationDetail.name}</h2> 
                   </i>
 
-                 {/* <p className="location-xy"> ({locationDetail.latitude}, {locationDetail.longitude})</p> */}
                  <p className="location-price"><span className="bold"> From ${locationDetail.clearingCost}</span>/delivery</p>
-                    {/* </div>    */}
                 </div>
 
                ): <h2>Loading...</h2>

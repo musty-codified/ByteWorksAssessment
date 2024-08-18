@@ -19,7 +19,7 @@ public class FakeDB implements CommandLineRunner {
             Location location = createLocation();
             locationRepository.save(location);
         });
-        System.out.println("pre-Populating Database with random data");
+        System.out.println("Populating location tables with random data");
     }
 
     private Location createLocation(){
