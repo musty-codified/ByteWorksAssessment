@@ -132,7 +132,6 @@ export const dataContext = createContext();
     const res = await apiPost("auth/login", loginData);
 
     if (res.data.message === "login successful") {
-      // toast.success(res.data.message);
       successNotification(res.data.message)
 
       console.log(res.data)
@@ -146,7 +145,6 @@ export const dataContext = createContext();
 
     } 
     else {
-      // toast.success(res.data.message);
       successNotification(res.data.data)
       setTimeout(() => {
         window.location.href = "/";
@@ -154,7 +152,6 @@ export const dataContext = createContext();
     }
   } catch (err) {
     console.error('Error during login:', err);
-    // toast.error(err.response.data.error)
     errorNotification(err.response.data.message)
 
 

@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -55,5 +57,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ApiResponse<String> handleOtherServiceException(Exception ex){
         LOGGER.error(ex.getMessage());
         return new ApiResponse<>("Error: "+ex.getMessage(), false,null);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiResponse<Map<String,String>>> handleRequestPathVariableException(MethodArgumentTypeMismatchException exception){
+        Map<String, String> errors = new HashMap<>();
+        errors.put("parameter", String.valueOf(exception.getParameter()));
+        if (exception.getValue()!=null){
+            errors.put("value", exception.getValue().toString());
+        }
+        errors.put("requiredType", Objects.requireNonNull(exception.getRequiredType()).getSimpleName());
+        String message = String.format("Request argument type mismatch. Expected %s, Actual:%s", exception.getRequiredType().getSimpleName()
+                , exception.getValue());
+        return new ResponseEntity<>(new ApiResponse<>(message, false,  errors), HttpStatus.BAD_REQUEST);
     }
 }

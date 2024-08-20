@@ -44,12 +44,6 @@ const Navbar = () => {
       <div className='nav--container'> 
         <div className='logo--container'>
 
-    {/* <div onClick={handleSideBar} className="hidden md:block self-center w-[170px]">
-          {sideBar ? <AiOutlineClose size={30} /> : <AiOutlineMenu size={30} />}
-      </div> */}
-        <Menu className="icon" onClick={ handleSideBar }>
-        {sideBar ? <AiOutlineClose size={30} /> : <AiOutlineMenu size={30} />}
-        </Menu>
         <img src={Logo} alt='company logo' className='logo'/>
          <a href='/'> <h1>GEOBYTES EXPRESS</h1></a>
 
@@ -63,6 +57,12 @@ const Navbar = () => {
                    end
                    style={({isActive})=> isActive ? activeStyles : null}
                  >ADMIN</NavLink>
+                 </li>
+
+                 <li><NavLink className= "nav-link text-dark" 
+                   to="#" onClick={handleCalculateRoute}
+                   style={({isActive})=> isActive ? activeStyles : null}
+                 >ROUTE CALCULATOR</NavLink>
                  </li>
                 
                 </>):
@@ -83,7 +83,7 @@ const Navbar = () => {
                  <li><NavLink className= "nav-link text-dark" 
                    to="/contact"
                    style={({isActive})=> isActive ? activeStyles : null}
-                 >CONTACT</NavLink>
+                 >CONTACT US</NavLink>
                  </li>
                  
                  </>)
@@ -96,17 +96,8 @@ const Navbar = () => {
               style={({isActive})=> isActive ? activeStyles : null}
              >LOCATIONS</NavLink>
             </li>
-
-            <li><NavLink className= "nav-link text-dark" 
-            to="#" onClick={handleCalculateRoute}
-            style={({isActive})=> isActive ? activeStyles : null}
-            >
-              ROUTE CALCULATOR
-              </NavLink>
-            </li>
-        
            { 
-          !getSignature ? (<>
+           !getSignature ? (<>
             <li> <NavLink className= "nav-link text-dark"
               to="/login"
               style={({isActive})=> isActive ? activeStyles : null}

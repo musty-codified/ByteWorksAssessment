@@ -1,5 +1,6 @@
 import React, {useState, useContext} from 'react'
-import { dataContext } from '../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
+
 import { useNavigate, useLocation} from "react-router-dom";
 import { ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,7 +11,8 @@ import './Login.css'
 const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const {loginConfig} = useContext(dataContext)
+  const {loginConfig} = useAuth()
+
 
   const [loginFormData, setLoginFormData] = useState(
   {

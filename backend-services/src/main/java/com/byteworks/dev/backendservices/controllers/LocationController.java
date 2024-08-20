@@ -7,9 +7,11 @@ import com.byteworks.dev.backendservices.services.LocationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.index.qual.Positive;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +21,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/locations")
+@Validated
 public class LocationController {
     private final LocationService locationService;
     @Operation(summary = "Adds a location object to the database")
@@ -38,12 +41,12 @@ public class LocationController {
     }
     @Operation(summary = "Updates location object")
     @PutMapping("/update/{id}")
-    public ResponseEntity<ApiResponse<LocationResponseDto>> updateLocation(@PathVariable Long id, @RequestBody LocationDto locationDto){
+    public ResponseEntity<ApiResponse<LocationResponseDto>> updateLocation(@PathVariable(value = "id") @Positive Long id, @RequestBody LocationDto locationDto){
         return ResponseEntity.ok().body( new ApiResponse<>("Location updated successfully", true, locationService.updateLocation(id, locationDto)));
     }
     @Operation(summary = "Retrieves a single location object")
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<LocationResponseDto>> findLocation(@PathVariable Long id){
+    public ResponseEntity<ApiResponse<LocationResponseDto>> findLocation(@PathVariable(value = "id") @Positive() Long id){
         return ResponseEntity.ok().body( new ApiResponse<>("Location retrieve successfully", true, locationService.findLocationById(id)));
     }
 

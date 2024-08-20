@@ -16,18 +16,14 @@ const Hero = () =>{
             <Card>
 
             <div className="hero-container">
-
                 <div className="text-container">
-
                 <a href="/"><h2 className="primary-text">{HEADER_PRIMARY_TEXT}</h2></a>
-
                     <p className="secondary-text ">{HEADER_SECONDARY_TEXT}</p>
 
-                           
                             { 
                                !getSignature ? (<>
                     
-                                <Link to="/login" className="order-button">ORDER NOW</Link>
+                                <Link to="/locations" className="order-button">SEE OUR PICKUP LOCATIONS NOW</Link>
             
                                 </>) : null
                             

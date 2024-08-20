@@ -2,7 +2,6 @@
 /************ Navbar CSS Styles ************/
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@900&family=Jost:wght@200;300;400;500;600&display=swap');
 
-
 .header--nav{
   background-color: #f6b319;
   border-radius: 0;
@@ -35,7 +34,6 @@ a:hover, a:focus{
 
 ul li{
     list-style: none;
-
     font-family: 'Jost', sans-serif;
     font-weight: 600;
     font-size: .9rem;
@@ -60,7 +58,6 @@ ul{
     line-height: .65; 
 }
   
-
 .icon {
   font-size: 28px;
 }

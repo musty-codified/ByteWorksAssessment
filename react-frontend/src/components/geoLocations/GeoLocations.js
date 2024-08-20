@@ -69,6 +69,16 @@ const GeoLocations = () => {
             className="location-name latin">EUROPE
           </button>
 
+          <button 
+               onClick={()=>setSearchParams({name:"Europe"})}
+            className="location-name latin">AFRICA
+          </button>
+
+          <button 
+               onClick={()=>setSearchParams({name:"Europe"})}
+            className="location-name latin">ASIA
+          </button>
+          
           { nameFilter ? (<button 
                onClick={()=>setSearchParams({})}
              className="location-name clear-filters">CLEAR

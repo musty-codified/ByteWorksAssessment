@@ -9,9 +9,7 @@ const HomePage = () => {
     <div className=''>
       
     <Hero/>
-
     <ServiceSection/>
-    
     <Outlet/>
     <Features/>
 

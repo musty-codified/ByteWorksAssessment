@@ -1,11 +1,23 @@
 /* Hero Component CSS */
 
 .hero-container{
-    position: relative;
+      position: relative;
+      left: 50px;
+      width: 400px;
+      height: 200px;
+      /* border: 3px solid #73AD21; */
+
 }
 
 .text-container{
     display: inline-block;
+    position: absolute;
+    /* top: 80px; */
+    /* right: 0; */
+    /* width: 200px; */
+    /* height: 100px; */
+  /* border: 3px solid #73AD21; */
+
     /* justify-content: center; */
 
 }
@@ -15,7 +27,7 @@ a:hover, a:focus{
 }
 
 .secondary-text {
-    color: white;
+    color: teal;
     padding: 10px;
     font-weight: 700;
     font-size: 2.25rem;
@@ -24,16 +36,16 @@ a:hover, a:focus{
 
 .hero-container a{
     display: inline-block;
-    text-align: center;
+    text-align:center;
     text-decoration: none;
-    background-color: #FF8C38;
+    background-color: #f6b319;
     border: none;
     width: 50%;
     margin-top: 27px;
     margin-bottom: 27px;
 
     padding-block: .75rem;
-    color: white;
+    color: teal;
     font-weight: 700;
     border-radius: 5px;
     cursor: pointer;
